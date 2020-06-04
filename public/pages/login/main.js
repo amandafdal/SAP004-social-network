@@ -8,7 +8,7 @@ export default () => {
             <input type="email" class="login-input"  id = "user-email" placeholder="Email">
             <input type="password" class="login-input" id="user-password" placeholder="Senha">
             <button class="login-btn" id="login-btn">Entrar</button>
-            <p class="create-acc">Não tem uma conta? <a class="register-link" href="/#register">Registre-se</a></p>
+            <a class="register-link" href="#register">Cadastre-se</a>
         </div>
     `;
     container.innerHTML = template;
