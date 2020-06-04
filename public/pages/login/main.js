@@ -2,15 +2,13 @@ export default () => {
     const container = document.createElement('div');
     container.className = "login-page";
     const template = `
-        <div>
-            <img src="img/LOGO-SH-SITE6.png" alt="Logo SafeHome">
-        </div>
+        <img class="logo" src="img/LOGO-SH-SITE6.png" alt="Logo SafeHome"><img/>
         <div class="login-container">
-            <img src="img/LOGO-SH-SITE.png" alt="Safe House Logotype"><br>
-            <input type="email" class="login-input"  id = "user-email" placeholder="Email"><br>
-            <input type="password" class="login-input" id="user-password" placeholder="Senha"><br>
-            <button class="login" id="login-btn">Entrar</button><br>
-            <a href="#register">Cadastre-se</a>
+            <img class="logotype" src="img/LOGO-SH-SITE.png" alt="Safe House Logotype">
+            <input type="email" class="login-input"  id = "user-email" placeholder="Email">
+            <input type="password" class="login-input" id="user-password" placeholder="Senha">
+            <button class="login-btn" id="login-btn">Entrar</button>
+            <a class="register-link" href="#register">Cadastre-se</a>
         </div>
     `;
     container.innerHTML = template;
