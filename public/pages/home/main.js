@@ -1,7 +1,7 @@
 // Aqui serão criados os eventos de Manipulação de DOM e templates
 import { greeting } from './data.js';
 
-/*
+
 export const home = () => {
   const container = document.createElement('div');
 
@@ -23,15 +23,4 @@ export const home = () => {
   });
 
   return container;
-};
-*/
-
-firebase
-  .auth()
-  .createUserWithEmailAndPassword(email, password)
-  .catch(function(error) {
-  // Handle Errors here.
-  var errorCode = error.code;
-  var errorMessage = error.message;
-  // ...
-});
+}
