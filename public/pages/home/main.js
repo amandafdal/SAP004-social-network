@@ -1,5 +1,18 @@
+export default () => {
+  const container = document.createElement('div');
+    container.className = "login-page";
+    const template = `
+        <div>
+            <p> ISSO AQUI DEVE SER O FEED AO FAZER LOGIN </p>
+        </div>
+        
+    `;
+    container.innerHTML = template;
+    return container;
+}
+
 // Aqui serão criados os eventos de Manipulação de DOM e templates
-import { greeting } from './data.js';
+// import { greeting } from './data.js';
 /*
 export const home = () => {
   const container = document.createElement('div');
@@ -25,12 +38,12 @@ export const home = () => {
 };
 */
 
-firebase
-  .auth()
-  .createUserWithEmailAndPassword(email, password)
-  .catch(function(error) {
-  // Handle Errors here.
-  var errorCode = error.code;
-  var errorMessage = error.message;
-  // ...
-});
+// firebase
+//   .auth()
+//   .createUserWithEmailAndPassword(email, password)
+//   .catch(function(error) {
+//   // Handle Errors here.
+//   var errorCode = error.code;
+//   var errorMessage = error.message;
+//   // ...
+// });

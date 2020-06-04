@@ -11,9 +11,12 @@ export default () =>{
             <input type="email" class="login-input" id = "user-email" placeholder="Email"><br>
             <input type="password" class="login-input" id = "user-password" placeholder="Senha"><br>
             <input type="password" class="login-input" id = "user-password-confirm" placeholder="Confirme sua senha"><br>
-            <button class="login" id="create-account-btn">Criar conta</button>
+            <button class="login" id="create-account-btn" href="#home">Criar conta</button>
+            <p class="create-acc">Já possui conta?
+                <a class="register-link" href="#login">Faça o seu login</a>  
+            </p>        
         </div>
     `;
-    container.innerHTML=template;
+    container.innerHTML=template
     return container;
 }
