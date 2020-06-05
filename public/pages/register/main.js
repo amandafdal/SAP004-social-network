@@ -9,7 +9,7 @@ export default () =>{
             <input type="email" class="login-input" id = "user-email" placeholder="Email">
             <input type="password" class="login-input" id = "user-password" placeholder="Senha">
             <input type="password" class="login-input" id = "user-password-confirm" placeholder="Confirme sua senha">
-            <button class="login" id="create-account-btn" href="#home">Criar conta</button>
+            <button class="login-btn" id="create-account-btn" href="#home">Criar conta</button>
             <p class="create-acc">Já possui conta?
                 <a class="register-link" href="#login">Faça o seu login</a>  
             </p>        
