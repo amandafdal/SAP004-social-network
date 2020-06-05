@@ -2,7 +2,7 @@ export default () => {
     const container = document.createElement('div');
     container.className = "login-page";
     const template = `
-        <img class="logo" src="img/LOGO-SH-SITE6.png" alt="Logo SafeHome"><img/>
+        <img class="logo" src="img/LOGO-SH-SITE6.png" alt="Logo SafeHome">
         <div class="login-container">
             <img class="logotype" src="img/LOGO-SH-SITE.png" alt="Safe House Logotype">
             <input type="email" class="login-input"  id = "user-email" placeholder="Email">
