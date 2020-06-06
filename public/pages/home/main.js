@@ -23,4 +23,19 @@ export const home = () => {
   });
 
   return container;
+<<<<<<< HEAD
 }
+=======
+};
+*/
+
+// firebase
+//   .auth()
+//   .createUserWithEmailAndPassword(email, password)
+//   .catch(function(error) {
+//   // Handle Errors here.
+//   var errorCode = error.code;
+//   var errorMessage = error.message;
+//   // ...
+// });
+>>>>>>> c8ec674009ccc4226c73646f222f943c1ebcc38b
