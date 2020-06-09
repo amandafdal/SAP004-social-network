@@ -22,7 +22,6 @@ export default () =>{
     `;
     container.innerHTML = template;
    
-    const auth = firebase.auth();
     container.querySelector("#create-account-btn").addEventListener("click", (event) =>{
         event.preventDefault();
         
@@ -36,15 +35,20 @@ export default () =>{
             break;
         }
         
-        
+        /*
         if (auth.currentUser) {
             const credentialsForIf = getCredentials(email, password);
             linkUser(credentialsForIf);
         }else{
-            auth.createUserWithEmailAndPassword(email, password).then((credentials) => {
+            firebase.auth().createUserWithEmailAndPassword(email, password).then((credentials) => {
             recordUserToBase(credentials.user.uid, name, email);
             })
         }
+        */
+
+        firebase.auth().createUserWithEmailAndPassword(email, password).then(() => {
+            alert("Bem vindo(a) " + name + " !")
+        })
         
     })
 
