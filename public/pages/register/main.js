@@ -17,42 +17,23 @@ export default () =>{
             <button class="login-btn" id="create-account-btn">Criar conta</button>
             <p class="create-acc">Já possui conta?
                 <a class="register-link" href="#login">Faça o seu login</a>  
-            </p>        
+            </p>
         </div>
     `;
-    container.innerHTML = template;
-   
+    container.innerHTML=template
+
     container.querySelector("#create-account-btn").addEventListener("click", (event) =>{
         event.preventDefault();
-        
         const email = document.getElementById("user-email").value; 
-        const name = document.getElementById("user-name").value;
         const password = document.getElementById("user-password").value;
         const passwordConfirm = document.getElementById("user-password-confirm").value;
-
-        while (password !== passwordConfirm) {
+        if (password !== passwordConfirm) {
             alert("As senhas não são iguais!");
-            break;
-        }
-        
-        /*
-        if (auth.currentUser) {
-            const credentialsForIf = getCredentials(email, password);
-            linkUser(credentialsForIf);
-        }else{
-            firebase.auth().createUserWithEmailAndPassword(email, password).then((credentials) => {
-            recordUserToBase(credentials.user.uid, name, email);
-            })
-        }
-        */
-
-        firebase.auth().createUserWithEmailAndPassword(email, password).then(() => {
-            alert("Bem vindo(a) " + name + " !")
+        }firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then(() => {
+            window.location.hash = "home"
         })
-        
     })
-
-
     return container;
 }
 
