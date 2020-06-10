@@ -12,9 +12,22 @@ export default () =>{
             <button class="login-btn" id="create-account-btn" href="#home">Criar conta</button>
             <p class="create-acc">Já possui conta?
                 <a class="register-link" href="#login">Faça o seu login</a>  
-            </p>        
+            </p>
         </div>
     `;
     container.innerHTML=template
+
+    container.querySelector("#create-account-btn").addEventListener("click", (event) =>{
+        event.preventDefault();
+        const email = document.getElementById("user-email").value; 
+        const password = document.getElementById("user-password").value;
+        const passwordConfirm = document.getElementById("user-password-confirm").value;
+        if (password !== passwordConfirm) {
+            alert("As senhas não são iguais!");
+        }firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then(() => {
+            window.location.hash = "home"
+        })
+    })
     return container;
 }

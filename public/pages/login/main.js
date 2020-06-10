@@ -12,5 +12,15 @@ export default () => {
         </div>
     `;
     container.innerHTML = template;
+    
+    container.querySelector("#login-btn").addEventListener("click", (event) =>{
+        event.preventDefault();
+        const email = document.getElementById("user-email").value; 
+        const password = document.getElementById("user-password").value;
+        firebase.auth().signInWithEmailAndPassword(email, password)
+            .then(function() {
+                window.location.hash = "home"
+        });
+    });
     return container;
 }
