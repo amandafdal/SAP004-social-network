@@ -8,19 +8,27 @@ export default () => {
             <input type="email" class="login-input"  id = "user-email" placeholder="Email">
             <input type="password" class="login-input" id="user-password" placeholder="Senha">
             <button class="login-btn" id="login-btn">Entrar</button>
-            <a class="create-acc register-link" href="#register">Cadastre-se</a>
+            <p class="create-acc">Ou entrar com...</p>
+            <img id="login-google" src="img/login-google.png" alt="Fazer Login com conta do Google">
+            <p class="create-acc">Não possui conta? <a class="create-acc register-link" href="#register">Cadastre-se</a></p>
         </div>
     `;
     container.innerHTML = template;
-    
-    container.querySelector("#login-btn").addEventListener("click", (event) =>{
+
+    container.querySelector("#login-btn").addEventListener("click", (event) => {
         event.preventDefault();
-        const email = document.getElementById("user-email").value; 
+        const email = document.getElementById("user-email").value;
         const password = document.getElementById("user-password").value;
         firebase.auth().signInWithEmailAndPassword(email, password)
-            .then(function() {
+            .then(function () {
                 window.location.hash = "home"
-        });
+            });
     });
+
+    container.querySelector("#login-google").addEventListener("click", (googleLogin) => {
+        googleLogin.preventDefault();
+        console.log("TO AQUI");
+    }
+    )
     return container;
 }
