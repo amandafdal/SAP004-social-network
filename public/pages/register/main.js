@@ -1,8 +1,3 @@
-import {getCredentials,
-        linkUser,
-        recordUserToBase
-        } from './data.js';
-
 export default () =>{
     const container = document.createElement("div");
     container.className = "login-page";
@@ -20,7 +15,7 @@ export default () =>{
             </p>
         </div>
     `;
-    container.innerHTML=template
+    container.innerHTML = template;
 
     container.querySelector("#create-account-btn").addEventListener("click", (event) =>{
         event.preventDefault();
@@ -29,7 +24,8 @@ export default () =>{
         const passwordConfirm = document.getElementById("user-password-confirm").value;
         if (password !== passwordConfirm) {
             alert("As senhas não são iguais!");
-        }firebase.auth().createUserWithEmailAndPassword(email, password)
+        }
+        firebase.auth().createUserWithEmailAndPassword(email, password)
         .then(() => {
             window.location.hash = "home"
         })
