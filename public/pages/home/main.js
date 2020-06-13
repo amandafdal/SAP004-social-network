@@ -1,13 +1,6 @@
 // Aqui serão criados os eventos de Manipulação de DOM e templates
-<<<<<<< HEAD
-import { greeting } from './data.js';
-
-
-export const home = () => {
-=======
 //import { greeting } from './data.js';
 export default () => {
->>>>>>> 4777d0220d360322568f299c6e20efce4f6ef164
   const container = document.createElement('div');
   const template = `
     <header>
@@ -66,9 +59,4 @@ export default () => {
     };
   });
   return container;
-<<<<<<< HEAD
-}
-
-=======
 };
->>>>>>> 4777d0220d360322568f299c6e20efce4f6ef164
