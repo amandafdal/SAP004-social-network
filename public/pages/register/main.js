@@ -1,4 +1,6 @@
-export default () =>{
+import { register } from './data.js';
+
+export default () => {
     const container = document.createElement("div");
     container.className = "login-page";
     const template = `
@@ -9,25 +11,25 @@ export default () =>{
             <input type="email" class="login-input" id = "user-email" placeholder="Email">
             <input type="password" class="login-input" id = "user-password" placeholder="Senha">
             <input type="password" class="login-input" id = "user-password-confirm" placeholder="Confirme sua senha">
+            <p id="different-password" class="message-error"></p>
             <button class="login-btn" id="create-account-btn" href="#home">Criar conta</button>
             <p class="create-acc">Já possui conta?
                 <a class="register-link" href="#login">Faça o seu login</a>  
             </p>
         </div>
     `;
-    container.innerHTML=template
+    container.innerHTML = template;
 
-    container.querySelector("#create-account-btn").addEventListener("click", (event) =>{
+    container.querySelector("#create-account-btn").addEventListener("click", (event) => {
         event.preventDefault();
-        const email = document.getElementById("user-email").value; 
+        const email = document.getElementById("user-email").value;
         const password = document.getElementById("user-password").value;
         const passwordConfirm = document.getElementById("user-password-confirm").value;
         if (password !== passwordConfirm) {
-            alert("As senhas não são iguais!");
-        }firebase.auth().createUserWithEmailAndPassword(email, password)
-        .then(() => {
-            window.location.hash = "home"
-        })
-    })
+            container.querySelector('#different-password').innerHTML = "As senhas não são iguais";
+        } else {
+            register(email, password);
+        };
+    });
     return container;
-}
+};
