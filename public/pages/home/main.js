@@ -1,5 +1,4 @@
-// Aqui serão criados os eventos de Manipulação de DOM e templates
-//import { greeting } from './data.js';
+import { createPost, watchPosts, logout } from './data.js';
 export default () => {
   const container = document.createElement('div');
   const template = `
@@ -30,22 +29,51 @@ export default () => {
             <button type="submit" class="post-btn" id="post-btn">Postar</button>
           </div>
         </div>
-        <p>lugarzin do coração para os posts</p>
+        <div class="posts-container" id="posts-container"></div>
       </div>
     </section>
-  `
+  `;
   container.innerHTML= template
+
+  const postBtn = container.querySelector("#post-btn");
+  const postContainer = container.querySelector("#posts-container");
+  
+  const displayPost = (newPost)=>{
+    const postArea = `
+      <div id="${newPost.id}">
+        <p>${newPost.data().text}</p>
+      </div>
+    `;
+    postContainer.innerHTML += postArea
+
+  }
+
+  postBtn.addEventListener("click", (event)=>{
+    event.preventDefault()
+    const textPost = container.querySelector("#create-post-input");
+    const post = {
+      user: firebase.auth().currentUser.uid,
+      text: textPost.value,
+      likes: 0,
+      comments: [],
+    };
+    postContainer.innerHTML = "";
+    createPost(post)
+    textPost.value="";
+  })
+
+  watchPosts(displayPost)
 
   container.querySelector("#sign-out").addEventListener("click", (event) =>{
     event.preventDefault()
-    firebase.auth().signOut().then(function() {
-        window.location.hash = "login"
-    });
+    logout();
   })
+
   container.querySelector("#menu-item-profile").addEventListener("click",(event)=>{
     event.preventDefault()
     window.location.hash = "profile"
   });
+
   container.querySelector(".btn-menu").addEventListener("click",(event)=>{
     event.preventDefault()
     container.querySelector(".btn-menu").classList.toggle("hide")
