@@ -54,6 +54,14 @@ font-family: 'Dosis', sans-serif;
 .login-input::placeholder{
     color: rgba(208, 172, 219, 1);
 }
+.message-error {
+    font-family: 'Dosis', sans-serif;
+    color: red;
+    font-size: 12px;
+    text-align: center;
+    padding: 2px;
+    font-weight: bold;
+}
 .login-btn{
     font-weight: bold;
     background-color:rgba(208, 172, 219, 0.8);
@@ -70,6 +78,16 @@ font-family: 'Dosis', sans-serif;
     color:rgba(69, 38, 87, 1);
     font-weight: bold;
     text-decoration: none;
+}
+#login-google{
+    width: 26px;
+    padding: 6px;
+    margin: 8px;
+    border: 1px solid black;
+    border-radius: 22px;    
+}
+#login-google:hover{
+    background-color: rgba(208, 172, 219, 1);;
 }
 @media only screen and (min-width: 768px){
     .login-page{
