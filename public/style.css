@@ -113,19 +113,20 @@ header{
 .home-page, .feed{
     display: flex;
     flex-direction: column;
-    align-items: center;
     width: 100%;
 }
+
 .profile-box{
     display: flex;
-    flex-wrap: nowrap;
     width: 100%;
-    margin: 15px;
+    justify-content: center;
+    flex-direction: column;    
 }
 .profile-content{
-    display: flex;
-    flex-wrap: nowrap;
+    display: block;
+    text-align: center;
 }
+
 .user-cover-img{
     display: none;
 }
@@ -133,12 +134,13 @@ header{
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    margin: 0px 15px;
+    margin-top: 10px;
 }
 .pb-info{
     font-family: 'Dosis', sans-serif;
     color: rgba(69, 38, 87, 1);
     margin: 15px;
+    
 }
 .user-name{
     font-weight: bold;
@@ -190,6 +192,37 @@ header{
     width: 15px;
 }
 
+.profile-cover{
+    position: relative;
+    width: 100%;
+    height: 200px;
+    margin: 0 auto 10px auto;
+    background-image: url(img/cover-img.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.edit-profile-button{
+    width: 100px;
+    margin: auto;
+    font-family: 'Dosis', sans-serif;
+    color: white;
+    border-radius: 25px;
+    background-color: rgba(63, 6, 92, 1);
+    transition: 2s;
+}
+
+.edit-profile-button:hover{
+    background-color: white;
+    color: rgba(63, 6, 92, 1);
+    border-color: rgba(63, 6, 92, 1);
+
+}
+    
+
+
+
 @media only screen and (min-width: 768px){
     /* Páginas de login e resgistro */
     .login-page{
@@ -213,9 +246,9 @@ header{
     /* home */
     .home-page{
         flex-direction: row;
-        margin-top: 30px;
         align-items: flex-start;
         justify-content: center;
+        
     }
     .btn-menu{
         display: none;
@@ -225,25 +258,17 @@ header{
         justify-content: space-between;
         position: absolute;
         width: 90%;
-        margin: 10px;
     }
     .feed{
         width: 400px;
         margin: 15px;
     }
-    .profile-box{
-        flex-direction: column;
-        border: 1px solid rgba(69, 38, 87, 1);
-        border-radius: 4px;
-        width: 250px;
-    }
+    
     .user-cover-img{
         display: flex;
         width: 100%;
     }
-    .user-photo{
-        margin: 5px;
-    }
+    
     .create-post-box{
         width: 100%;
     }
