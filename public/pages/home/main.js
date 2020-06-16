@@ -1,7 +1,7 @@
 import { createPost, watchPosts, logout } from './data.js';
 export default () => {
   const container = document.createElement('div');
-  const template = `
+  const template = ` 
     <header>
       <img class="btn-menu" src="img/menu.png">
       <ul class="menu" id="menu">

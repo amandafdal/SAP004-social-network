@@ -20,15 +20,20 @@ export default () => {
     `;
     container.innerHTML = template;
 
+    const messageError = (erro) => {
+        container.querySelector('#different-password').innerHTML = erro;  
+
+    }
+
     container.querySelector("#create-account-btn").addEventListener("click", (event) => {
         event.preventDefault();
         const email = document.getElementById("user-email").value;
         const password = document.getElementById("user-password").value;
         const passwordConfirm = document.getElementById("user-password-confirm").value;
         if (password !== passwordConfirm) {
-            container.querySelector('#different-password').innerHTML = "As senhas não são iguais";
+            container.querySelector('#different-password').innerHTML = "Passwords are not the same";
         } else {
-            register(email, password);
+            register(email, password, messageError);
         };
     });
     return container;
