@@ -18,7 +18,7 @@ export default () => {
     `;
     container.innerHTML = template;
 
-    const messagaError = (erro) => {
+    const messageError = (erro) => {
         container.querySelector('#message-error').innerHTML = erro;
     };
 
@@ -26,7 +26,7 @@ export default () => {
         event.preventDefault();
         const email = document.getElementById("user-email").value;
         const password = document.getElementById("user-password").value;
-        login(email, password, messagaError);
+        login(email, password, messageError);
     });
 
     container.querySelector("#login-google").addEventListener("click", (googleLogin) => {
