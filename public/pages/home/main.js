@@ -1,7 +1,6 @@
-import { createPost, watchPosts, logout } from './data.js';
+import { createPost, watchPosts, logout, deletePost } from './data.js';
 export default () => {
   const container = document.createElement('div');
-  const template = ` 
     <header>
       <img class="btn-menu" src="img/menu.png">
       <ul class="menu" id="menu">
@@ -65,10 +64,23 @@ export default () => {
         <img class="icons" src="./img/comment.svg" alt="Comentar Post" />
         <img id="edit-btn" data-id="${newPost.id}" class="icons" src="./img/edit.svg" alt="Editar Post" />
       </div>
+    </div>
     `;
     postContainer.appendChild(postTemplate);
   };
-
+    const editBtn = postTemplate.querySelector(`#edit-btn[data-id="${newPost.id}"]`);
+    const deleteBtn = postTemplate.querySelector(`#delete-btn[data-id="${newPost.id}"]`);
+    if (newPost.data().user !== firebase.auth().currentUser.uid) {
+      deleteBtn.style.display = "none";
+      editBtn.style.display = "none";
+    }
+    deleteBtn.addEventListener("click", (event) =>{
+      const deleteId = deleteBtn.dataset.id;
+      event.preventDefault()
+      clearPosts()
+      deletePost(deleteId)
+    })
+  }
   postBtn.addEventListener("click", (event) => {
     event.preventDefault()
     const textPost = container.querySelector("#create-post-input");
@@ -78,11 +90,10 @@ export default () => {
       likes: 0,
       comments: [],
     };
-    postContainer.innerHTML = "";
-    createPost(post)
-    textPost.value = "";
+    clearPosts();
+    createPost(post);
+    textPost.value="";
   })
-
   watchPosts(displayPost)
 
   container.querySelector("#sign-out").addEventListener("click", (event) => {
