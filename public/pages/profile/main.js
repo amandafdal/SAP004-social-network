@@ -1,3 +1,5 @@
+import { createMiniBio } from './data.js';
+
 export default () => {
     const container = document.createElement('div');
     const template = `
@@ -13,9 +15,9 @@ export default () => {
       <section class="home-page">
         <div class="profile-box" id="profile-box">
             <div class="profile-cover"></div>
-            <button class = "edit-profile-button" type="button">Editar perfil</button>
+            <button class = "edit-profile-button" id = "edit-profile-button" type="button">Editar perfil</button>
             <div class="profile-content">
-                <img class="user-photo" src="img/mimi.png"> 
+                <img class="user-photo" src="img/Zai.jpeg"> 
                 <div class="pb-info" id="pb-info">
 
                 </div>
@@ -34,7 +36,7 @@ export default () => {
 
     container.querySelector("#menu-item-profile").addEventListener("click",(event)=>{
       event.preventDefault()
-      window.location.hash = "profile"
+      window.location.hash = "profile";
     });
 
     container.querySelector(".btn-menu").addEventListener("click",(event)=>{
@@ -51,39 +53,109 @@ export default () => {
       };
     });
 
+    
+
     // FIREBASE
-   
-    const db = firebase.firestore();
-    //db.settings({ timestampsInSnapshots: true });
-    
+
+      //MOSTRAR INFOS
     const infoPerfil = container.querySelector("#pb-info");
+     
+    //const uidCurrent = firebase.auth().currentUser.uid;  
     
-    function mostrarDados(doc){
-      let nome = document.createElement("p");
-      let email = document.createElement("p");
-      let miniBio = document.createElement("p");
     
-      nome.className += "user-name";
-      email.className += "user-bio";
-      miniBio.className += "user-bio";
+    function mostrarDados(local){
 
-      infoPerfil.setAttribute("data-id", doc.id);
-      nome.innerHTML = firebase.auth().currentUser.displayName;
-      email.innerHTML = firebase.auth().currentUser.email;
-      miniBio.innerHTML = "Escreva sua MiniBio";
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          const nameCurrent = firebase.auth().currentUser.displayName;
+          const emailCurrent = firebase.auth().currentUser.email; 
 
+          let nome = document.createElement("p");
+          let email = document.createElement("p");
+          let miniBio = document.createElement("p");
     
-      infoPerfil.appendChild(nome);
-      infoPerfil.appendChild(email);
-      infoPerfil.appendChild(miniBio);
-}
+          nome.className += "user-name";
+          email.className += "user-bio";
+          miniBio.className += "user-bio";
+  
+          nome.innerHTML = nameCurrent;
+          email.innerHTML = emailCurrent;
+          miniBio.innerHTML = "Escreva sua MiniBio";
+  
     
-    db.collection("usuarios").get().then( (snapshot) => {
-    snapshot.docs.forEach(doc => {
-      mostrarDados(doc);
-       })
+          local.appendChild(nome);
+          local.appendChild(email);
+          local.appendChild(miniBio);
+        }
+      });
+    }
+
+  mostrarDados(infoPerfil);
+
+
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      
+
+      firebase.firestore().collection("users").where("uid", "==", firebase.auth().currentUser.uid )
+    .get()
+    .then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+            console.log(doc.data().name);
+            console.log(doc.data().email);
+        });
     })
+    .catch(function(error) {
+        console.log("Error getting documents: ", error);
+    });
 
+
+    }
+  })
+  
+    
+    
+    
+
+
+      //EDITAR INFOS
+
+    container.querySelector("#edit-profile-button").addEventListener("click",(event)=>{
+      event.preventDefault();
+
+      document.getElementById("pb-info").innerHTML = `
+      <form method="post" enctype="multipart/form-data">
+      <input id = "edit-name" type="text" class="edit-profile-input" placeholder="Digite aqui seu nome"/>
+      <br>
+      <input id = "edit-email" type="text" class="edit-profile-input" placeholder="Digite aqui seu email"/>
+      <br>
+      <input id = "mini-bio-value" type="text" class="edit-profile-input" placeholder="Digite aqui sua MiniBio"/>
+      <br>
+      <input id = "new-password" type="password" class="edit-profile-input" placeholder="Digite aqui sua nova senha"/>
+      <br>
+      <label for="profile-image">Escolha sua imagem de perfil:</label>
+      
+      <input id = "profile-image" type="file"  name="profile-image" accept=".jpg, .jpeg, .png"/>
+      <br>
+      <br>
+      <label for="cover-image">Escolha sua imagem de background:</label>
+      
+      <input id = "cover-image" type="file"  name="cover-image" accept=".jpg, .jpeg, .png"/>
+      <br>
+      <button id = "save-modifications" class = "save-profile-button" type="button">Salvar modificações</button>
+      </form>
+      `;  
+
+      document.querySelector("#save-modifications").addEventListener("click", (event)=>{
+        event.preventDefault();
+        const name = document.querySelector("#edit-name").value;
+        const email = document.querySelector("#edit-email").value;
+        const minibio = document.querySelector("#mini-bio-value").value;
+        const idUserOn = firebase.auth().currentUser.uid;
+      })
+    });
+
+    
 
     return container;
   };

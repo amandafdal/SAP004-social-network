@@ -39,6 +39,18 @@ export default () =>{
                     firebase.auth().currentUser.updateProfile({
                         displayName: form.name.value
                     })
+
+                    
+                    firebase.firestore().collection("users").doc().set({
+                        uid: firebase.auth().currentUser.uid,
+                        email: document.getElementById("user-email").value,
+                        name: form.name.value,
+                        minibio: "Escreva sua MiniBio",
+                        profileimage: [],
+                        coverimage: []                   
+                    })
+
+
                     window.location.hash = "home";
                 })
         }
@@ -46,3 +58,8 @@ export default () =>{
     })
     return container;
 }
+
+
+
+
+ 
