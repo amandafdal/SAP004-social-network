@@ -1,7 +1,7 @@
-import { createPost, watchPosts, logout } from './data.js';
+import { createPost, watchPosts, logout, deletePost } from './data.js';
 export default () => {
   const container = document.createElement('div');
-  const template = `
+  const template = /* html */`
     <header>
       <img class="btn-menu" src="img/menu.png">
       <ul class="menu" id="menu">
@@ -34,19 +34,44 @@ export default () => {
     </section>
   `;
   container.innerHTML= template
-
+  
+  const clearPosts = ()=> postContainer.innerHTML = "";
   const postBtn = container.querySelector("#post-btn");
   const postContainer = container.querySelector("#posts-container");
-  
-  const displayPost = (newPost)=>{
-    const postArea = `
-      <div id="${newPost.id}">
-        <p>${newPost.data().text}</p>
-      </div>
-    `;
-    postContainer.innerHTML += postArea
 
-  }
+  const displayPost = (newPost)=>{
+    const postTemplate = document.createElement("div")
+    postTemplate.innerHTML = /* html */`
+    <div class="create-post-box">
+      <span>Nome do Joãozinho</span>
+      <img class="icons" src="./img/publicit.svg" alt="Publicidade do Post" />
+      <img class="icons" src="./img/delete.svg" alt="Deletar Post" 
+        id="delete-btn" data-id="${newPost.id}"/>
+      <button id="edit-btn" data-id="${newPost.id}">edit</button>
+      <div>
+        <span id="post-content" data-id="${newPost.id}">${newPost.data().text}</span>
+      </div>
+      <div>
+        <img class="icons" src="./img/like.svg" alt="Like" />
+        <img class="icons" src="./img/comment.svg" alt="Comentar Post" />
+      </div>
+    </div>
+    `;
+    postContainer.appendChild(postTemplate);
+
+    const editBtn = postTemplate.querySelector(`#edit-btn[data-id="${newPost.id}"]`);
+    const deleteBtn = postTemplate.querySelector(`#delete-btn[data-id="${newPost.id}"]`);
+    if (newPost.data().user !== firebase.auth().currentUser.uid) {
+      deleteBtn.style.display = "none";
+      editBtn.style.display = "none";
+    }
+    deleteBtn.addEventListener("click", (event) =>{
+      const deleteId = deleteBtn.dataset.id;
+      event.preventDefault()
+      clearPosts()
+      deletePost(deleteId)
+    })
+  } 
 
   postBtn.addEventListener("click", (event)=>{
     event.preventDefault()
@@ -57,11 +82,10 @@ export default () => {
       likes: 0,
       comments: [],
     };
-    postContainer.innerHTML = "";
-    createPost(post)
+    clearPosts();
+    createPost(post);
     textPost.value="";
   })
-
   watchPosts(displayPost)
 
   container.querySelector("#sign-out").addEventListener("click", (event) =>{

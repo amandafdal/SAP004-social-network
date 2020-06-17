@@ -19,3 +19,7 @@ export const logout = () => {
     window.location.hash = "login";
   });
 }
+
+export const deletePost = (postId) =>{
+  firebase.firestore().collection("posts").doc(postId).delete()
+}
