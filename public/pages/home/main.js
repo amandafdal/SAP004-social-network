@@ -34,7 +34,8 @@ export default () => {
     </section>
   `;
   container.innerHTML = template;
-
+  const clearPosts = ()=> postContainer.innerHTML = "";
+  
   const postBtn = container.querySelector("#post-btn");
   const postContainer = container.querySelector("#posts-container");
 
@@ -64,7 +65,7 @@ export default () => {
     </div>
     `;
     postContainer.appendChild(postTemplate);
-    
+
     const editBtn = postTemplate.querySelector(`#edit-btn[data-id="${newPost.id}"]`);
     const deleteBtn = postTemplate.querySelector(`#delete-btn[data-id="${newPost.id}"]`);
     if (newPost.data().user !== firebase.auth().currentUser.uid) {
