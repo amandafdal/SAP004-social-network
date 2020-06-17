@@ -1,7 +1,8 @@
 import { createPost, watchPosts, logout, deletePost } from './data.js';
 export default () => {
   const container = document.createElement('div');
-    <header>
+  const template = `
+  <header>
       <img class="btn-menu" src="img/menu.png">
       <ul class="menu" id="menu">
         <li class="menu-item" id= "menu-item-profile">Perfil</a></li>
@@ -32,16 +33,12 @@ export default () => {
       </div>
     </section>
   `;
-  container.innerHTML = template
+  container.innerHTML = template;
 
   const postBtn = container.querySelector("#post-btn");
   const postContainer = container.querySelector("#posts-container");
 
   const displayPost = (newPost) => {
-
-    // var user = firebase.auth().currentUser;
-    // console.log(user.displayName);
-
     const postTemplate = document.createElement("div");
     postTemplate.classList.add("post");
     postTemplate.innerHTML = `
@@ -67,7 +64,7 @@ export default () => {
     </div>
     `;
     postContainer.appendChild(postTemplate);
-  };
+    
     const editBtn = postTemplate.querySelector(`#edit-btn[data-id="${newPost.id}"]`);
     const deleteBtn = postTemplate.querySelector(`#delete-btn[data-id="${newPost.id}"]`);
     if (newPost.data().user !== firebase.auth().currentUser.uid) {
