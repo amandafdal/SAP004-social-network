@@ -33,22 +33,43 @@ export default () => {
       </div>
     </section>
   `;
-  container.innerHTML= template
+  container.innerHTML = template
 
   const postBtn = container.querySelector("#post-btn");
   const postContainer = container.querySelector("#posts-container");
-  
-  const displayPost = (newPost)=>{
-    const postArea = `
-      <div id="${newPost.id}">
-        <p>${newPost.data().text}</p>
+
+  const displayPost = (newPost) => {
+
+    // var user = firebase.auth().currentUser;
+    // console.log(user.displayName);
+
+    const postTemplate = document.createElement("div");
+    postTemplate.classList.add("post");
+    postTemplate.innerHTML = `
+      <div class="template-post post-top">
+        <span>${newPost.data().name}</span>
+        <img class="icons" src="./img/publicit2.svg" alt="Publicidade do Post" />
+        <img
+          class="icons"
+          src="./img/delete.svg"
+          alt="Deletar Post"
+          id="delete-btn"
+          data-id="${newPost.id}"
+        />
+      </div>
+      <div class="template-post post-middle">
+        <span>${newPost.data().text}</span>
+      </div>
+      <div class="template-post post-botton">
+        <img class="icons" src="./img/like.svg" alt="Like" />
+        <img class="icons" src="./img/comment.svg" alt="Comentar Post" />
+        <img id="edit-btn" data-id="${newPost.id}" class="icons" src="./img/edit.svg" alt="Editar Post" />
       </div>
     `;
-    postContainer.innerHTML += postArea
+    postContainer.appendChild(postTemplate);
+  };
 
-  }
-
-  postBtn.addEventListener("click", (event)=>{
+  postBtn.addEventListener("click", (event) => {
     event.preventDefault()
     const textPost = container.querySelector("#create-post-input");
     const post = {
@@ -59,27 +80,27 @@ export default () => {
     };
     postContainer.innerHTML = "";
     createPost(post)
-    textPost.value="";
+    textPost.value = "";
   })
 
   watchPosts(displayPost)
 
-  container.querySelector("#sign-out").addEventListener("click", (event) =>{
+  container.querySelector("#sign-out").addEventListener("click", (event) => {
     event.preventDefault()
     logout();
   })
 
-  container.querySelector("#menu-item-profile").addEventListener("click",(event)=>{
+  container.querySelector("#menu-item-profile").addEventListener("click", (event) => {
     event.preventDefault()
     window.location.hash = "profile"
   });
 
-  container.querySelector(".btn-menu").addEventListener("click",(event)=>{
+  container.querySelector(".btn-menu").addEventListener("click", (event) => {
     event.preventDefault()
     container.querySelector(".btn-menu").classList.toggle("hide")
     container.querySelector(".menu").classList.toggle("menu-items-show")
   });
-  container.addEventListener("click",(event)=>{
+  container.addEventListener("click", (event) => {
     event.preventDefault()
     if (!event.target.matches(".btn-menu")) {
       container.querySelector(".btn-menu").classList.remove("hide");
