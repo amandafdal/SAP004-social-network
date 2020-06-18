@@ -1,6 +1,7 @@
 import { createPost, watchPosts, logout, deletePost } from './data.js';
 export default () => {
   const container = document.createElement('div');
+  const template = `
     <header>
       <img class="btn-menu" src="img/menu.png">
       <ul class="menu" id="menu">
@@ -38,43 +39,42 @@ export default () => {
   const postContainer = container.querySelector("#posts-container");
 
   const displayPost = (newPost) => {
-
-    // var user = firebase.auth().currentUser;
-    // console.log(user.displayName);
-
     const postTemplate = document.createElement("div");
     postTemplate.classList.add("post");
     postTemplate.innerHTML = `
-      <div class="template-post post-top">
-        <span>${newPost.data().name}</span>
-        <img class="icons" src="./img/publicit2.svg" alt="Publicidade do Post" />
+      <div class = "color-post template-post">
+        <div class = "post-top">
+          <span>${newPost.data().name}</span>
+          <img class = "icons" src="./img/publicit2.svg" alt = "Publicidade do Post" />
+        </div>
         <img
-          class="icons"
-          src="./img/delete.svg"
-          alt="Deletar Post"
-          id="delete-btn"
-          data-id="${newPost.id}"
+          class = "icons"
+          src = "./img/delete.svg"
+          alt = "Deletar Post"
+          id = "delete-btn"
+          data-id = "${newPost.id}"
         />
       </div>
-      <div class="template-post post-middle">
+      <div class = "template-post post-middle">
         <span>${newPost.data().text}</span>
       </div>
-      <div class="template-post post-botton">
-        <img class="icons" src="./img/like.svg" alt="Like" />
-        <img class="icons" src="./img/comment.svg" alt="Comentar Post" />
-        <img id="edit-btn" data-id="${newPost.id}" class="icons" src="./img/edit.svg" alt="Editar Post" />
+      <div class = "color-post template-post">
+        <div class = "post-botton">
+          <img class = "icons" src = "./img/like.svg" alt = "Like" />
+        </div>
+        <img id = "edit-btn" data-id="${newPost.id}" class = "icons icon-edit" src = "./img/edit.svg" alt = "Editar Post" />
       </div>
     </div>
     `;
     postContainer.appendChild(postTemplate);
-  };
+
     const editBtn = postTemplate.querySelector(`#edit-btn[data-id="${newPost.id}"]`);
     const deleteBtn = postTemplate.querySelector(`#delete-btn[data-id="${newPost.id}"]`);
     if (newPost.data().user !== firebase.auth().currentUser.uid) {
       deleteBtn.style.display = "none";
       editBtn.style.display = "none";
     }
-    deleteBtn.addEventListener("click", (event) =>{
+    deleteBtn.addEventListener("click", (event) => {
       const deleteId = deleteBtn.dataset.id;
       event.preventDefault()
       clearPosts()
@@ -92,7 +92,7 @@ export default () => {
     };
     clearPosts();
     createPost(post);
-    textPost.value="";
+    textPost.value = "";
   })
   watchPosts(displayPost)
 
@@ -120,3 +120,6 @@ export default () => {
   });
   return container;
 };
+
+
+ // <img class = "icons" src = "./img/comment.svg" alt = "Comentar Post" />

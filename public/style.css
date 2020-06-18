@@ -206,12 +206,11 @@ header {
 }
 .icons {
   width: 16px;
-  padding: 2px 4px;
- 
+  padding: 0 8px;
 }
 .posts-container {
-    width: 91%;
-    padding: 15px;
+  width: 91%;
+  padding: 15px;
 }
 .post {
   display: flex;
@@ -224,17 +223,16 @@ header {
 }
 .template-post {
   display: flex;
-  flex-direction: space-around;
+  flex-direction: row;
+  justify-content: space-between;
   width: 100%;
   padding: 0;
-  
 }
 .post-top {
   display: flex;
-  justify-content: space-between;
-  background-color:  rgba(208, 172, 219, 0.5);;
-  height: 30px;
-  
+  flex-direction: row;
+  align-items: center;
+  padding: 0 8px;
 }
 .post-middle {
   background-color: white;
@@ -243,9 +241,15 @@ header {
 }
 .post-botton {
   display: flex;
-  justify-content: flex-start;
-  background-color:   rgba(208, 172, 219, 0.5);;
-  height: 30px;
+  flex-direction: row;
+}
+.color-post {
+  background-color:   rgba(208, 172, 219, 0.5);
+  height: 34px;
+}
+#delete {
+  display: flex;
+  flex-direction: flex-end;
 }
 #login-google {
   width: 26px;
