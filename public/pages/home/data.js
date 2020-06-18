@@ -1,3 +1,25 @@
-// Aqui serão exportadas as funções que irão ser usadas
+export const watchPosts = (callback)=>{
+  firebase.firestore().collection("posts")
+    .onSnapshot((querySnapshot) => {
+      querySnapshot.forEach((newPost) => {
+        callback(newPost);
+    });
+  });
+}
 
-export const greeting = name => `Oi ${name}! Que bom ver você aqui!`;
+export const createPost = (newPost) => {
+  firebase.firestore().collection("posts").add(newPost)
+    .catch((error) => {
+      console.error("Error adding document: ", error);
+    });
+}
+
+export const logout = () => {
+  firebase.auth().signOut().then(() =>{
+    window.location.hash = "login";
+  });
+}
+
+export const deletePost = (postId) =>{
+  firebase.firestore().collection("posts").doc(postId).delete()
+}
