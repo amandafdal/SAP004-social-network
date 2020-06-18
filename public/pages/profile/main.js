@@ -1,4 +1,4 @@
-import { createMiniBio } from './data.js';
+import { } from './data.js';
 
 export default () => {
     const container = document.createElement('div');
@@ -58,10 +58,10 @@ export default () => {
     // FIREBASE
 
       //MOSTRAR INFOS
-    const infoPerfil = container.querySelector("#pb-info");
-     
-    //const uidCurrent = firebase.auth().currentUser.uid;  
-    
+
+      //const uidCurrent = firebase.auth().currentUser.uid;  
+
+    const infoPerfil = container.querySelector("#pb-info");   
     
     function mostrarDados(local){
 
@@ -81,7 +81,6 @@ export default () => {
           nome.innerHTML = nameCurrent;
           email.innerHTML = emailCurrent;
           miniBio.innerHTML = "Escreva sua MiniBio";
-  
     
           local.appendChild(nome);
           local.appendChild(email);
@@ -95,21 +94,17 @@ export default () => {
 
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
-      
-
       firebase.firestore().collection("users").where("uid", "==", firebase.auth().currentUser.uid )
-    .get()
-    .then(function(querySnapshot) {
+      .get()
+      .then(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
             console.log(doc.data().name);
             console.log(doc.data().email);
         });
-    })
-    .catch(function(error) {
+      })
+      .catch(function(error) {
         console.log("Error getting documents: ", error);
-    });
-
-
+      });
     }
   })
   
@@ -127,20 +122,21 @@ export default () => {
       <form method="post" enctype="multipart/form-data">
       <input id = "edit-name" type="text" class="edit-profile-input" placeholder="Digite aqui seu nome"/>
       <br>
-      <input id = "edit-email" type="text" class="edit-profile-input" placeholder="Digite aqui seu email"/>
+      <input id = "edit-email" type="email" class="edit-profile-input" placeholder="Digite aqui seu email"/>
       <br>
       <input id = "mini-bio-value" type="text" class="edit-profile-input" placeholder="Digite aqui sua MiniBio"/>
       <br>
       <input id = "new-password" type="password" class="edit-profile-input" placeholder="Digite aqui sua nova senha"/>
+      <!--
       <br>
       <label for="profile-image">Escolha sua imagem de perfil:</label>
-      
       <input id = "profile-image" type="file"  name="profile-image" accept=".jpg, .jpeg, .png"/>
       <br>
       <br>
       <label for="cover-image">Escolha sua imagem de background:</label>
       
       <input id = "cover-image" type="file"  name="cover-image" accept=".jpg, .jpeg, .png"/>
+      -->
       <br>
       <button id = "save-modifications" class = "save-profile-button" type="button">Salvar modificações</button>
       </form>
@@ -148,10 +144,38 @@ export default () => {
 
       document.querySelector("#save-modifications").addEventListener("click", (event)=>{
         event.preventDefault();
-        const name = document.querySelector("#edit-name").value;
-        const email = document.querySelector("#edit-email").value;
-        const minibio = document.querySelector("#mini-bio-value").value;
-        const idUserOn = firebase.auth().currentUser.uid;
+        const newName = document.querySelector("#edit-name").value;
+        const newEmail = document.querySelector("#edit-email").value;
+        const newMinibio = document.querySelector("#mini-bio-value").value;
+        //const idUserOn = firebase.auth().currentUser.uid;
+
+        //firebase.auth().onAuthStateChanged(function(user) {
+          //if (user) {
+
+            firebase.auth().currentUser.updateProfile({
+              displayName: newName
+            })
+            
+            
+            var credential = prompt("Informe sua senha");
+
+            firebase.auth().currentUser.reauthenticateWithCredential(credential).then(function() {
+              
+                firebase.auth().currentUser.updateEmail(newEmail).then(function() {
+                
+                })
+
+            })            
+            
+
+      
+            document.getElementById("pb-info").innerHTML =`
+              <p class = "user-name" >${newName}</p>
+              <p class = "user-bio" >${newEmail}</p>
+              <p class = "user-bio">${newMinibio}</p>
+            `;
+          //}
+        //});
       })
     });
 
