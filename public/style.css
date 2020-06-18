@@ -1,213 +1,46 @@
 @import "./reset.css";
-/* 
-Color Theme Swatches in Hex 
-.Purple--1-hex { color: #3F065C; }
-.Purple--2-hex { color: #D0ACDB; }
-.Purple--3-hex { color: #942AD6; }
-.Purple--4-hex { color: #452657; }
-.Purple--5-hex { color: #7600A3; }
 
-Color Theme Swatches in RGBA 
-.Purple--1-rgba { color: rgba(63, 6, 92, 1); }
-.Purple--2-rgba { color: rgba(208, 172, 219, 1); }
-.Purple--3-rgba { color: rgba(148, 42, 214, 1); }
-.Purple--4-rgba { color: rgba(69, 38, 87, 1); }
-.Purple--5-rgba { color: rgba(118, 0, 163, 1); }
-
-font-family: 'Dosis', sans-serif;
-*/
-/* Páginas de login e resgistro */
-.login-page{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.logo{
-    width: 200px;
-    margin-top: 30px;
-}
-.logotype{
-    width: 150px;
-    margin-bottom: 15px;
-}
-.login-container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 70%;
-    margin: 20px;
-    padding: 15px;
-}
-.login-input, .login-btn{
-    font-family: 'Dosis', sans-serif;
-    color: rgba(69, 38, 87, 1);
-    border-radius: 25px;
-    outline: none;
-}
-.login-input{
-    text-align: center;
-    margin: 7px;
-    padding: 3px;
-    border: 1px solid rgba(69, 38, 87, 1);
-    width: 80%;
-}
-
-.edit-profile-input{
-    text-align: center;
-    margin: 7px;
-    padding: 3px;
-    border: 1px solid rgba(69, 38, 87, 1);
-    width: 50%;
-    border-radius: 25px;
-    outline: none;
-}
-
-.edit-profile-input::placeholder{
-    color: rgba(208, 172, 219, 1);
-}
-
-.login-input::placeholder{
-    color: rgba(208, 172, 219, 1);
-}
-.login-btn{
-    font-weight: bold;
-    background-color:rgba(208, 172, 219, 0.8);
-    border: 1px solid rgba(208, 172, 219, 1);
-    padding: 3px 3px 4px;
-    margin: 5px 0px 10px;
-    width: 40%;
-}
-.create-acc{
-    font-family: 'Dosis', sans-serif;
-    color: rgba(69, 38, 87, 1);
-}
-.register-link{
-    color:rgba(69, 38, 87, 1);
-    font-weight: bold;
-    text-decoration: none;
-}
-
-/* home */
-header{
-    display: flex;
-    background-color: rgba(63, 6, 92, 1);
-    padding: 5px;
-    height: 40px;
-}
-.hide, .menu{
-    display: none;
-}
-.btn-menu{
+.btn-menu-profile{
     position: absolute;
     height: inherit;
     cursor: pointer;
 }
-.menu-items-show{
-    background-color: rgba(63, 6, 92, 1);
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    width: 50px;
-    margin: 0px 10px 10px;
+
+.menu-profile{
+    display: none;
 }
-.menu-item{
+
+.menu-item-profile{
     font-family: 'Dosis', sans-serif;
     color:rgba(208, 172, 219, 1);
     font-weight: bold;
     font-size: 18px;
     padding: 5px;
 }
-.menu-item a {
+.menu-item-profile a {
     color:rgba(208, 172, 219, 1);
     text-decoration: none;
 }
-.header-logo{
+
+.header-logo-profile{
     height: inherit;
     margin: 0px auto;
 }
-.home-page, .feed{
+
+.home-page-profile{
     display: flex;
     flex-direction: column;
     width: 100%;
 }
 
-.profile-box{
+.profile-box-profile{
     display: flex;
     width: 100%;
     justify-content: center;
     flex-direction: column;    
 }
-.profile-content{
-    display: block;
-    text-align: center;
-}
 
-.user-cover-img{
-    display: none;
-}
-.user-photo{
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    margin-top: 10px;
-}
-.pb-info{
-    font-family: 'Dosis', sans-serif;
-    color: rgba(69, 38, 87, 1);
-    margin: 15px;
-    
-}
-.user-name{
-    font-weight: bold;
-}
-.create-post-box{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color:rgba(208, 172, 219, 0.5);
-    border: 1px solid rgba(69, 38, 87, 1);
-    border-radius: 4px;
-    padding: 10px;
-    width: 85%;
-}
-.create-post-input{
-    border: 1px solid rgba(69, 38, 87, 1);
-    border-radius: 4px;
-    width: 100%;
-    outline: none;
-    margin-bottom: 10px;
-}
-.create-post-input::placeholder{
-    font-family: 'Dosis', sans-serif;
-    color: rgba(208, 172, 219, 1);
-}
-.create-post-btns{
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-}
-.post-btn,.upload-img-btn{
-    border-radius: 25px;
-    outline: none;
-    background-color:rgba(208, 172, 219, 0.8);
-    border: 1px solid rgba(208, 172, 219, 1);
-    padding: 3px 3px 4px;
-}
-.post-btn{
-    font-family: 'Dosis', sans-serif;
-    color: rgba(69, 38, 87, 1);
-    font-weight: bold;
-    width: 80px;
-}
-.upload-img-btn{
-    width: 30px;
-    padding: 3px 3px 0px 2px;
-}
-.upload-img-icon{
-    width: 15px;
-}
-
-.profile-cover{
+.profile-cover-profile{
     position: relative;
     width: 100%;
     height: 200px;
@@ -216,21 +49,6 @@ header{
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-}
-
-.save-profile-button{
-    width: 130px;
-    font-family: 'Dosis', sans-serif;
-    color: white;
-    border-radius: 25px;
-    background-color: rgba(63, 6, 92, 1);
-    transition: 2s;
-}
-
-.save-profile-button:hover{
-    background-color: white;
-    color: rgba(63, 6, 92, 1);
-    border-color: rgba(63, 6, 92, 1);
 }
 
 .edit-profile-button{
@@ -248,57 +66,78 @@ header{
     color: rgba(63, 6, 92, 1);
     border-color: rgba(63, 6, 92, 1);
 }
-    
+
+.profile-content-profile{
+    display: block;
+    text-align: center;
+}
+
+.user-photo-profile{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-top: 10px;
+}
+
+.pb-info-profile{
+    font-family: 'Dosis', sans-serif;
+    color: rgba(69, 38, 87, 1);
+    margin: 15px; 
+}
+
+
+.user-name-profile{
+    font-weight: bold;
+}
+
+.edit-profile-input{
+    text-align: center;
+    margin: 7px;
+    padding: 3px;
+    border: 1px solid rgba(69, 38, 87, 1);
+    width: 50%;
+    border-radius: 25px;
+    outline: none;
+}
+
+.edit-profile-input::placeholder{
+    color: rgba(208, 172, 219, 1);
+}
+
+.save-profile-button{
+    width: 130px;
+    font-family: 'Dosis', sans-serif;
+    color: white;
+    border-radius: 25px;
+    background-color: rgba(63, 6, 92, 1);
+    transition: 2s;
+}
+
+.save-profile-button:hover{
+    background-color: white;
+    color: rgba(63, 6, 92, 1);
+    border-color: rgba(63, 6, 92, 1);
+}  
 
 
 
 @media only screen and (min-width: 768px){
-    /* Páginas de login e resgistro */
-    .login-page{
-        flex-direction: row;
-        justify-content: space-evenly;
-        height: -webkit-fill-available;
-        padding: 50px;
-    }
-    .logo{
-        width: 350px;
-        margin-top: 0px;
-    }
-    .logotype{
-        width: 240px;
-    }
-    .login-container{
-        width: 30%;
-        margin: 20px;
-        padding: 15px;
-    }
-    /* home */
-    .home-page{
-        flex-direction: row;
-        align-items: flex-start;
-        justify-content: center;
-        
-    }
-    .btn-menu{
+    
+.btn-menu-profile{
         display: none;
-    }
-    .menu{
+}
+
+.menu-profile{
         display: flex;
         justify-content: space-between;
         position: absolute;
         width: 90%;
-    }
-    .feed{
-        width: 400px;
-        margin: 15px;
-    }
-    
-    .user-cover-img{
-        display: flex;
-        width: 100%;
-    }
-    
-    .create-post-box{
-        width: 100%;
-    }
+}
+
+.home-page-profile{
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: center;  
+}
+
 }

@@ -1,30 +1,32 @@
 import { } from './data.js';
 
 export default () => {
-    const container = document.createElement('div');
+    const container = document.createElement("div");
     const template = `
-      <header>
-        <img class="btn-menu" src="img/menu.png">
-        <ul class="menu" id="menu">
-          <li class="menu-item" id= "menu-item-profile">Perfil</a></li>
-          <li class="menu-item" id=sign-out>Sair</li>
-        </ul>
-        <img class="header-logo" src="img/LOGO-SH-SITE2.png" alt="Logo SafeHome">
-      </header>
+         <header>
+            <img class="btn-menu-profile" src="img/menu.png">
+            <ul class="menu-profile" id="menu">
+              <li class="menu-item-profile" id= "menu-item-profile">Perfil</a></li>
+              <li class="menu-item-profile" id= "sign-out">Sair</li>
+            </ul>
+            <img class="header-logo-profile" src="img/LOGO-SH-SITE2.png" alt="Logo SafeHome">
+          </header>
+    
+          <section class="home-page-profile">
+            <div class="profile-box-profile" id="profile-box">
+                <div class="profile-cover-profile" ></div>
+                <button class = "edit-profile-button" id = "edit-profile-button" type="button">Editar perfil</button>
+                <div class="profile-content-profile">
+                    <img class="user-photo-profile" src="img/Zai.jpeg"> 
+                    <div class="pb-info-profile" id="pb-info">
+    
+                    </div>
+                </div>        
+            </div>
+          </section>
+        ` ;
 
-      <section class="home-page">
-        <div class="profile-box" id="profile-box">
-            <div class="profile-cover"></div>
-            <button class = "edit-profile-button" id = "edit-profile-button" type="button">Editar perfil</button>
-            <div class="profile-content">
-                <img class="user-photo" src="img/Zai.jpeg"> 
-                <div class="pb-info" id="pb-info">
 
-                </div>
-            </div>        
-        </div>
-      </section>
-    `
     container.innerHTML = template;
   
     container.querySelector("#sign-out").addEventListener("click", (event) =>{
@@ -39,17 +41,17 @@ export default () => {
       window.location.hash = "profile";
     });
 
-    container.querySelector(".btn-menu").addEventListener("click",(event)=>{
+    container.querySelector(".btn-menu-profile").addEventListener("click",(event)=>{
       event.preventDefault()
-      container.querySelector(".btn-menu").classList.toggle("hide")
+      container.querySelector(".btn-menu-profile").classList.toggle("hide")
       container.querySelector(".menu").classList.toggle("menu-items-show")
     });
 
     container.addEventListener("click",(event)=>{
       event.preventDefault()
-      if (!event.target.matches(".btn-menu")) {
-        container.querySelector(".btn-menu").classList.remove("hide");
-        container.querySelector(".menu").classList.remove("menu-items-show");
+      if (!event.target.matches(".btn-menu-profile")) {
+        container.querySelector(".btn-menu-profile").classList.remove("hide");
+        container.querySelector(".menu-profile").classList.remove("menu-items-show");
       };
     });
 
@@ -59,7 +61,7 @@ export default () => {
 
       //MOSTRAR INFOS
 
-      //const uidCurrent = firebase.auth().currentUser.uid;  
+    //const uidCurrent = firebase.auth().currentUser.uid;  
 
     const infoPerfil = container.querySelector("#pb-info");   
     
@@ -73,11 +75,9 @@ export default () => {
           let nome = document.createElement("p");
           let email = document.createElement("p");
           let miniBio = document.createElement("p");
-    
-          nome.className += "user-name";
-          email.className += "user-bio";
-          miniBio.className += "user-bio";
-  
+      
+          nome.className += "user-name-profile";
+
           nome.innerHTML = nameCurrent;
           email.innerHTML = emailCurrent;
           miniBio.innerHTML = "Escreva sua MiniBio";
@@ -108,10 +108,6 @@ export default () => {
     }
   })
   
-    
-    
-    
-
 
       //EDITAR INFOS
 
@@ -132,15 +128,15 @@ export default () => {
       <label for="profile-image">Escolha sua imagem de perfil:</label>
       <input id = "profile-image" type="file"  name="profile-image" accept=".jpg, .jpeg, .png"/>
       <br>
-      <br>
-      <label for="cover-image">Escolha sua imagem de background:</label>
       
+      <label for="cover-image">Escolha sua imagem de background:</label>
       <input id = "cover-image" type="file"  name="cover-image" accept=".jpg, .jpeg, .png"/>
       -->
       <br>
       <button id = "save-modifications" class = "save-profile-button" type="button">Salvar modificações</button>
       </form>
-      `;  
+      `;
+
 
       document.querySelector("#save-modifications").addEventListener("click", (event)=>{
         event.preventDefault();
@@ -165,15 +161,14 @@ export default () => {
                 
                 })
 
-            })            
+            })        
             
-
-      
             document.getElementById("pb-info").innerHTML =`
-              <p class = "user-name" >${newName}</p>
-              <p class = "user-bio" >${newEmail}</p>
-              <p class = "user-bio">${newMinibio}</p>
+            <p class = "user-name" >${newName}</p>
+            <p>${newEmail}</p>
+            <p>${newMinibio}</p>
             `;
+
           //}
         //});
       })
