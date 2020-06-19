@@ -25,7 +25,6 @@ export default () => {
         <div class="create-post-box" id="create-post">
           <textarea class="create-post-input" id="create-post-input" rows="5" placeholder="Como você está se sentindo?"></textarea>
           <div class="create-post-btns">
-            <button class="upload-img-btn" id="upload-img-btn"><img class="upload-img-icon" src="img/picture.png"></button>
             <button type="submit" class="post-btn" id="post-btn">Postar</button>
           </div>
         </div>
@@ -42,7 +41,7 @@ export default () => {
     const postTemplate = document.createElement("div");
     postTemplate.classList.add("post");
     postTemplate.innerHTML = `
-      <div class = "color-post template-post">
+      <div class = "color-post template-post position-post">
         <div class = "post-top">
           <span>${newPost.data().name}</span>
           <img class = "icons" src="./img/publicit2.svg" alt = "Publicidade do Post" />
@@ -55,11 +54,11 @@ export default () => {
           data-id = "${newPost.id}"
         />
       </div>
-      <div class = "template-post post-middle">
-        <span>${newPost.data().text}</span>
+      <div class = "template-post post-middle position-post">
+        <span class="post-content">${newPost.data().text}</span>
       </div>
-      <div class = "color-post template-post">
-        <div class = "post-botton">
+      <div class = "color-post template-post position-post">
+        <div class = "position-post">
           <img class = "icons" src = "./img/like.svg" alt = "Like" />
         </div>
         <img id = "edit-btn" data-id="${newPost.id}" class = "icons icon-edit" src = "./img/edit.svg" alt = "Editar Post" />
@@ -77,7 +76,7 @@ export default () => {
     deleteBtn.addEventListener("click", (event) => {
       const deleteId = deleteBtn.dataset.id;
       event.preventDefault()
-      clearPosts()
+      // clearPosts()
       deletePost(deleteId)
     })
   }
@@ -90,7 +89,7 @@ export default () => {
       likes: 0,
       comments: [],
     };
-    clearPosts();
+    // clearPosts();
     createPost(post);
     textPost.value = "";
   })
@@ -123,3 +122,4 @@ export default () => {
 
 
  // <img class = "icons" src = "./img/comment.svg" alt = "Comentar Post" />
+ // <button class="upload-img-btn" id="upload-img-btn"><img class="upload-img-icon" src="img/picture.png"></button>
