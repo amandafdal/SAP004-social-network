@@ -1,7 +1,7 @@
-import { createPost, watchPosts, logout, deletePost } from './data.js';
+import { createPost, watchPosts, logout, deletePost, editPost } from './data.js';
 export default () => {
   const container = document.createElement('div');
-  const template = `
+  const template = /* html */ `
   <header>
       <img class="btn-menu" src="img/menu.png">
       <ul class="menu" id="menu">
@@ -23,7 +23,7 @@ export default () => {
       </div>
       <div class="feed">
         <div class="create-post-box" id="create-post">
-          <textarea class="create-post-input" id="create-post-input" rows="5" placeholder="Como você está se sentindo?"></textarea>
+          <textarea style="resize: none" class="create-post-input" id="create-post-input" rows="5" placeholder="Como você está se sentindo?"></textarea>
           <div class="create-post-btns">
             <button class="upload-img-btn" id="upload-img-btn"><img class="upload-img-icon" src="img/picture.png"></button>
             <button type="submit" class="post-btn" id="post-btn">Postar</button>
@@ -38,11 +38,12 @@ export default () => {
   
   const postBtn = container.querySelector("#post-btn");
   const postContainer = container.querySelector("#posts-container");
+  const textPost = container.querySelector("#create-post-input");
 
   const displayPost = (newPost) => {
     const postTemplate = document.createElement("div");
     postTemplate.classList.add("post");
-    postTemplate.innerHTML = `
+    postTemplate.innerHTML = /* html */`
       <div class="template-post post-top">
         <span>${newPost.data().name}</span>
         <img class="icons" src="./img/publicit2.svg" alt="Publicidade do Post" />
@@ -55,7 +56,10 @@ export default () => {
         />
       </div>
       <div class="template-post post-middle">
-        <span>${newPost.data().text}</span>
+        <textarea disabled style="resize: none" id="text-post" data-id="${newPost.id}">
+          ${newPost.data().text}
+        </textarea>
+        <button id="save-edit-btn" data-id="${newPost.id}" class="hide">Save</button>
       </div>
       <div class="template-post post-botton">
         <img class="icons" src="./img/like.svg" alt="Like" />
@@ -66,31 +70,50 @@ export default () => {
     `;
     postContainer.appendChild(postTemplate);
 
-    const editBtn = postTemplate.querySelector(`#edit-btn[data-id="${newPost.id}"]`);
     const deleteBtn = postTemplate.querySelector(`#delete-btn[data-id="${newPost.id}"]`);
+    const editBtn = postTemplate.querySelector(`#edit-btn[data-id="${newPost.id}"]`);
+    const saveEditBtn = postTemplate.querySelector(`#save-edit-btn[data-id="${newPost.id}"]`);
+    const editInput = postTemplate.querySelector(`#text-post[data-id="${newPost.id}"]`);
 
-
-        /*
-      
-        if (newPost.data().user !== firebase.auth().currentUser.uid) {
+    const validateUser = ()=>{
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user){        
+          if (newPost.data().user !== firebase.auth().currentUser.uid) {
           deleteBtn.style.display = "none";
           editBtn.style.display = "none";
+        }else{
+          deleteBtn.style.display = "inline-block";
+          editBtn.style.display = "inline-block";
         }
-      
-    
-        */
-    
+      }
+      });
+    }
+    validateUser()
 
-    deleteBtn.addEventListener("click", (event) =>{
-      const deleteId = deleteBtn.dataset.id;
-      event.preventDefault()
-      clearPosts()
-      deletePost(deleteId)
+    editBtn.addEventListener("click", (event) =>{
+      saveEditBtn.style.display = "inline-block";
+      editInput.removeAttribute('disabled');
     })
-  }
+
+    saveEditBtn.addEventListener("click", (event) =>{
+      event.preventDefault();
+      const editId = saveEditBtn.dataset.id;
+      const editPostValue = editInput.value;
+      clearPosts();
+      editPost(editId, editPostValue);
+      saveEditBtn.style.display = "none";
+      editInput.setAttribute('disabled', true);
+    }); 
+    
+    deleteBtn.addEventListener("click", (event) =>{
+      event.preventDefault();
+      const deleteId = deleteBtn.dataset.id;
+      clearPosts();
+      deletePost(deleteId);
+    });
+  };
   postBtn.addEventListener("click", (event) => {
     event.preventDefault()
-    const textPost = container.querySelector("#create-post-input");
     const post = {
       user: firebase.auth().currentUser.uid,
       text: textPost.value,
