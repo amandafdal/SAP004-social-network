@@ -20,9 +20,5 @@ const validateHash = (hash) => hash === "" ? "login" : hash.replace("#", "");
 window.addEventListener("load", () => {
     renderPage();
     init();
-<<<<<<< HEAD
-})
-=======
 });
 
->>>>>>> 146cb70519e0161152d2456fd21b6e53c89dcd1a

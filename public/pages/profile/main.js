@@ -1,4 +1,4 @@
-import { } from './data.js';
+//import { } from './data.js';
 
 export default () => {
     const container = document.createElement("div");
@@ -44,7 +44,7 @@ export default () => {
     container.querySelector(".btn-menu-profile").addEventListener("click",(event)=>{
       event.preventDefault()
       container.querySelector(".btn-menu-profile").classList.toggle("hide")
-      container.querySelector(".menu").classList.toggle("menu-items-show")
+      container.querySelector(".menu-profile").classList.toggle("menu-items-show")
     });
 
     container.addEventListener("click",(event)=>{
@@ -153,15 +153,16 @@ export default () => {
             })
             
             
-            var credential = prompt("Informe sua senha");
-
+            //var credential;
+            /*
             firebase.auth().currentUser.reauthenticateWithCredential(credential).then(function() {
               
                 firebase.auth().currentUser.updateEmail(newEmail).then(function() {
                 
                 })
 
-            })        
+            }) 
+            */       
             
             document.getElementById("pb-info").innerHTML =`
             <p class = "user-name" >${newName}</p>
