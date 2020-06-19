@@ -120,7 +120,8 @@ export default () =>{
                         name: form.name.value,
                         minibio: "Escreva sua MiniBio",
                         profileimage: [],
-                        coverimage: []                   
+                        coverimage: [],
+                        docid: ""                   
                     })
 
 

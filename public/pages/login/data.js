@@ -9,6 +9,7 @@ export const loginGoogle = () => {
 export const login = (email, password, callback) => {
     firebase.auth().signInWithEmailAndPassword(email, password)
         .then(function () {
+            
             window.location.hash = "home";
         })
         .catch(function (error) {

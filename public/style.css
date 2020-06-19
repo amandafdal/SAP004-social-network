@@ -359,6 +359,19 @@ header {
   outline: none;
 }
 
+.edit-profile-confirm{
+  text-align: center;
+  margin: 7px;
+  padding: 3px;
+  border: 1px solid rgb(228, 45, 45);
+  width: 50%;
+  border-radius: 25px;
+  outline: none;
+}
+.edit-profile-confirm::placeholder{
+  color: rgb(228, 45, 45);
+}
+
 .edit-profile-input::placeholder{
   color: rgba(208, 172, 219, 1);
 }

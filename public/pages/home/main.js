@@ -68,10 +68,19 @@ export default () => {
 
     const editBtn = postTemplate.querySelector(`#edit-btn[data-id="${newPost.id}"]`);
     const deleteBtn = postTemplate.querySelector(`#delete-btn[data-id="${newPost.id}"]`);
-    if (newPost.data().user !== firebase.auth().currentUser.uid) {
-      deleteBtn.style.display = "none";
-      editBtn.style.display = "none";
-    }
+
+
+        /*
+      
+        if (newPost.data().user !== firebase.auth().currentUser.uid) {
+          deleteBtn.style.display = "none";
+          editBtn.style.display = "none";
+        }
+      
+    
+        */
+    
+
     deleteBtn.addEventListener("click", (event) =>{
       const deleteId = deleteBtn.dataset.id;
       event.preventDefault()

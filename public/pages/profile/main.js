@@ -2,12 +2,18 @@
 
 export default () => {
     const container = document.createElement("div");
-    const template = `
+        
+
+    // FIREBASE
+      //MOSTRAR INFOS
+
+    function mostrarDados(nameCurrent, emailCurrent, miniBioCurrent){
+         container.innerHTML =`
          <header>
-            <img class="btn-menu-profile" src="img/menu.png">
-            <ul class="menu-profile" id="menu">
-              <li class="menu-item-profile" id= "menu-item-profile">Perfil</a></li>
-              <li class="menu-item-profile" id= "sign-out">Sair</li>
+            <img class="btn-menu" src="img/menu.png">
+            <ul class="menu" id="menu">
+              <li class="menu-item" id= "menu-item">Home</a></li>
+              <li class="menu-item" id= "sign-out">Sair</li>
             </ul>
             <img class="header-logo-profile" src="img/LOGO-SH-SITE2.png" alt="Logo SafeHome">
           </header>
@@ -19,97 +25,41 @@ export default () => {
                 <div class="profile-content-profile">
                     <img class="user-photo-profile" src="img/Zai.jpeg"> 
                     <div class="pb-info-profile" id="pb-info">
-    
+                    <p class = "user-name" >${nameCurrent}</p>
+                    <p>${emailCurrent}</p>
+                    <p>${miniBioCurrent}</p>
                     </div>
                 </div>        
             </div>
           </section>
-        ` ;
-
-
-    container.innerHTML = template;
-  
-    container.querySelector("#sign-out").addEventListener("click", (event) =>{
-      event.preventDefault()
-      firebase.auth().signOut().then(function() {
-          window.location.hash = "login"
-      });
-    })
-
-    container.querySelector("#menu-item-profile").addEventListener("click",(event)=>{
-      event.preventDefault()
-      window.location.hash = "profile";
-    });
-
-    container.querySelector(".btn-menu-profile").addEventListener("click",(event)=>{
-      event.preventDefault()
-      container.querySelector(".btn-menu-profile").classList.toggle("hide")
-      container.querySelector(".menu-profile").classList.toggle("menu-items-show")
-    });
-
-    container.addEventListener("click",(event)=>{
-      event.preventDefault()
-      if (!event.target.matches(".btn-menu-profile")) {
-        container.querySelector(".btn-menu-profile").classList.remove("hide");
-        container.querySelector(".menu-profile").classList.remove("menu-items-show");
-      };
-    });
-
-    
-
-    // FIREBASE
-
-      //MOSTRAR INFOS
-
-    //const uidCurrent = firebase.auth().currentUser.uid;  
-
-    const infoPerfil = container.querySelector("#pb-info");   
-    
-    function mostrarDados(local, nameCurrent, emailCurrent){
-
-      firebase.auth().onAuthStateChanged(function(user) {
-        if (user) {
-          //const nameCurrent = firebase.auth().currentUser.displayName;
-          //const emailCurrent = firebase.auth().currentUser.email; 
-
-          let nome = document.createElement("p");
-          let email = document.createElement("p");
-          let miniBio = document.createElement("p");
+        ` ; 
+         
+        container.querySelector("#sign-out").addEventListener("click", (event) =>{
+          event.preventDefault()
+          firebase.auth().signOut().then(function() {
+              window.location.hash = "login"
+          });
+        })
       
-          nome.className += "user-name-profile";
-
-          nome.innerHTML = nameCurrent;
-          email.innerHTML = emailCurrent;
-          miniBio.innerHTML = "Escreva sua MiniBio";
-    
-          local.appendChild(nome);
-          local.appendChild(email);
-          local.appendChild(miniBio);
-        }
-      });
-    }
-
-  
-
-
-  firebase.auth().onAuthStateChanged(function(user) {
-    if (user) {
-      firebase.firestore().collection("users").where("uid", "==", firebase.auth().currentUser.uid )
-      .get()
-      .then(function(querySnapshot) {
-        querySnapshot.forEach(function(doc) {
-          const nameFirestore = doc.data().name;
-          const emailFirestore =  doc.data().email;
-          mostrarDados(infoPerfil, nameFirestore, emailFirestore);
-            
+        container.querySelector("#menu-item").addEventListener("click",(event)=>{
+          event.preventDefault()
+          window.location.hash = "home";
         });
-      })
-      .catch(function(error) {
-        console.log("Error getting documents: ", error);
-      });
-    }
-  })
-  
+      
+        container.querySelector(".btn-menu").addEventListener("click",(event)=>{
+          event.preventDefault()
+          container.querySelector(".btn-menu").classList.toggle("hide")
+          container.querySelector(".menu").classList.toggle("menu-items-show")
+        });
+      /*
+        container.addEventListener("click",(event)=>{
+          event.preventDefault()
+          if (!event.target.matches(".btn-menu")) {
+            container.querySelector(".btn-menu").classList.remove("hide");
+            container.querySelector(".menu").classList.remove("menu-items-show");
+          };
+        });
+      */
 
       //EDITAR INFOS
 
@@ -124,18 +74,25 @@ export default () => {
       <br>
       <input id = "mini-bio-value" type="text" class="edit-profile-input" placeholder="Digite aqui sua MiniBio"/>
       <br>
-      <input id = "new-password" type="password" class="edit-profile-input" placeholder="Digite aqui sua nova senha"/>
-      <!--
+      <input id = "new-password" type="text" class="edit-profile-input" placeholder="Digite aqui sua nova senha"/>
+      <br>
+      <input id = "old-password" type="password" class="edit-profile-confirm" placeholder="Digite aqui sua senha atual para confirmar as mudanças"/>
+      <br>
       <br>
       <label for="profile-image">Escolha sua imagem de perfil:</label>
+      <br>
       <input id = "profile-image" type="file"  name="profile-image" accept=".jpg, .jpeg, .png"/>
       <br>
-      
+      <br>
       <label for="cover-image">Escolha sua imagem de background:</label>
+      <br>
       <input id = "cover-image" type="file"  name="cover-image" accept=".jpg, .jpeg, .png"/>
-      -->
+      
+      <br>
       <br>
       <button id = "save-modifications" class = "save-profile-button" type="button">Salvar modificações</button>
+      <br>
+      <button id = "cancel-changes" class = "save-profile-button" type="button">Cancelar</button>
       </form>
       `;
 
@@ -145,26 +102,32 @@ export default () => {
         const newName = document.querySelector("#edit-name").value;
         const newEmail = document.querySelector("#edit-email").value;
         const newMinibio = document.querySelector("#mini-bio-value").value;
+        const newPassword = document.querySelector("#new-password").value;
+        const oldPassword = document.querySelector("#old-password").value;
         //const idUserOn = firebase.auth().currentUser.uid;
 
-
+            
             // PARA ATUALIZAR O displayName:  OK
             firebase.auth().currentUser.updateProfile({
               displayName: newName
             })
             
-            /* PARA ATUALIZAR EMAIL: PERGUNTAR
-            var credential;
+            //PARA ATUALIZAR EMAIL: OK       
+            const user = firebase.auth().currentUser;
+            const credential = firebase.auth.EmailAuthProvider.credential(
+              user.email, 
+              oldPassword
+            );
             
             firebase.auth().currentUser.reauthenticateWithCredential(credential).then(function() {
                 firebase.auth().currentUser.updateEmail(newEmail).then(function() {
                 })
-            }) 
-            */  
-         
-           // PARA ATUALIZAR MINIBIO: como selecionar o documento que armazena os dados do currentUser?
+            })          
+            
+          
+           // PARA ATUALIZAR MINIBIO: OK
            
-
+           
            firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
               firebase.firestore().collection("users").where("uid", "==", firebase.auth().currentUser.uid )
@@ -172,7 +135,17 @@ export default () => {
               .then(function(querySnapshot) {
                 querySnapshot.forEach(function(doc) {
                   
-                  console.log(docRef.id)
+                  firebase.firestore().collection("users").doc(doc.id).update({
+                    name: newName,
+                    email: newEmail,
+                    minibio: newMinibio
+                   })
+                   .then(function() {
+                       console.log("Document successfully updated!");
+                   })
+                   .catch(function(error) {
+                       console.error("Error updating document: ", error);
+                   });
                     
                 });
               })
@@ -180,33 +153,69 @@ export default () => {
                 console.log("Error getting documents: ", error);
               });
             }
-          })
+          })      
 
-
-           /*
-           firebase.firestore().collection("users").doc(docRef.id).update({
-            name: newName,
-            email: newEmail,
-            minibio: newMinibio
-           })
-           .then(function() {
-               console.log("Document successfully updated!");
-           })
-           .catch(function(error) {
-               console.error("Error updating document: ", error);
-           });
-           */
             
             document.getElementById("pb-info").innerHTML =`
             <p class = "user-name" >${newName}</p>
             <p>${newEmail}</p>
             <p>${newMinibio}</p>
             `;
+      })
+
+      document.querySelector("#cancel-changes").addEventListener("click", (event)=>{
+        event.preventDefault();
+
+
+        firebase.auth().onAuthStateChanged(function(user) {
+          if (user) {
+            firebase.firestore().collection("users").where("uid", "==", firebase.auth().currentUser.uid )
+            .get()
+            .then(function(querySnapshot) {
+              querySnapshot.forEach(function(doc) {
+                const nameFirestore = doc.data().name;
+                const emailFirestore =  doc.data().email;
+                const miniBioFirestore = doc.data().minibio;
+                document.getElementById("pb-info").innerHTML =`
+                  <p class = "user-name" >${nameFirestore}</p>
+                  <p>${emailFirestore}</p>
+                  <p>${miniBioFirestore}</p>
+                  `;              
+                  
+              });
+            })
+            .catch(function(error) {
+              console.log("Error getting documents: ", error);
+            });
+          }
+        })
 
       })
-    });
 
-    
+    });
+  
+            
+} //FECHA A FUNCTION MOSTRAR DADOS
+
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      firebase.firestore().collection("users").where("uid", "==", firebase.auth().currentUser.uid )
+      .get()
+      .then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+          const nameFirestore = doc.data().name;
+          const emailFirestore =  doc.data().email;
+          const minibioFirestore =  doc.data().minibio;
+
+          mostrarDados(nameFirestore, emailFirestore, minibioFirestore);
+            
+        });
+      })
+      .catch(function(error) {
+        console.log("Error getting documents: ", error);
+      });
+    }
+  })   
 
     return container;
   };
