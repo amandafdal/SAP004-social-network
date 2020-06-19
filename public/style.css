@@ -345,13 +345,6 @@ header {
   margin: 15px; 
 }
 
-header{
-  display: flex;
-  background-color: rgba(63, 6, 92, 1);
-  padding: 5px;
-  height: 40px;
-}
-
 .user-name-profile{
   font-weight: bold;
 }

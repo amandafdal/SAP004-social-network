@@ -65,12 +65,12 @@ export default () => {
 
     const infoPerfil = container.querySelector("#pb-info");   
     
-    function mostrarDados(local){
+    function mostrarDados(local, nameCurrent, emailCurrent){
 
       firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
-          const nameCurrent = firebase.auth().currentUser.displayName;
-          const emailCurrent = firebase.auth().currentUser.email; 
+          //const nameCurrent = firebase.auth().currentUser.displayName;
+          //const emailCurrent = firebase.auth().currentUser.email; 
 
           let nome = document.createElement("p");
           let email = document.createElement("p");
@@ -89,7 +89,7 @@ export default () => {
       });
     }
 
-  mostrarDados(infoPerfil);
+  
 
 
   firebase.auth().onAuthStateChanged(function(user) {
@@ -98,8 +98,10 @@ export default () => {
       .get()
       .then(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
-            console.log(doc.data().name);
-            console.log(doc.data().email);
+          const nameFirestore = doc.data().name;
+          const emailFirestore =  doc.data().email;
+          mostrarDados(infoPerfil, nameFirestore, emailFirestore);
+            
         });
       })
       .catch(function(error) {
@@ -111,7 +113,7 @@ export default () => {
 
       //EDITAR INFOS
 
-    container.querySelector("#edit-profile-button").addEventListener("click",(event)=>{
+      container.querySelector("#edit-profile-button").addEventListener("click",(event)=>{
       event.preventDefault();
 
       document.getElementById("pb-info").innerHTML = `
@@ -145,24 +147,55 @@ export default () => {
         const newMinibio = document.querySelector("#mini-bio-value").value;
         //const idUserOn = firebase.auth().currentUser.uid;
 
-        //firebase.auth().onAuthStateChanged(function(user) {
-          //if (user) {
 
+            // PARA ATUALIZAR O displayName:  OK
             firebase.auth().currentUser.updateProfile({
               displayName: newName
             })
             
+            /* PARA ATUALIZAR EMAIL: PERGUNTAR
+            var credential;
             
-            //var credential;
-            /*
             firebase.auth().currentUser.reauthenticateWithCredential(credential).then(function() {
-              
                 firebase.auth().currentUser.updateEmail(newEmail).then(function() {
-                
                 })
-
             }) 
-            */       
+            */  
+         
+           // PARA ATUALIZAR MINIBIO: como selecionar o documento que armazena os dados do currentUser?
+           
+
+           firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+              firebase.firestore().collection("users").where("uid", "==", firebase.auth().currentUser.uid )
+              .get()
+              .then(function(querySnapshot) {
+                querySnapshot.forEach(function(doc) {
+                  
+                  console.log(docRef.id)
+                    
+                });
+              })
+              .catch(function(error) {
+                console.log("Error getting documents: ", error);
+              });
+            }
+          })
+
+
+           /*
+           firebase.firestore().collection("users").doc(docRef.id).update({
+            name: newName,
+            email: newEmail,
+            minibio: newMinibio
+           })
+           .then(function() {
+               console.log("Document successfully updated!");
+           })
+           .catch(function(error) {
+               console.error("Error updating document: ", error);
+           });
+           */
             
             document.getElementById("pb-info").innerHTML =`
             <p class = "user-name" >${newName}</p>
@@ -170,8 +203,6 @@ export default () => {
             <p>${newMinibio}</p>
             `;
 
-          //}
-        //});
       })
     });
 
