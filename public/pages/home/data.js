@@ -23,3 +23,7 @@ export const logout = () => {
 export const deletePost = (postId) =>{
   firebase.firestore().collection("posts").doc(postId).delete()
 }
+export const editPost = (postId, textValue)=>{
+  firebase.firestore().collection("posts").doc(postId)
+    .update({text: textValue})
+}
