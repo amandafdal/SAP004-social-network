@@ -3,7 +3,6 @@
 export default () => {
     const container = document.createElement("div");
         
-
     // FIREBASE
       //MOSTRAR INFOS
 
@@ -12,7 +11,7 @@ export default () => {
          <header>
             <img class="btn-menu" src="img/menu.png">
             <ul class="menu" id="menu">
-              <li class="menu-item" id= "menu-item">Home</a></li>
+              <li class="menu-item" id= "menu-item-home">Home</a></li>
               <li class="menu-item" id= "sign-out">Sair</li>
             </ul>
             <img class="header-logo-profile" src="img/LOGO-SH-SITE2.png" alt="Logo SafeHome">
@@ -41,7 +40,7 @@ export default () => {
           });
         })
       
-        container.querySelector("#menu-item").addEventListener("click",(event)=>{
+        container.querySelector("#menu-item-home").addEventListener("click",(event)=>{
           event.preventDefault()
           window.location.hash = "home";
         });
@@ -51,7 +50,7 @@ export default () => {
           container.querySelector(".btn-menu").classList.toggle("hide")
           container.querySelector(".menu").classList.toggle("menu-items-show")
         });
-      /*
+      
         container.addEventListener("click",(event)=>{
           event.preventDefault()
           if (!event.target.matches(".btn-menu")) {
@@ -59,7 +58,7 @@ export default () => {
             container.querySelector(".menu").classList.remove("menu-items-show");
           };
         });
-      */
+      
 
       //EDITAR INFOS
 
@@ -130,7 +129,7 @@ export default () => {
            
            firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
-              firebase.firestore().collection("users").where("uid", "==", firebase.auth().currentUser.uid )
+              firebase.firestore().collection("users").where("uid", "==", firebase.auth().currentUser.uid)
               .get()
               .then(function(querySnapshot) {
                 querySnapshot.forEach(function(doc) {
@@ -199,6 +198,10 @@ export default () => {
 
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
+
+      //const nameUser = firebase.auth().currentUser.displayName;
+      //const emailUser = firebase.auth().currentUser.email;
+
       firebase.firestore().collection("users").where("uid", "==", firebase.auth().currentUser.uid )
       .get()
       .then(function(querySnapshot) {
