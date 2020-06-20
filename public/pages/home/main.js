@@ -116,9 +116,10 @@ export default () => {
     event.preventDefault()
     const post = {
       user: firebase.auth().currentUser.uid,
+      name: firebase.auth().currentUser.displayName,
       text: textPost.value,
       likes: 0,
-      comments: [],
+      date: new Date()
     };
     clearPosts();
     createPost(post);
