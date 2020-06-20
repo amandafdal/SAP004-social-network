@@ -5,23 +5,37 @@ export const register = (email, password, nameParameter, callback) => {
                         displayName: nameParameter
                     })
 
-                    firebase.auth().onAuthStateChanged(function(user) {
-                        if (user) {
+                    firebase.firestore().collection("users").get().then(function(querySnapshot) {
+                        const emailArray = [];
+                        querySnapshot.forEach(function(doc) {
+                            emailArray.push(doc.data().email);
+                        });
+            
+                        const booleanEmail = [];
+                        for (let value of emailArray) {
+                          booleanEmail.push(value == email);
+                        }  
+            
+                        const status = booleanEmail.indexOf(true);
+                        if(status == -1){
+                            console.log("Cria doc");
                             firebase.firestore().collection("users").doc().set({
-                                uid: firebase.auth().currentUser.uid,
-                                email: email,
-                                name: nameParameter,
-                                minibio: "Escreva sua MiniBio",
-                                profileimage: [],
-                                coverimage: []             
+                            uid: firebase.auth().currentUser.uid,
+                            email: email,
+                            name: nameParameter,
+                            minibio: "Escreva sua MiniBio",
+                            profileimage: [],
+                            coverimage: []             
                             }) 
-
-                            window.location.hash = "home"; 
+                            console.log("Email cadastrado com sucesso")
                         }
-                    })  
+                    })                                                
+                    window.location.hash = "home"; 
                 }) 
                 .catch(function (error) {
                     callback(error.message);
                 })       
 };
+
+
 

@@ -98,43 +98,11 @@ export default () =>{
         const passwordRegister = document.querySelector("#user-password").value;
         const passwordConfirmRegister = document.querySelector("#user-password-confirm").value;
         
-        //alert(nameRegister)
-        //alert(emailRegister)
-        //alert(passwordRegister)
-        //alert(passwordConfirmRegister)
-
-        
         if (passwordRegister !== passwordConfirmRegister) {
             document.getElementById("different-password").innerHTML = "Passwords are not the same";
             
         }else{
-            register(emailRegister, passwordRegister, nameRegister, messageError)
-            /*
-            firebase.auth().createUserWithEmailAndPassword(emailRegister, passwordRegister)
-                .then(() => {
-                    firebase.auth().currentUser.updateProfile({
-                        displayName: document.querySelector("#user-name").value
-                    })
-
-                    firebase.auth().onAuthStateChanged(function(user) {
-                        if (user) {
-                            firebase.firestore().collection("users").doc().set({
-                                uid: firebase.auth().currentUser.uid,
-                                email: document.querySelector("#user-email").value,
-                                name: document.querySelector("#user-name").value,
-                                minibio: "Escreva sua MiniBio",
-                                profileimage: [],
-                                coverimage: []             
-                            }) 
-
-                            window.location.hash = "home"; 
-                        }
-                    })  
-                }) 
-                .catch(function (error) {
-                    messageError(error.message);
-                }) 
-            */      
+            register(emailRegister, passwordRegister, nameRegister, messageError);
         } 
         
         
