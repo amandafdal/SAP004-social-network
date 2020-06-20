@@ -173,6 +173,7 @@ header {
   width: 100%;
   outline: none;
   margin-bottom: 10px;
+  padding: 0 4px;
 }
 .create-post-input::placeholder {
   font-family: "Dosis", sans-serif;
@@ -180,7 +181,7 @@ header {
 }
 .create-post-btns {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   width: 100%;
 }
 .post-btn,
@@ -206,12 +207,10 @@ header {
 }
 .icons {
   width: 16px;
-  padding: 2px 4px;
- 
+  padding: 0 8px;
 }
 .posts-container {
-    width: 91%;
-    padding: 15px;
+  width: 91%;
 }
 .post {
   display: flex;
@@ -221,31 +220,36 @@ header {
   border-radius: 4px;
   margin: 20px 0;
   font-family: "Dosis", sans-serif;
+  box-shadow: 53px 56px 112px -57px rgba(0,0,0,0.75);
+}
+.color-post {
+  background-color:   rgba(208, 172, 219, 0.5);
+  height: 34px;
 }
 .template-post {
-  display: flex;
-  flex-direction: space-around;
+  justify-content: space-between;
   width: 100%;
   padding: 0;
-  
+  align-items: center;
 }
 .post-top {
-  display: flex;
-  justify-content: space-between;
-  background-color:  rgba(208, 172, 219, 0.5);;
-  height: 30px;
-  
+  padding: 0 8px;
 }
 .post-middle {
   background-color: white;
   height: 75px;
   border: 1px solid #452657;
 }
-.post-botton {
+.post-content {
+  padding: 8px;
+}
+.position-post {
   display: flex;
-  justify-content: flex-start;
-  background-color:   rgba(208, 172, 219, 0.5);;
-  height: 30px;
+  flex-direction: row;
+}
+#delete {
+  display: flex;
+  flex-direction: flex-end;
 }
 #login-google {
   width: 26px;
@@ -313,5 +317,8 @@ header {
   }
   .create-post-box {
     width: 100%;
+  }
+  .posts-container {
+    width: 106%;
   }
 }
