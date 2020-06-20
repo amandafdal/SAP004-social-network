@@ -1,8 +1,8 @@
 import { createPost, watchPosts, logout, deletePost, editPost } from './data.js';
 export default () => {
   const container = document.createElement('div');
-  const template = /* html */ `
-  <header>
+  const template = `
+    <header>
       <img class="btn-menu" src="img/menu.png">
       <ul class="menu" id="menu">
         <li class="menu-item" id= "menu-item-profile">Perfil</a></li>
@@ -25,7 +25,6 @@ export default () => {
         <div class="create-post-box" id="create-post">
           <textarea style="resize: none" class="create-post-input" id="create-post-input" rows="5" placeholder="Como você está se sentindo?"></textarea>
           <div class="create-post-btns">
-            <button class="upload-img-btn" id="upload-img-btn"><img class="upload-img-icon" src="img/picture.png"></button>
             <button type="submit" class="post-btn" id="post-btn">Postar</button>
           </div>
         </div>
@@ -43,16 +42,18 @@ export default () => {
   const displayPost = (newPost) => {
     const postTemplate = document.createElement("div");
     postTemplate.classList.add("post");
-    postTemplate.innerHTML = /* html */`
-      <div class="template-post post-top">
-        <span>${newPost.data().name}</span>
-        <img class="icons" src="./img/publicit2.svg" alt="Publicidade do Post" />
+    postTemplate.innerHTML = `
+      <div class = "color-post template-post position-post">
+        <div class = "post-top">
+          <span>${newPost.data().name}</span>
+          <img class = "icons" src="./img/publicit2.svg" alt = "Publicidade do Post" />
+        </div>
         <img
-          class="icons"
-          src="./img/delete.svg"
-          alt="Deletar Post"
-          id="delete-btn"
-          data-id="${newPost.id}"
+          class = "icons"
+          src = "./img/delete.svg"
+          alt = "Deletar Post"
+          id = "delete-btn"
+          data-id = "${newPost.id}"
         />
       </div>
       <div class="template-post post-middle">
@@ -61,10 +62,11 @@ export default () => {
         </textarea>
         <button id="save-edit-btn" data-id="${newPost.id}" class="hide">Save</button>
       </div>
-      <div class="template-post post-botton">
-        <img class="icons" src="./img/like.svg" alt="Like" />
-        <img class="icons" src="./img/comment.svg" alt="Comentar Post" />
-        <img id="edit-btn" data-id="${newPost.id}" class="icons" src="./img/edit.svg" alt="Editar Post" />
+      <div class = "color-post template-post position-post">
+        <div class = "position-post">
+          <img class = "icons" src = "./img/like.svg" alt = "Like" />
+        </div>
+        <img id = "edit-btn" data-id="${newPost.id}" class = "icons icon-edit" src = "./img/edit.svg" alt = "Editar Post" />
       </div>
     </div>
     `;
@@ -120,9 +122,9 @@ export default () => {
       likes: 0,
       comments: [],
     };
-    clearPosts();
+    // clearPosts();
     createPost(post);
-    textPost.value="";
+    textPost.value = "";
   })
   watchPosts(displayPost)
 
@@ -150,3 +152,7 @@ export default () => {
   });
   return container;
 };
+
+
+ // <img class = "icons" src = "./img/comment.svg" alt = "Comentar Post" />
+ // <button class="upload-img-btn" id="upload-img-btn"><img class="upload-img-icon" src="img/picture.png"></button>
