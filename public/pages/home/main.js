@@ -44,7 +44,7 @@ export default () => {
       <div class = "color-post template-post position-post">
         <div class = "post-top">
           <span>${newPost.data().name}</span>
-          <img class = "icons" src="./img/publicit2.svg" alt = "Publicidade do Post" />
+          <img id="privacy-btn" class = "icons" src="./img/publicit2.svg" alt = "Publicidade do Post" />
         </div>
         <img
           class = "icons"
@@ -69,6 +69,7 @@ export default () => {
 
     const editBtn = postTemplate.querySelector(`#edit-btn[data-id="${newPost.id}"]`);
     const deleteBtn = postTemplate.querySelector(`#delete-btn[data-id="${newPost.id}"]`);
+    const privacyBtn = postTemplate.querySelector(`#privacy-btn`)
     if (newPost.data().user !== firebase.auth().currentUser.uid) {
       deleteBtn.style.display = "none";
       editBtn.style.display = "none";
@@ -78,6 +79,16 @@ export default () => {
       event.preventDefault()
       // clearPosts()
       deletePost(deleteId)
+    })
+
+    privacyBtn.addEventListener("click", (event) => {
+      const banana = privacyBtn.dataset.privacy;
+      event.preventDefault();
+      
+      console.log(banana);
+      // const privacyPost = dataset.privacy;
+      // const privacyId = dataset.id;
+      // editPrivacy(privacyId, privacyPost);
     })
   }
   postBtn.addEventListener("click", (event) => {
@@ -105,6 +116,7 @@ export default () => {
     window.location.hash = "profile"
   });
 
+  
   container.querySelector(".btn-menu").addEventListener("click", (event) => {
     event.preventDefault()
     container.querySelector(".btn-menu").classList.toggle("hide")
@@ -123,3 +135,6 @@ export default () => {
 
  // <img class = "icons" src = "./img/comment.svg" alt = "Comentar Post" />
  // <button class="upload-img-btn" id="upload-img-btn"><img class="upload-img-icon" src="img/picture.png"></button>
+
+
+ 

@@ -23,3 +23,12 @@ export const logout = () => {
 export const deletePost = (postId) =>{
   firebase.firestore().collection("posts").doc(postId).delete()
 }
+
+export const editPrivacy = (id, privacyPost) => {
+  db.collection('post').add({
+    privacy: true,
+})
+  firebase.firestore().collection('post').doc(id).update({
+    privacy: privacyPost,
+  })
+}
