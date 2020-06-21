@@ -1,6 +1,19 @@
 import { createPost, watchPosts, logout, deletePost, editPost } from './data.js';
+
 export default () => {
+
+
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+        const nameAuth = firebase.auth().currentUser.displayName;
+        const emailAuth = firebase.auth().currentUser.email;
+        showData(nameAuth, emailAuth)
+    }
+  })
+
+
   const container = document.createElement('div');
+  function showData(nameUser, emailUser){
   const template = /* html */ `
   <header>
       <img class="btn-menu" src="img/menu.png">
@@ -16,8 +29,8 @@ export default () => {
         <div class="profile-content">
           <img class="user-photo" src="img/mimi.png">
           <div class="pb-info" id="pb-info">
-            <p class="user-name">Amanda</p>
-            <p class="user-bio">Estudante da Lab</p>
+          <p class = "user-name" >${nameUser}</p>
+          <p>${emailUser}</p>
           </div>
         </div>
       </div>
@@ -148,5 +161,46 @@ export default () => {
       container.querySelector(".menu").classList.remove("menu-items-show");
     };
   });
+}//FECHA A FUNÇÃO SHOW DATA
   return container;
 };
+
+//----------------------------------------------------------------------------------------------
+/*
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    firebase.firestore().collection("users").where("uid", "==", firebase.auth().currentUser.uid )
+    .get()
+    .then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        const nameFirestore = doc.data().name;
+        const emailFirestore =  doc.data().email;
+
+      const nameUser = firebase.auth().currentUser.displayName;
+      const emailUser = firebase.auth().currentUser.email;
+
+        document.querySelector("#pb-info").innerHTML =`
+        <p class = "user-name" >${firebase.auth().currentUser.displayName}</p>
+        <p>${firebase.auth().currentUser.email}</p>
+        `;       
+          
+      });
+    })
+    .catch(function(error) {
+      console.log("Error getting documents: ", error);
+    });
+  }
+})
+
+
+
+
+firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+        const nameUser = firebase.auth().currentUser.displayName;
+        const emailUser = firebase.auth().currentUser.email;
+    }
+  })
+*/
+
+

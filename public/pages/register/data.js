@@ -9,7 +9,7 @@ export const register = (email, password, nameParameter, callback) => {
                         const emailArray = [];
                         querySnapshot.forEach(function(doc) {
                             emailArray.push(doc.data().email);
-                        });
+                        })
             
                         const booleanEmail = [];
                         for (let value of emailArray) {
@@ -17,8 +17,8 @@ export const register = (email, password, nameParameter, callback) => {
                         }  
             
                         const status = booleanEmail.indexOf(true);
+
                         if(status == -1){
-                            console.log("Cria doc");
                             firebase.firestore().collection("users").doc().set({
                             uid: firebase.auth().currentUser.uid,
                             email: email,
@@ -28,14 +28,15 @@ export const register = (email, password, nameParameter, callback) => {
                             coverimage: []             
                             }) 
                             console.log("Email cadastrado com sucesso")
-                        }
-                    })                                                
-                    window.location.hash = "home"; 
-                }) 
+                            window.location.hash = "home"; 
+                        }    
+                    })                                               
+                    
+                })
                 .catch(function (error) {
                     callback(error.message);
                 })       
-};
+}
 
 
 
