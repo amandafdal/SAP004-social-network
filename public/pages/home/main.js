@@ -5,9 +5,15 @@ export default () => {
 
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
+
         const nameAuth = firebase.auth().currentUser.displayName;
         const emailAuth = firebase.auth().currentUser.email;
-        showData(nameAuth, emailAuth)
+
+        if(typeof nameAuth !== 'string'){
+          showData("Que bom ter você conosco!", emailAuth) 
+        }else{
+          showData(nameAuth, emailAuth) 
+        }   
     }
   })
 
