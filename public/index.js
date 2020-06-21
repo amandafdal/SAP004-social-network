@@ -2,11 +2,7 @@ import routes from "./routes.js";
 
 const main = document.querySelector("#root");
 
-const init = () => {
-    window.addEventListener("hashchange", () => {
-        renderPage();
-    });
-};
+const validateHash = (hash) => hash === "" ? "login" : hash.replace("#", "");
 
 const renderPage = () => {
     main.innerHTML = "";
@@ -14,7 +10,11 @@ const renderPage = () => {
     main.appendChild(routes[page]);
 };
 
-const validateHash = (hash) => hash === "" ? "login" : hash.replace("#", "");
+const init = () => {
+    window.addEventListener("hashchange", () => {
+        renderPage();
+    });
+};
 
 window.addEventListener("load", () => {
     renderPage();

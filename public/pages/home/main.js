@@ -10,7 +10,7 @@ export default () => {
       </ul>
       <img class="header-logo" src="img/LOGO-SH-SITE2.png" alt="Logo SafeHome">
     </header>
-    <section class="home-page">
+    <section class="home-page flex-column">
       <div class="profile-box" id="profile-box">
         <img class="user-cover-img" src="img/cover-img.jpg">
         <div class="profile-content">
@@ -21,8 +21,8 @@ export default () => {
           </div>
         </div>
       </div>
-      <div class="feed">
-        <div class="create-post-box" id="create-post">
+      <div class="feed flex-column">
+        <div class="create-post-box flex-column" id="create-post">
           <textarea style="resize: none" class="create-post-input" id="create-post-input" rows="5" placeholder="Como você está se sentindo?"></textarea>
           <div class="create-post-btns">
             <button type="submit" class="post-btn" id="post-btn">Postar</button>
@@ -42,10 +42,11 @@ export default () => {
   const displayPost = (newPost) => {
     const postTemplate = document.createElement("div");
     postTemplate.classList.add("post");
+    postTemplate.classList.add("flex-column");
     postTemplate.innerHTML = `
       <div class = "color-post template-post position-post">
         <div class = "post-top">
-          <span>${newPost.data().name}</span>
+          <span class="name-post">${newPost.data().name}</span>
           <img class = "icons" src="./img/publicit2.svg" alt = "Publicidade do Post" />
         </div>
         <img
@@ -57,16 +58,18 @@ export default () => {
         />
       </div>
       <div class="template-post post-middle">
-        <textarea disabled style="resize: none" id="text-post" data-id="${newPost.id}">
-          ${newPost.data().text}
+        <textarea disabled style="resize: none" rows="4" class="edit-post-input" 
+          id="text-post" data-id="${newPost.id}"> ${newPost.data().text}
         </textarea>
-        <button id="save-edit-btn" data-id="${newPost.id}" class="hide">Save</button>
       </div>
       <div class = "color-post template-post position-post">
         <div class = "position-post">
           <img class = "icons" src = "./img/like.svg" alt = "Like" />
         </div>
-        <img id = "edit-btn" data-id="${newPost.id}" class = "icons icon-edit" src = "./img/edit.svg" alt = "Editar Post" />
+        <img id = "edit-btn" data-id="${newPost.id}" class = "icons icon-edit" 
+          src = "./img/edit.svg" alt = "Editar Post" />
+        <img id="save-edit-btn" data-id="${newPost.id}" class="hide save-icon" 
+          src="./img/checkmark.svg" alt = "Salvar edição"/>
       </div>
     </div>
     `;
@@ -94,6 +97,7 @@ export default () => {
 
     editBtn.addEventListener("click", (event) =>{
       saveEditBtn.style.display = "inline-block";
+      editBtn.style.display = "none";
       editInput.removeAttribute('disabled');
     })
 
@@ -104,6 +108,7 @@ export default () => {
       clearPosts();
       editPost(editId, editPostValue);
       saveEditBtn.style.display = "none";
+      editBtn.style.display = "inline-block";
       editInput.setAttribute('disabled', true);
     }); 
     
