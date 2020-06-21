@@ -16,8 +16,8 @@ Color Theme Swatches in RGBA
 
 font-family: 'Dosis', sans-serif;
 */
-/* Páginas de login e resgistro */
-.login-page {
+
+.flex-column { 
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -31,9 +31,6 @@ font-family: 'Dosis', sans-serif;
   margin-bottom: 15px;
 }
 .login-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   width: 70%;
   margin: 20px;
   padding: 15px;
@@ -83,8 +80,6 @@ font-family: 'Dosis', sans-serif;
   font-weight: bold;
   text-decoration: none;
 }
-
-/* home */
 header {
   display: flex;
   background-color: rgba(63, 6, 92, 1);
@@ -115,19 +110,13 @@ header {
   font-size: 18px;
   padding: 5px;
 }
-.menu-item a {
-  color: rgba(208, 172, 219, 1);
-  text-decoration: none;
-}
+
 .header-logo {
   height: inherit;
   margin: 0px auto;
 }
 .home-page,
 .feed {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   width: 100%;
 }
 .profile-box {
@@ -158,9 +147,6 @@ header {
   font-weight: bold;
 }
 .create-post-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   background-color: rgba(208, 172, 219, 0.5);
   border: 1px solid rgba(69, 38, 87, 1);
   border-radius: 4px;
@@ -173,6 +159,7 @@ header {
   width: 100%;
   outline: none;
   margin-bottom: 10px;
+  padding: 0 4px;
 }
 .create-post-input::placeholder {
   font-family: "Dosis", sans-serif;
@@ -180,7 +167,7 @@ header {
 }
 .create-post-btns {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   width: 100%;
 }
 .post-btn,
@@ -197,55 +184,63 @@ header {
   font-weight: bold;
   width: 80px;
 }
-.upload-img-btn {
-  width: 30px;
-  padding: 3px 3px 0px 2px;
-}
-.upload-img-icon {
-  width: 15px;
-}
 .icons {
-  width: 16px;
-  padding: 2px 4px;
- 
+  width: 20px;
+  padding: 0 8px;
+}
+.save-icon{
+  width: 25px;
+  padding: 0 8px;
 }
 .posts-container {
-    width: 91%;
-    padding: 15px;
+  width: 91%;
 }
 .post {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   border: 1px solid rgba(69, 38, 87, 1); 
   border-radius: 4px;
   margin: 20px 0;
   font-family: "Dosis", sans-serif;
+  box-shadow: 53px 56px 112px -57px rgba(0,0,0,0.75);
+}
+.color-post {
+  background-color:   rgba(208, 172, 219, 0.5);
+  height: 34px;
 }
 .template-post {
-  display: flex;
-  flex-direction: space-around;
+  justify-content: space-between;
   width: 100%;
   padding: 0;
-  
+  align-items: center;
 }
 .post-top {
-  display: flex;
-  justify-content: space-between;
-  background-color:  rgba(208, 172, 219, 0.5);;
-  height: 30px;
-  
+  padding: 0 8px;
+}
+.name-post {
+  font-size: 20px;
 }
 .post-middle {
   background-color: white;
-  height: 75px;
+  height: fit-content;
   border: 1px solid #452657;
 }
-.post-botton {
+.edit-post-input{
+  font-family: "Dosis", sans-serif;
+  font-size: 16px;
+  border: none;
+  outline: none;
+  background-color: white;
+  width: 100%;
+}
+.post-content {
+  padding: 8px;
+}
+.position-post {
   display: flex;
-  justify-content: flex-start;
-  background-color:   rgba(208, 172, 219, 0.5);;
-  height: 30px;
+  flex-direction: row;
+}
+#delete {
+  display: flex;
+  flex-direction: flex-end;
 }
 #login-google {
   width: 26px;
@@ -393,7 +388,6 @@ header {
 
 
 @media only screen and (min-width: 768px) {
-  /* Páginas de login e resgistro */
   .login-page {
     flex-direction: row;
     justify-content: space-evenly;
@@ -412,8 +406,7 @@ header {
     margin: 20px;
     padding: 15px;
   }
-  /* home */
-  .home-page {
+ .home-page {
     flex-direction: row;
     margin-top: 30px;
     align-items: flex-start;
@@ -449,6 +442,7 @@ header {
   .create-post-box {
     width: 100%;
   }
+<<<<<<< HEAD
 
   /* PROFILE */
   .btn-menu-profile{
@@ -468,4 +462,9 @@ header {
     justify-content: center;  
   }
 
+=======
+  .posts-container {
+    width: 106%;
+  }
+>>>>>>> eab69329a6496a08b9c7033f41d615631130487f
 }

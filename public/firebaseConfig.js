@@ -1,5 +1,4 @@
-// Your web app's Firebase configuration
-var firebaseConfig = {
+const firebaseConfig = {
     apiKey: "AIzaSyB4F3KNbEFeCnv1d6co1uMamZ1RUO7XFaw",
     authDomain: "social-network-sap004.firebaseapp.com",
     databaseURL: "https://social-network-sap004.firebaseio.com",
@@ -10,6 +9,8 @@ var firebaseConfig = {
     measurementId: "G-NBY92F5JQY"
     };
     
+<<<<<<< HEAD
     // Initialize Firebase
+=======
+>>>>>>> eab69329a6496a08b9c7033f41d615631130487f
     firebase.initializeApp(firebaseConfig);
-    //firebase.analytics();

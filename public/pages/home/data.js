@@ -1,5 +1,6 @@
 export const watchPosts = (callback)=>{
   firebase.firestore().collection("posts")
+    .orderBy("date", "desc")
     .onSnapshot((querySnapshot) => {
       querySnapshot.forEach((newPost) => {
         callback(newPost);
