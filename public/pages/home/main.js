@@ -128,7 +128,7 @@ export default () => {
       likes: 0,
       date: new Date()
     };
-    // clearPosts();
+    clearPosts();
     createPost(post);
     textPost.value = "";
   })
