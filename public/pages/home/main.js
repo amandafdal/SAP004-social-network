@@ -1,4 +1,4 @@
-import { createPost, watchPosts, logout, deletePost } from './data.js';
+import { createPost, watchPosts, logout, deletePost, editPost, editPrivacy } from './data.js';
 export default () => {
   const container = document.createElement('div');
   const template = `
@@ -23,7 +23,7 @@ export default () => {
       </div>
       <div class="feed">
         <div class="create-post-box" id="create-post">
-          <textarea class="create-post-input" id="create-post-input" rows="5" placeholder="Como você está se sentindo?"></textarea>
+          <textarea style="resize: none" class="create-post-input" id="create-post-input" rows="5" placeholder="Como você está se sentindo?"></textarea>
           <div class="create-post-btns">
             <button type="submit" class="post-btn" id="post-btn">Postar</button>
           </div>
@@ -32,10 +32,12 @@ export default () => {
       </div>
     </section>
   `;
-  container.innerHTML = template
+  container.innerHTML = template;
+  const clearPosts = () => postContainer.innerHTML = "";
 
   const postBtn = container.querySelector("#post-btn");
   const postContainer = container.querySelector("#posts-container");
+  const textPost = container.querySelector("#create-post-input");
 
   const displayPost = (newPost) => {
     const postTemplate = document.createElement("div");
@@ -44,7 +46,7 @@ export default () => {
       <div class = "color-post template-post position-post">
         <div class = "post-top">
           <span>${newPost.data().name}</span>
-          <img id="privacy-btn" class = "icons" src="./img/publicit2.svg" alt = "Publicidade do Post" />
+          <img id="privacy-btn"  data-id = "${newPost.id}" class = "icons" src="./img/publicit2.svg" alt = "Publicidade do Post" />
         </div>
         <img
           class = "icons"
@@ -54,8 +56,11 @@ export default () => {
           data-id = "${newPost.id}"
         />
       </div>
-      <div class = "template-post post-middle position-post">
-        <span class="post-content">${newPost.data().text}</span>
+      <div class="template-post post-middle">
+        <textarea disabled style="resize: none" id="text-post" data-id="${newPost.id}">
+          ${newPost.data().text}
+        </textarea>
+        <button id="save-edit-btn" data-id="${newPost.id}" class="hide">Save</button>
       </div>
       <div class = "color-post template-post position-post">
         <div class = "position-post">
@@ -67,40 +72,67 @@ export default () => {
     `;
     postContainer.appendChild(postTemplate);
 
-    const editBtn = postTemplate.querySelector(`#edit-btn[data-id="${newPost.id}"]`);
     const deleteBtn = postTemplate.querySelector(`#delete-btn[data-id="${newPost.id}"]`);
-    const privacyBtn = postTemplate.querySelector(`#privacy-btn`)
-    if (newPost.data().user !== firebase.auth().currentUser.uid) {
-      deleteBtn.style.display = "none";
-      editBtn.style.display = "none";
+    const editBtn = postTemplate.querySelector(`#edit-btn[data-id="${newPost.id}"]`);
+    const saveEditBtn = postTemplate.querySelector(`#save-edit-btn[data-id="${newPost.id}"]`);
+    const editInput = postTemplate.querySelector(`#text-post[data-id="${newPost.id}"]`);
+    const privacyBtn = postTemplate.querySelector(`#privacy-btn[data-id="${newPost.id}"]`);
+
+    const validateUser = () => {
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          if (newPost.data().user !== firebase.auth().currentUser.uid) {
+            deleteBtn.style.display = "none";
+            editBtn.style.display = "none";
+          } else {
+            deleteBtn.style.display = "inline-block";
+            editBtn.style.display = "inline-block";
+          }
+        }
+      });
     }
-    deleteBtn.addEventListener("click", (event) => {
-      const deleteId = deleteBtn.dataset.id;
-      event.preventDefault()
-      // clearPosts()
-      deletePost(deleteId)
+    validateUser()
+
+    editBtn.addEventListener("click", (event) => {
+      saveEditBtn.style.display = "inline-block";
+      editInput.removeAttribute('disabled');
     })
 
-    privacyBtn.addEventListener("click", (event) => {
-      const banana = privacyBtn.dataset.privacy;
+    saveEditBtn.addEventListener("click", (event) => {
       event.preventDefault();
+      const editId = saveEditBtn.dataset.id;
+      const editPostValue = editInput.value;
+      clearPosts();
+      editPost(editId, editPostValue);
+      saveEditBtn.style.display = "none";
+      editInput.setAttribute('disabled', true);
+    });
+
+    deleteBtn.addEventListener("click", (event) => {
+      event.preventDefault();
+      const deleteId = deleteBtn.dataset.id;
+      clearPosts();
+      deletePost(deleteId);
+    });
+
+    privacyBtn.addEventListener("click", (event) => {
+      event.preventDefault();
+
+      const id = privacyBtn.dataset.id;
       
-      console.log(banana);
-      // const privacyPost = dataset.privacy;
-      // const privacyId = dataset.id;
-      // editPrivacy(privacyId, privacyPost);
-    })
-  }
+      console.log(id);
+    });
+
+  };
   postBtn.addEventListener("click", (event) => {
     event.preventDefault()
-    const textPost = container.querySelector("#create-post-input");
     const post = {
       user: firebase.auth().currentUser.uid,
       text: textPost.value,
       likes: 0,
-      comments: [],
+      privacy: true,
     };
-    // clearPosts();
+    clearPosts();
     createPost(post);
     textPost.value = "";
   })
@@ -116,7 +148,7 @@ export default () => {
     window.location.hash = "profile"
   });
 
-  
+
   container.querySelector(".btn-menu").addEventListener("click", (event) => {
     event.preventDefault()
     container.querySelector(".btn-menu").classList.toggle("hide")
@@ -137,4 +169,10 @@ export default () => {
  // <button class="upload-img-btn" id="upload-img-btn"><img class="upload-img-icon" src="img/picture.png"></button>
 
 
- 
+
+//  const banana = privacyBtn.dataset.id;
+//  if (valor === true) {
+//    editPrivacy (banana,false)
+//  } else {
+//    editPrivacy (banana, true)
+//  }

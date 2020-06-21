@@ -25,10 +25,11 @@ export const deletePost = (postId) =>{
 }
 
 export const editPrivacy = (id, privacyPost) => {
-  db.collection('post').add({
-    privacy: true,
-})
-  firebase.firestore().collection('post').doc(id).update({
+  firebase.firestore().collection("posts").doc(id).update({
     privacy: privacyPost,
   })
+}
+export const editPost = (postId, textValue)=>{
+  firebase.firestore().collection("posts").doc(postId)
+    .update({text: textValue})
 }
