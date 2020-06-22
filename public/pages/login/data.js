@@ -30,7 +30,6 @@ export const loginGoogle = () => {
                 }    
             }) 
 
-            window.location.hash = "home";
         });
 };
 

@@ -1,7 +1,6 @@
 import { createPost, watchPosts, logout, deletePost, editPost } from './data.js';
 
 export default () => {
-  console.log("home")
 
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
@@ -178,45 +177,6 @@ const template = `
 }//FECHA A FUNÇÃO SHOW DATA
   return container;
 };
-
-//----------------------------------------------------------------------------------------------
-/*
-firebase.auth().onAuthStateChanged(function(user) {
-  if (user) {
-    firebase.firestore().collection("users").where("uid", "==", firebase.auth().currentUser.uid )
-    .get()
-    .then(function(querySnapshot) {
-      querySnapshot.forEach(function(doc) {
-        const nameFirestore = doc.data().name;
-        const emailFirestore =  doc.data().email;
-
-      const nameUser = firebase.auth().currentUser.displayName;
-      const emailUser = firebase.auth().currentUser.email;
-
-        document.querySelector("#pb-info").innerHTML =`
-        <p class = "user-name" >${firebase.auth().currentUser.displayName}</p>
-        <p>${firebase.auth().currentUser.email}</p>
-        `;       
-          
-      });
-    })
-    .catch(function(error) {
-      console.log("Error getting documents: ", error);
-    });
-  }
-})
-
-
-
-
-firebase.auth().onAuthStateChanged(function(user) {
-    if (user) {
-        const nameUser = firebase.auth().currentUser.displayName;
-        const emailUser = firebase.auth().currentUser.email;
-    }
-  })
-*/
-
 
 
  // <img class = "icons" src = "./img/comment.svg" alt = "Comentar Post" />
