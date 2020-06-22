@@ -3,7 +3,7 @@ import login from "./pages/login/main.js"
 import home from "./pages/home/main.js"
 
 export default{
-    register: register(),
-    login: login(),
-    home: home(),
+    register,
+    login,
+    home,
 };

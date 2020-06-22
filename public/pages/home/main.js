@@ -47,7 +47,8 @@ export default () => {
       <div class = "color-post template-post position-post">
         <div class = "post-top">
           <span class="name-post">${newPost.data().name}</span>
-          <img id="privacy-btn"  data-id = "${newPost.id}" class = "icons" src="./img/publicit2.svg" alt = "Publicidade do Post" />
+          <img id="privacy-btn"  data-id = "${newPost.id}" class = "icons" src="./img/privacy.svg" alt = "Post Privado" />
+          <img id="public-btn"  data-id = "${newPost.id}" class = "icons" src="./img/public.svg" alt = "Post Publico" />
         </div>
         <img
           class = "icons"
@@ -81,6 +82,7 @@ export default () => {
     const saveEditBtn = postTemplate.querySelector(`#save-edit-btn[data-id="${newPost.id}"]`);
     const editInput = postTemplate.querySelector(`#text-post[data-id="${newPost.id}"]`);
     const privacyBtn = postTemplate.querySelector(`#privacy-btn[data-id="${newPost.id}"]`);
+    const publicBtn = postTemplate.querySelector(`#public-btn[data-id="${newPost.id}"]`)
 
     const validateUser = () => {
       firebase.auth().onAuthStateChanged(function (user) {
@@ -88,16 +90,34 @@ export default () => {
           if (newPost.data().user !== firebase.auth().currentUser.uid) {
             deleteBtn.style.display = "none";
             editBtn.style.display = "none";
-            privacyBtn.style.display = "none";
           } else {
             deleteBtn.style.display = "inline-block";
             editBtn.style.display = "inline-block";
-            privacyBtn.style.display = "inline-block";
           }
         }
       });
     }
     validateUser()
+
+    const privacyIcon = () => {
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          if (newPost.data().user !== firebase.auth().currentUser.uid) {
+            privacyBtn.style.display = "none";
+            publicBtn.style.display = "none";
+
+          } else if (newPost.data().user === firebase.auth().currentUser.uid && newPost.data().privacy === true) {
+            privacyBtn.style.display = "inline-block";
+            publicBtn.style.display = "none";
+
+          } else {
+            privacyBtn.style.display = "none";
+            publicBtn.style.display = "inline-block";
+          }
+        }
+      });
+    }
+    privacyIcon();
 
     editBtn.addEventListener("click", (event) => {
       saveEditBtn.style.display = "inline-block";
@@ -123,8 +143,7 @@ export default () => {
       deletePost(deleteId);
     });
 
-    privacyBtn.addEventListener("click", (event) => {
-      event.preventDefault();
+    const privacy = () => {
       const id = privacyBtn.dataset.id;
       const db = newPost.data().privacy;
       clearPosts();
@@ -132,11 +151,20 @@ export default () => {
         editPrivacy(id, false)
         console.log(false)
       } else {
-        editPrivacy(id, true)
+        editPrivacy(id, true);
         console.log(true)
       }
+    }
+
+    privacyBtn.addEventListener("click", (event) => {
+      event.preventDefault();
+      privacy();      
     });
 
+    publicBtn.addEventListener("click", (event) => {
+      event.preventDefault();
+     privacy();
+    });
   };
   postBtn.addEventListener("click", (event) => {
     event.preventDefault()
