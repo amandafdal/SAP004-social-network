@@ -173,7 +173,3 @@ export default () => {
   });
   return container;
 };
-
-
- // <img class = "icons" src = "./img/comment.svg" alt = "Comentar Post" />
- // <button class="upload-img-btn" id="upload-img-btn"><img class="upload-img-icon" src="img/picture.png"></button>
