@@ -1,7 +1,7 @@
 import { createPost, watchPosts, logout, deletePost, editPost } from './data.js';
 
 export default () => {
-
+  console.log("home")
 
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
@@ -18,15 +18,10 @@ export default () => {
   })
 
 
-  const container = document.createElement('div');
-<<<<<<< HEAD
-  function showData(nameUser, emailUser){
-  const template = /* html */ `
-  <header>
-=======
-  const template = `
+const container = document.createElement('div');
+function showData(nameUser, emailUser){  
+const template = `
     <header>
->>>>>>> eab69329a6496a08b9c7033f41d615631130487f
       <img class="btn-menu" src="img/menu.png">
       <ul class="menu" id="menu">
         <li class="menu-item" id= "menu-item-profile">Perfil</a></li>
@@ -184,7 +179,6 @@ export default () => {
   return container;
 };
 
-<<<<<<< HEAD
 //----------------------------------------------------------------------------------------------
 /*
 firebase.auth().onAuthStateChanged(function(user) {
@@ -224,8 +218,6 @@ firebase.auth().onAuthStateChanged(function(user) {
 */
 
 
-=======
 
  // <img class = "icons" src = "./img/comment.svg" alt = "Comentar Post" />
  // <button class="upload-img-btn" id="upload-img-btn"><img class="upload-img-icon" src="img/picture.png"></button>
->>>>>>> eab69329a6496a08b9c7033f41d615631130487f

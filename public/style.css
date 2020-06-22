@@ -442,29 +442,7 @@ header {
   .create-post-box {
     width: 100%;
   }
-<<<<<<< HEAD
-
-  /* PROFILE */
-  .btn-menu-profile{
-    display: none;
-  }
-
-  .menu-profile{
-    display: flex;
-    justify-content: space-between;
-    position: absolute;
-    width: 90%;
-  }
-
-  .home-page-profile{
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: center;  
-  }
-
-=======
   .posts-container {
     width: 106%;
   }
->>>>>>> eab69329a6496a08b9c7033f41d615631130487f
 }

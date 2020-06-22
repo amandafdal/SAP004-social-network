@@ -1,9 +1,13 @@
-//import { } from './data.js';
+import { updateDisplayName,
+         updateUserDoc,
+         reauthenticateUser,
+         emailUpdate,
+         passwordUpdate } from './data.js';
 
 
 export default () => {
-
-
+  
+  
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
 
@@ -27,9 +31,9 @@ export default () => {
       });
     }
   })
-
   
     const container = document.createElement("div");
+      
     
     // FIREBASE
       //MOSTRAR INFOS
@@ -80,22 +84,22 @@ export default () => {
           container.querySelector(".btn-menu").classList.toggle("hide")
           container.querySelector(".menu").classList.toggle("menu-items-show")
         });
-      
+      /*
         container.addEventListener("click",(event)=>{
           event.preventDefault()
           if (!event.target.matches(".btn-menu")) {
             container.querySelector(".btn-menu").classList.remove("hide");
             container.querySelector(".menu").classList.remove("menu-items-show");
-          };
-        });
-      
+          }
+        })
+      */
 
     //EDITAR INFOS
     container.querySelector("#edit-profile-button").addEventListener("click",()=>{
       //event.preventDefault();
 
       document.getElementById("pb-info-profile").innerHTML = `
-      <form method="post" enctype="multipart/form-data">
+      <form>
         <input id = "edit-name" type="text" class="edit-profile-input" placeholder="Digite aqui seu nome"/>
         <br>
         <input id = "edit-email" type="email" class="edit-profile-input" placeholder="Digite aqui seu email"/>
@@ -117,9 +121,9 @@ export default () => {
         <input id = "cover-image" type="file"  name="cover-image" accept=".jpg, .jpeg, .png"/>
         <br>
         <br>
-        <button id = "save-modifications" class = "save-profile-button" type="button">Salvar modificações</button>
+        <button id = "save-modifications" class = "save-profile-button">Salvar modificações</button>
         <br>
-        <button id = "cancel-changes" class = "save-profile-button" type="button">Cancelar</button>
+        <button id = "cancel-changes" class = "save-profile-button">Cancelar</button>
       </form>
       `;
 
@@ -127,63 +131,46 @@ export default () => {
     document.querySelector("#save-modifications").addEventListener("click", (event)=>{
         event.preventDefault();
         const newName = document.querySelector("#edit-name").value;
+        const newNameContainerForUpdateDisplayName = container.querySelector("#edit-name").value;
         const newEmail = document.querySelector("#edit-email").value;
         const newMinibio = document.querySelector("#mini-bio-value").value;
-        //const newPassword = document.querySelector("#new-password").value;
+        const profileImage = container.querySelector("#profile-image").value;
+        const coverImage = container.querySelector("#cover-image").value;
+        const newPassword = document.querySelector("#new-password").value;
         const oldPassword = document.querySelector("#old-password").value;
-        //const idUserOn = firebase.auth().currentUser.uid;
+        const idUserOn = firebase.auth().currentUser.uid;
 
-            
-          // PARA ATUALIZAR O displayName:  OK
-          firebase.auth().currentUser.updateProfile({
-            displayName: container.querySelector("#edit-name").value
-          })
-            
-          //PARA ATUALIZAR EMAIL: OK       
-          const user = firebase.auth().currentUser;
-          const credential = firebase.auth.EmailAuthProvider.credential(
-              user.email, 
-              oldPassword
-          );
-            
-          firebase.auth().currentUser.reauthenticateWithCredential(credential).then(function() {
-            firebase.auth().currentUser.updateEmail(newEmail).then(function() {
-                })
-          })          
-            
+        //alert(`${profileImage}`)
+        //alert(`${coverImage}`
+
+
+
+        
+        
+          /*
+          // PARA ATUALIZAR O DISPLAY NAME
+          updateDisplayName(newNameContainerForUpdateDisplayName)
+
+          // PARA ATUALIZAR MINIBIO
+          updateUserDoc(idUserOn, newName, newEmail, newMinibio)
           
-          // PARA ATUALIZAR MINIBIO: OK
-              firebase.firestore().collection("users").where("uid", "==", firebase.auth().currentUser.uid)
-              .get()
-              .then(function(querySnapshot) {
-                querySnapshot.forEach(function(doc) {
-                  
-                  firebase.firestore().collection("users").doc(doc.id).update({
-                    name: newName,
-                    email: newEmail,
-                    minibio: newMinibio
-                   })
-                   .then(function() {
-                       console.log("Document successfully updated!");
-                   })
-                   .catch(function(error) {
-                       console.error("Error updating document: ", error);
-                   });
-                    
-                });
-              })
-              .catch(function(error) {
-                console.log("Error getting documents: ", error);
-              });
-            
-           
+          //PARA REAUTENTICAR O USER 
+          const authenticate = reauthenticateUser(oldPassword)
+          
+          //PARA ATUALIZAR EMAIL 
+          emailUpdate(authenticate, newEmail)
 
+          //PARA ATUALIZAR A SENHA 
+          passwordUpdate(authenticate, newPassword)
+
+          
           //MOSTRANDO INFORMAÇÕES ATUALIZADAS
           document.getElementById("pb-info-profile").innerHTML =`
             <p class = "user-name" >${newName}</p>
             <p>${newEmail}</p>
             <p>${newMinibio}</p>
-            `;
+            `; 
+          */         
     })
 
       //PARA CANCELAR 
@@ -210,6 +197,7 @@ export default () => {
       })
     }) //FECHA FUNCTION DE EDITAR DADOS          
 } //FECHA A FUNCTION SHOW DATA  
+console.log("perfil")
 
     return container;
 }; //FECHA O EXPORT DEFAULT

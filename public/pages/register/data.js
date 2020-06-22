@@ -1,4 +1,5 @@
 export const register = (email, password, nameParameter, callback) => {
+    
     firebase.auth().createUserWithEmailAndPassword(email, password)
                 .then(() => {
                     firebase.auth().currentUser.updateProfile({
