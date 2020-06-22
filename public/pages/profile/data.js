@@ -1,4 +1,3 @@
-// PARA ATUALIZAR O displayName:  OK
 export function updateDisplayName(newNameContainerParameter){
     firebase.auth().currentUser.updateProfile({
       displayName: newNameContainerParameter
@@ -8,7 +7,6 @@ export function updateDisplayName(newNameContainerParameter){
     })
 }
 
-// PARA ATUALIZAR MINIBIO: OK
 export function updateUserDoc(uidParameter, newNameParameter, newEmailParameter, newMinibioParameter){
 
     firebase.firestore().collection("users").where("uid", "==", uidParameter)
@@ -34,7 +32,6 @@ export function updateUserDoc(uidParameter, newNameParameter, newEmailParameter,
 
 }
 
-//PARA REAUTENTICAR O USER: OK
 export function reauthenticateUser(oldPasswordParameter) {
     return firebase.auth.EmailAuthProvider.credential(
         firebase.auth().currentUser.email, 
@@ -42,7 +39,6 @@ export function reauthenticateUser(oldPasswordParameter) {
     )
 }
 
-//PARA ATUALIZAR EMAIL: OK
 export function emailUpdate(authenticateParameter, newEmailParameter){
     firebase.auth().currentUser.reauthenticateWithCredential(authenticateParameter).then(function() {
         firebase.auth().currentUser.updateEmail(newEmailParameter).then(function() {
@@ -50,7 +46,6 @@ export function emailUpdate(authenticateParameter, newEmailParameter){
     })
 }
 
-//PARA ATUALIZAR A SENHA: OK
 export function passwordUpdate(authenticateParameter, newPasswordParameter){
     firebase.auth().currentUser.reauthenticateWithCredential(authenticateParameter).then(function() {
         firebase.auth().currentUser.updatePassword(newPasswordParameter).then(function() {

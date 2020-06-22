@@ -174,10 +174,7 @@ const template = `
       container.querySelector(".menu").classList.remove("menu-items-show");
     };
   });
-}//FECHA A FUNÇÃO SHOW DATA
+}
   return container;
 };
 
-
- // <img class = "icons" src = "./img/comment.svg" alt = "Comentar Post" />
- // <button class="upload-img-btn" id="upload-img-btn"><img class="upload-img-icon" src="img/picture.png"></button>

@@ -11,9 +11,6 @@ export default () => {
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
 
-      //const nameUser = firebase.auth().currentUser.displayName;
-      //const emailUser = firebase.auth().currentUser.email;
-
       firebase.firestore().collection("users").where("uid", "==", firebase.auth().currentUser.uid )
       .get()
       .then(function(querySnapshot) {
