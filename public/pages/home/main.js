@@ -1,7 +1,25 @@
 import { createPost, watchPosts, logout, deletePost, editPost, updateLike } from './data.js';
+
 export default () => {
-  const container = document.createElement('div');
-  const template = `
+
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+
+        const nameAuth = firebase.auth().currentUser.displayName;
+        const emailAuth = firebase.auth().currentUser.email;
+
+        if(typeof nameAuth !== 'string'){
+          showData("Que bom ter você conosco!", emailAuth) 
+        }else{
+          showData(nameAuth, emailAuth) 
+        }   
+    }
+  })
+
+
+const container = document.createElement('div');
+function showData(nameUser, emailUser){  
+const template = `
     <header>
       <img class="btn-menu" src="img/menu.png">
       <ul class="menu" id="menu">
@@ -16,8 +34,8 @@ export default () => {
         <div class="profile-content">
           <img class="user-photo" src="img/mimi.png">
           <div class="pb-info" id="pb-info">
-            <p class="user-name">Amanda</p>
-            <p class="user-bio">Estudante da Lab</p>
+          <p class = "user-name" >${nameUser}</p>
+          <p>${emailUser}</p>
           </div>
         </div>
       </div>
@@ -171,5 +189,6 @@ export default () => {
       container.querySelector(".menu").classList.remove("menu-items-show");
     };
   });
+}
   return container;
 };

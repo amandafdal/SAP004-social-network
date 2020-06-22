@@ -260,6 +260,141 @@ header {
 #login-google:hover {
   background-color: rgba(69, 38, 87, 0.479);
 }
+
+/* PROFILE */
+
+.btn-menu-profile{
+  position: absolute;
+  height: inherit;
+  cursor: pointer;
+}
+
+.menu-profile{
+  display: none;
+}
+
+.menu-item-profile{
+  font-family: 'Dosis', sans-serif;
+  color:rgba(208, 172, 219, 1);
+  font-weight: bold;
+  font-size: 18px;
+  padding: 5px;
+}
+.menu-item-profile a {
+  color:rgba(208, 172, 219, 1);
+  text-decoration: none;
+}
+
+.header-logo-profile{
+  height: inherit;
+  margin: 0px auto;
+}
+
+.home-page-profile{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.profile-box-profile{
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  flex-direction: column;    
+}
+
+.profile-cover-profile{
+  position: relative;
+  width: 100%;
+  height: 200px;
+  margin: 0 auto 10px auto;
+  background-image: url(img/up.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.edit-profile-button{
+  width: 100px;
+  margin: auto;
+  font-family: 'Dosis', sans-serif;
+  color: white;
+  border-radius: 25px;
+  background-color: rgba(63, 6, 92, 1);
+  transition: 2s;
+}
+
+.edit-profile-button:hover{
+  background-color: white;
+  color: rgba(63, 6, 92, 1);
+  border-color: rgba(63, 6, 92, 1);
+}
+
+.profile-content-profile{
+  display: block;
+  text-align: center;
+}
+
+.user-photo-profile{
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-top: 10px;
+}
+
+.pb-info-profile{
+  font-family: 'Dosis', sans-serif;
+  color: rgba(69, 38, 87, 1);
+  margin: 15px; 
+}
+
+.user-name-profile{
+  font-weight: bold;
+}
+
+.edit-profile-input{
+  text-align: center;
+  margin: 7px;
+  padding: 3px;
+  border: 1px solid rgba(69, 38, 87, 1);
+  width: 50%;
+  border-radius: 25px;
+  outline: none;
+}
+
+.edit-profile-confirm{
+  text-align: center;
+  margin: 7px;
+  padding: 3px;
+  border: 1px solid rgb(228, 45, 45);
+  width: 50%;
+  border-radius: 25px;
+  outline: none;
+}
+.edit-profile-confirm::placeholder{
+  color: rgb(228, 45, 45);
+}
+
+.edit-profile-input::placeholder{
+  color: rgba(208, 172, 219, 1);
+}
+
+.save-profile-button{
+  width: 130px;
+  font-family: 'Dosis', sans-serif;
+  color: white;
+  border-radius: 25px;
+  background-color: rgba(63, 6, 92, 1);
+  transition: 2s;
+}
+
+.save-profile-button:hover{
+  background-color: white;
+  color: rgba(63, 6, 92, 1);
+  border-color: rgba(63, 6, 92, 1);
+}
+
+
 @media only screen and (min-width: 768px) {
   .login-page {
     flex-direction: row;
