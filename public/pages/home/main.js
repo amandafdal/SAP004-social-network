@@ -80,7 +80,6 @@ const template = `
         <textarea disabled style="resize: none" rows="4" class="edit-post-input" 
           id="text-post" data-id="${newPost.id}"> ${newPost.data().text}
         </textarea>
-        <button id="save-edit-btn" data-id="${newPost.id}" class="hide">Save</button>
       </div>
       <div class = "color-post template-post position-post">
         <div class = "position-post">
