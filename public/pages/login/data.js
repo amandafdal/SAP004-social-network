@@ -2,7 +2,6 @@ export const loginGoogle = () => {
     let provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().signInWithPopup(provider)
         .then(function () {
-
             firebase.firestore().collection("users").get().then(function(querySnapshot) {
                 const uidArray = [];
                 querySnapshot.forEach(function(doc) {
@@ -25,11 +24,9 @@ export const loginGoogle = () => {
                     profileimage: [],
                     coverimage: []             
                     }) 
-                    console.log("Email cadastrado com sucesso")
-                    window.location.hash = "home"; 
+                   window.location.hash = "home"; 
                 }    
             }) 
-
         });
 };
 

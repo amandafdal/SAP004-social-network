@@ -1,4 +1,4 @@
-import { createPost, watchPosts, logout, deletePost, editPost, updateLike } from './data.js';
+import { createPost, watchPosts, logout, deletePost, editPost, updateLike, editPrivacy } from './data.js';
 
 export default () => {
 
@@ -51,8 +51,8 @@ const template = `
     </section>
   `;
   container.innerHTML = template;
-  const clearPosts = ()=> postContainer.innerHTML = "";
-  
+  const clearPosts = () => postContainer.innerHTML = "";
+
   const postBtn = container.querySelector("#post-btn");
   const postContainer = container.querySelector("#posts-container");
   const textPost = container.querySelector("#create-post-input");
@@ -65,7 +65,8 @@ const template = `
       <div class = "color-post template-post position-post">
         <div class = "post-top">
           <span class="name-post">${newPost.data().name}</span>
-          <img class = "icons" src="./img/publicit2.svg" alt = "Publicidade do Post" />
+          <img id="privacy-btn"  data-id = "${newPost.id}" class = "icons" src="./img/privacy.svg" alt = "Post Privado" />
+          <img id="public-btn"  data-id = "${newPost.id}" class = "icons" src="./img/public.svg" alt = "Post Publico" />
         </div>
         <img
           class = "icons"
@@ -79,6 +80,7 @@ const template = `
         <textarea disabled style="resize: none" rows="4" class="edit-post-input" 
           id="text-post" data-id="${newPost.id}"> ${newPost.data().text}
         </textarea>
+        <button id="save-edit-btn" data-id="${newPost.id}" class="hide">Save</button>
       </div>
       <div class = "color-post template-post position-post">
         <div class = "position-post">
@@ -99,31 +101,53 @@ const template = `
     const editBtn = postTemplate.querySelector(`#edit-btn[data-id="${newPost.id}"]`);
     const saveEditBtn = postTemplate.querySelector(`#save-edit-btn[data-id="${newPost.id}"]`);
     const editInput = postTemplate.querySelector(`#text-post[data-id="${newPost.id}"]`);
+    const privacyBtn = postTemplate.querySelector(`#privacy-btn[data-id="${newPost.id}"]`);
+    const publicBtn = postTemplate.querySelector(`#public-btn[data-id="${newPost.id}"]`)
     const likeBtn = postTemplate.querySelector(`#like[data-id="${newPost.id}"]`);
 
-    const validateUser = ()=>{
-      firebase.auth().onAuthStateChanged(function(user) {
-        if (user){        
+    const validateUser = () => {
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
           if (newPost.data().user !== firebase.auth().currentUser.uid) {
-          deleteBtn.style.display = "none";
-          editBtn.style.display = "none";
-        }else{
-          deleteBtn.style.display = "inline-block";
-          editBtn.style.display = "inline-block";
+            deleteBtn.style.display = "none";
+            editBtn.style.display = "none";
+          } else {
+            deleteBtn.style.display = "inline-block";
+            editBtn.style.display = "inline-block";
+          }
         }
-      }
       });
     }
     validateUser()
 
-    editBtn.addEventListener("click", (event) =>{
+    const privacyIcon = () => {
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          if (newPost.data().user !== firebase.auth().currentUser.uid) {
+            privacyBtn.style.display = "none";
+            publicBtn.style.display = "none";
+
+          } else if (newPost.data().user === firebase.auth().currentUser.uid && newPost.data().privacy === true) {
+            privacyBtn.style.display = "inline-block";
+            publicBtn.style.display = "none";
+
+          } else {
+            privacyBtn.style.display = "none";
+            publicBtn.style.display = "inline-block";
+          }
+        }
+      });
+    }
+    privacyIcon();
+
+    editBtn.addEventListener("click", (event) => {
       event.preventDefault();
       saveEditBtn.style.display = "inline-block";
       editBtn.style.display = "none";
       editInput.removeAttribute('disabled');
     })
 
-    saveEditBtn.addEventListener("click", (event) =>{
+    saveEditBtn.addEventListener("click", (event) => {
       event.preventDefault();
       const editId = saveEditBtn.dataset.id;
       const editPostValue = editInput.value;
@@ -132,16 +156,38 @@ const template = `
       saveEditBtn.style.display = "none";
       editBtn.style.display = "inline-block";
       editInput.setAttribute('disabled', true);
-    }); 
-    
-    deleteBtn.addEventListener("click", (event) =>{
+    });
+
+    deleteBtn.addEventListener("click", (event) => {
       event.preventDefault();
       const deleteId = deleteBtn.dataset.id;
       clearPosts();
       deletePost(deleteId);
     });
 
-    //verificar como curtir uma unica vez
+    const privacy = () => {
+      const id = privacyBtn.dataset.id;
+      const db = newPost.data().privacy;
+      clearPosts();
+      if (db === true) {
+        editPrivacy(id, false)
+        console.log(false)
+      } else {
+        editPrivacy(id, true);
+        console.log(true)
+      }
+    }
+
+    privacyBtn.addEventListener("click", (event) => {
+      event.preventDefault();
+      privacy();      
+    });
+
+    publicBtn.addEventListener("click", (event) => {
+      event.preventDefault();
+     privacy();
+    });
+    
     likeBtn.addEventListener("click", (event) =>{
       event.preventDefault();
       const likeId = likeBtn.dataset.id;
@@ -159,6 +205,7 @@ const template = `
       name: firebase.auth().currentUser.displayName,
       text: textPost.value,
       likes: 0,
+      privacy: true,
       date: new Date()
     };
     clearPosts();
@@ -177,6 +224,7 @@ const template = `
     window.location.hash = "profile"
   });
 
+
   container.querySelector(".btn-menu").addEventListener("click", (event) => {
     event.preventDefault()
     container.querySelector(".btn-menu").classList.toggle("hide")
@@ -192,3 +240,4 @@ const template = `
 }
   return container;
 };
+
