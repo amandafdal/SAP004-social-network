@@ -2,10 +2,10 @@ import { loginGoogle, login } from './data.js'
 
 export default () => {
     const container = document.createElement('div');
-    container.className = "login-page";
+    container.className = "login-page flex-column";
     const template = `
         <img class="logo" src="img/LOGO-SH-SITE6.png" alt="Logo SafeHome">
-        <div class="login-container">
+        <div class="login-container flex-column">
             <img class="logotype" src="img/LOGO-SH-SITE.png" alt="Safe House Logotype">
             <input type="email" class="login-input"  id = "user-email" placeholder="Email">
             <input type="password" class="login-input" id="user-password" placeholder="Senha">

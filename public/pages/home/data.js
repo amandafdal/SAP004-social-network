@@ -1,5 +1,6 @@
 export const watchPosts = (callback)=>{
   firebase.firestore().collection("posts")
+    .orderBy("date", "desc")
     .onSnapshot((querySnapshot) => {
       querySnapshot.forEach((newPost) => {
         callback(newPost);
@@ -24,12 +25,13 @@ export const deletePost = (postId) =>{
   firebase.firestore().collection("posts").doc(postId).delete()
 }
 
-export const editPrivacy = (id, privacyPost) => {
-  firebase.firestore().collection("posts").doc(id).update({
-    privacy: privacyPost,
+export const editPrivacy = (postId, privacyPost) => {
+  firebase.firestore().collection("posts").doc(postId).update({
+    privacy: privacyPost
   })
 }
 export const editPost = (postId, textValue)=>{
   firebase.firestore().collection("posts").doc(postId)
     .update({text: textValue})
 }
+
