@@ -37,22 +37,21 @@ export default () => {
 
     function showData(nameCurrent, emailCurrent, miniBioCurrent){
       
-         container.innerHTML =`
-         <header>
+        container.innerHTML =`
+        <header>
             <img class="btn-menu" src="img/menu.png">
             <ul class="menu" id="menu">
               <li class="menu-item" id= "menu-item-home">Home</a></li>
               <li class="menu-item" id= "sign-out">Sair</li>
             </ul>
-            <img class="header-logo-profile" src="img/LOGO-SH-SITE2.png" alt="Logo SafeHome">
+            <img class="header-logo" src="img/LOGO-SH-SITE2.png" alt="Logo SafeHome">
           </header>
-    
           <section class="home-page-profile">
             <div class="profile-box-profile" id="profile-box">
-                <div class="profile-cover-profile" ></div>
-                <button class = "edit-profile-button" id = "edit-profile-button" type="button">Editar perfil</button>
+                <div class="profile-cover-profile"></div>
+                <button class = "edit-profile-button main-btn" id = "edit-profile-button" type="button">Editar perfil</button>
                 <div class="profile-content-profile">
-                    <img class="user-photo-profile" src="img/Zai.jpeg"> 
+                    <img class="user-photo-profile" src="img/mimi.png"> 
                     <div class="pb-info-profile" id="pb-info-profile">
                     <p class = "user-name" >${nameCurrent}</p>
                     <p>${emailCurrent}</p>
@@ -62,8 +61,6 @@ export default () => {
             </div>
           </section>
         ` ; 
-
-         
         container.querySelector("#sign-out").addEventListener("click", (event) =>{
           event.preventDefault()
           firebase.auth().signOut().then(function() {
@@ -118,9 +115,9 @@ export default () => {
         <input id = "cover-image" type="file"  name="cover-image" accept=".jpg, .jpeg, .png"/>
         <br>
         <br>
-        <button id = "save-modifications" class = "save-profile-button">Salvar modificações</button>
+        <button id = "save-modifications" class = " edit-profile-button main-btn">Salvar modificações</button>
         <br>
-        <button id = "cancel-changes" class = "save-profile-button">Cancelar</button>
+        <button id = "cancel-changes" class = "edit-profile-button main-btn">Cancelar</button>
       </form>
       `;
 

@@ -10,7 +10,7 @@ export default () => {
             <input type="email" class="login-input"  id = "user-email" placeholder="Email">
             <input type="password" class="login-input" id="user-password" placeholder="Senha">
             <p id="message-error" class="message-error"></p>
-            <button class="login-btn" id="login-btn">Entrar</button>
+            <button class="main-btn" id="login-btn">Entrar</button>
             <p class="create-acc">Ou entrar com...</p>
             <img id="login-google" src="img/login-google.svg" alt="Fazer Login com conta do Google">
             <p class="create-acc">Não possui conta? <a class="create-acc register-link" href="#register">Cadastre-se</a></p>
