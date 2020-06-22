@@ -106,6 +106,7 @@ header {
   width: 100px;
   margin: 0px 10px 10px 0px;
   padding-top: 10px;
+  z-index: 2;
 }
 
 .menu-item {
