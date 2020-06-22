@@ -32,6 +32,7 @@ const init = () => {
     });
 };
 
+
 window.addEventListener("load", () => {
     renderPage();
     init();

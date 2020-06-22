@@ -1,40 +1,47 @@
 import { register } from './data.js';
-
-export default () => {
+export default () =>{
+    console.log("registro")
     const container = document.createElement("div");
     container.className = "login-page flex-column";
     const template = `
         <img class="logo" src="img/LOGO-SH-SITE6.png" alt="Safe Home Logo">
         <div class="login-container flex-column">
             <img class="logotype" src="img/LOGO-SH-SITE.png" alt="Safe Home Logotype">
-            <input type="text" class="login-input" id = "user-name" placeholder="Nome">
-            <input type="email" class="login-input" id = "user-email" placeholder="Email">
-            <input type="password" class="login-input" id = "user-password" placeholder="Senha">
-            <input type="password" class="login-input" id = "user-password-confirm" placeholder="Confirme sua senha">
+            
+                <input type="text" class="login-input" id = "user-name" name = "name" placeholder="Nome">
+                <input type="email" class="login-input" id = "user-email" placeholder="Email">
+                <input type="password" class="login-input" id = "user-password" placeholder="Senha">
+                <input type="password" class="login-input" id = "user-password-confirm" placeholder="Confirme sua senha">
+                <button class="login-btn" id="create-account-btn">Criar conta</button>
+            
             <p id="different-password" class="message-error"></p>
-            <button class="login-btn" id="create-account-btn" href="#home">Criar conta</button>
             <p class="create-acc">Já possui conta?
                 <a class="register-link" href="#login">Faça o seu login</a>  
             </p>
         </div>
     `;
     container.innerHTML = template;
-
+    
     const messageError = (erro) => {
         container.querySelector('#different-password').innerHTML = erro;  
-
     }
-
-    container.querySelector("#create-account-btn").addEventListener("click", (event) => {
+    
+    
+    container.querySelector("#create-account-btn").addEventListener("click", (event) =>{
         event.preventDefault();
-        const email = document.getElementById("user-email").value;
-        const password = document.getElementById("user-password").value;
-        const passwordConfirm = document.getElementById("user-password-confirm").value;
-        if (password !== passwordConfirm) {
-            container.querySelector('#different-password').innerHTML = "Passwords are not the same";
-        } else {
-            register(email, password, messageError);
-        };
-    });
+        const nameRegister = document.querySelector("#user-name").value; 
+        const emailRegister = document.querySelector("#user-email").value; 
+        const passwordRegister = document.querySelector("#user-password").value;
+        const passwordConfirmRegister = document.querySelector("#user-password-confirm").value;
+        
+        if (passwordRegister !== passwordConfirmRegister) {
+            document.getElementById("different-password").innerHTML = "Passwords are not the same";
+            
+        }else{
+            register(emailRegister, passwordRegister, nameRegister, messageError);
+        } 
+        
+        
+    })
     return container;
-};
+}

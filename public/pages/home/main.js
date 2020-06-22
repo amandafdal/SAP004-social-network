@@ -1,7 +1,25 @@
-import { createPost, watchPosts, logout, deletePost, editPost, editPrivacy } from './data.js';
+import { createPost, watchPosts, logout, deletePost, editPost, updateLike, editPrivacy } from './data.js';
+
 export default () => {
-  const container = document.createElement('div');
-  const template = `
+
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+
+        const nameAuth = firebase.auth().currentUser.displayName;
+        const emailAuth = firebase.auth().currentUser.email;
+
+        if(typeof nameAuth !== 'string'){
+          showData("Que bom ter você conosco!", emailAuth) 
+        }else{
+          showData(nameAuth, emailAuth) 
+        }   
+    }
+  })
+
+
+const container = document.createElement('div');
+function showData(nameUser, emailUser){  
+const template = `
     <header>
       <img class="btn-menu" src="img/menu.png">
       <ul class="menu" id="menu">
@@ -16,8 +34,8 @@ export default () => {
         <div class="profile-content">
           <img class="user-photo" src="img/mimi.png">
           <div class="pb-info" id="pb-info">
-            <p class="user-name">Amanda</p>
-            <p class="user-bio">Estudante da Lab</p>
+          <p class = "user-name" >${nameUser}</p>
+          <p>${emailUser}</p>
           </div>
         </div>
       </div>
@@ -66,7 +84,9 @@ export default () => {
       </div>
       <div class = "color-post template-post position-post">
         <div class = "position-post">
-          <img class = "icons" src = "./img/like.svg" alt = "Like" />
+          <img class = "icons" src = "./img/like.svg" alt = "Like" 
+          id="like" data-id="${newPost.id}"/>
+          <span class="name-post">${newPost.data().likes}</span>
         </div>
         <img id = "edit-btn" data-id="${newPost.id}" class = "icons icon-edit" 
           src = "./img/edit.svg" alt = "Editar Post" />
@@ -83,6 +103,7 @@ export default () => {
     const editInput = postTemplate.querySelector(`#text-post[data-id="${newPost.id}"]`);
     const privacyBtn = postTemplate.querySelector(`#privacy-btn[data-id="${newPost.id}"]`);
     const publicBtn = postTemplate.querySelector(`#public-btn[data-id="${newPost.id}"]`)
+    const likeBtn = postTemplate.querySelector(`#like[data-id="${newPost.id}"]`);
 
     const validateUser = () => {
       firebase.auth().onAuthStateChanged(function (user) {
@@ -120,6 +141,7 @@ export default () => {
     privacyIcon();
 
     editBtn.addEventListener("click", (event) => {
+      event.preventDefault();
       saveEditBtn.style.display = "inline-block";
       editBtn.style.display = "none";
       editInput.removeAttribute('disabled');
@@ -165,6 +187,16 @@ export default () => {
       event.preventDefault();
      privacy();
     });
+    
+    likeBtn.addEventListener("click", (event) =>{
+      event.preventDefault();
+      const likeId = likeBtn.dataset.id;
+      const likesAmount = newPost.data().likes
+      if (newPost.data().user !== firebase.auth().currentUser.uid) {
+        clearPosts(); 
+        updateLike(likeId, likesAmount, 1);
+      }
+    })
   };
   postBtn.addEventListener("click", (event) => {
     event.preventDefault()
@@ -205,15 +237,7 @@ export default () => {
       container.querySelector(".menu").classList.remove("menu-items-show");
     };
   });
+}
   return container;
 };
-
-
- // <img class = "icons" src = "./img/comment.svg" alt = "Comentar Post" />
- // <button class="upload-img-btn" id="upload-img-btn"><img class="upload-img-icon" src="img/picture.png"></button>
-
-
-
-
-
 

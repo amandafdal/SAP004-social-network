@@ -34,6 +34,10 @@ export const editPrivacy = (postId, privacyPost) => {
 
 export const editPost = (postId, textValue) => {
   firebase.firestore().collection("posts").doc(postId)
-    .update({ text: textValue })
-}
 
+    .update({text: textValue})
+}
+export const updateLike = (postId, value, newlike)=>{
+  firebase.firestore().collection("posts").doc(postId)
+    .update({likes: value + newlike})
+}
