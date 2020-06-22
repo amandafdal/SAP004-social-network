@@ -1,4 +1,4 @@
-import { createPost, watchPosts, logout, deletePost, editPost } from './data.js';
+import { createPost, watchPosts, logout, deletePost, editPost, updateLike } from './data.js';
 export default () => {
   const container = document.createElement('div');
   const template = `
@@ -64,7 +64,9 @@ export default () => {
       </div>
       <div class = "color-post template-post position-post">
         <div class = "position-post">
-          <img class = "icons" src = "./img/like.svg" alt = "Like" />
+          <img class = "icons" src = "./img/like.svg" alt = "Like" 
+          id="like" data-id="${newPost.id}"/>
+          <span class="name-post">${newPost.data().likes}</span>
         </div>
         <img id = "edit-btn" data-id="${newPost.id}" class = "icons icon-edit" 
           src = "./img/edit.svg" alt = "Editar Post" />
@@ -79,6 +81,7 @@ export default () => {
     const editBtn = postTemplate.querySelector(`#edit-btn[data-id="${newPost.id}"]`);
     const saveEditBtn = postTemplate.querySelector(`#save-edit-btn[data-id="${newPost.id}"]`);
     const editInput = postTemplate.querySelector(`#text-post[data-id="${newPost.id}"]`);
+    const likeBtn = postTemplate.querySelector(`#like[data-id="${newPost.id}"]`);
 
     const validateUser = ()=>{
       firebase.auth().onAuthStateChanged(function(user) {
@@ -96,6 +99,7 @@ export default () => {
     validateUser()
 
     editBtn.addEventListener("click", (event) =>{
+      event.preventDefault();
       saveEditBtn.style.display = "inline-block";
       editBtn.style.display = "none";
       editInput.removeAttribute('disabled');
@@ -118,6 +122,17 @@ export default () => {
       clearPosts();
       deletePost(deleteId);
     });
+
+    //verificar como curtir uma unica vez
+    likeBtn.addEventListener("click", (event) =>{
+      event.preventDefault();
+      const likeId = likeBtn.dataset.id;
+      const likesAmount = newPost.data().likes
+      if (newPost.data().user !== firebase.auth().currentUser.uid) {
+        clearPosts(); 
+        updateLike(likeId, likesAmount, 1);
+      }
+    })
   };
   postBtn.addEventListener("click", (event) => {
     event.preventDefault()
