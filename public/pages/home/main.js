@@ -217,24 +217,21 @@ const template = `
     event.preventDefault()
     logout();
   })
-
+  
   container.querySelector("#menu-item-profile").addEventListener("click", (event) => {
     event.preventDefault()
     window.location.hash = "profile"
   });
 
-
-  container.querySelector(".btn-menu").addEventListener("click", (event) => {
+  const closeMenu = ()=>{
+    container.querySelector(".btn-menu").classList.remove("hide");
+    container.querySelector(".menu").classList.remove("menu-items-show");
+  }
+  container.querySelector(".btn-menu").addEventListener("click",(event)=>{
     event.preventDefault()
     container.querySelector(".btn-menu").classList.toggle("hide")
     container.querySelector(".menu").classList.toggle("menu-items-show")
-  });
-  container.addEventListener("click", (event) => {
-    event.preventDefault()
-    if (!event.target.matches(".btn-menu")) {
-      container.querySelector(".btn-menu").classList.remove("hide");
-      container.querySelector(".menu").classList.remove("menu-items-show");
-    };
+    setTimeout(closeMenu, 5000)
   });
 }
   return container;

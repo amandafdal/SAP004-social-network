@@ -73,20 +73,16 @@ export default () => {
           window.location.hash = "home";
         });
       
+        const closeMenu = ()=>{
+          container.querySelector(".btn-menu").classList.remove("hide");
+          container.querySelector(".menu").classList.remove("menu-items-show");
+        }
         container.querySelector(".btn-menu").addEventListener("click",(event)=>{
           event.preventDefault()
           container.querySelector(".btn-menu").classList.toggle("hide")
           container.querySelector(".menu").classList.toggle("menu-items-show")
+          setTimeout(closeMenu, 5000)
         });
-      /*
-        container.addEventListener("click",(event)=>{
-          event.preventDefault()
-          if (!event.target.matches(".btn-menu")) {
-            container.querySelector(".btn-menu").classList.remove("hide");
-            container.querySelector(".menu").classList.remove("menu-items-show");
-          }
-        })
-      */
 
     //EDITAR INFOS
     container.querySelector("#edit-profile-button").addEventListener("click",()=>{
@@ -190,9 +186,7 @@ export default () => {
             });
       })
     }) //FECHA FUNCTION DE EDITAR DADOS          
-} //FECHA A FUNCTION SHOW DATA  
-console.log("perfil")
-
+  } //FECHA A FUNCTION SHOW DATA 
     return container;
 }; //FECHA O EXPORT DEFAULT
   
