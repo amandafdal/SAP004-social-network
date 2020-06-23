@@ -80,7 +80,6 @@ const template = `
         <textarea disabled style="resize: none" rows="4" class="edit-post-input" 
           id="text-post" data-id="${newPost.id}"> ${newPost.data().text}
         </textarea>
-        <button id="save-edit-btn" data-id="${newPost.id}" class="hide">Save</button>
       </div>
       <div class = "color-post template-post position-post">
         <div class = "position-post">
@@ -218,24 +217,21 @@ const template = `
     event.preventDefault()
     logout();
   })
-
+  
   container.querySelector("#menu-item-profile").addEventListener("click", (event) => {
     event.preventDefault()
     window.location.hash = "profile"
   });
 
-
-  container.querySelector(".btn-menu").addEventListener("click", (event) => {
+  const closeMenu = ()=>{
+    container.querySelector(".btn-menu").classList.remove("hide");
+    container.querySelector(".menu").classList.remove("menu-items-show");
+  }
+  container.querySelector(".btn-menu").addEventListener("click",(event)=>{
     event.preventDefault()
     container.querySelector(".btn-menu").classList.toggle("hide")
     container.querySelector(".menu").classList.toggle("menu-items-show")
-  });
-  container.addEventListener("click", (event) => {
-    event.preventDefault()
-    if (!event.target.matches(".btn-menu")) {
-      container.querySelector(".btn-menu").classList.remove("hide");
-      container.querySelector(".menu").classList.remove("menu-items-show");
-    };
+    setTimeout(closeMenu, 5000)
   });
 }
   return container;
