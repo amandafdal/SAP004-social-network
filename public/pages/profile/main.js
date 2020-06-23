@@ -1,8 +1,10 @@
 import { updateDisplayName,
-         updateUserDoc,
          reauthenticateUser,
          emailUpdate,
-         passwordUpdate } from './data.js';
+         passwordUpdate,
+         updateUserDocName,
+         updateUserDocEmail,
+         updateUserDocMiniBio } from './data.js';
 
 
 export default () => {
@@ -57,6 +59,7 @@ export default () => {
                     <p>${emailCurrent}</p>
                     <p>${miniBioCurrent}</p>
                     </div>
+                    <div class="pb-info-profile" id="edit-info-profile"></div>
                 </div>        
             </div>
           </section>
@@ -89,8 +92,10 @@ export default () => {
       */
 
     //EDITAR INFOS
-    container.querySelector("#edit-profile-button").addEventListener("click",()=>{
-      //event.preventDefault();
+    container.querySelector("#edit-profile-button").addEventListener("click",(event)=>{
+      event.preventDefault();
+
+      document.getElementById("edit-info-profile").innerHTML = "";
 
       document.getElementById("pb-info-profile").innerHTML = `
       <form>
@@ -103,6 +108,8 @@ export default () => {
         <input id = "new-password" type="text" class="edit-profile-input" placeholder="Digite aqui sua nova senha"/>
         <br>
         <input id = "old-password" type="password" class="edit-profile-confirm" placeholder="Digite aqui sua senha atual para confirmar as mudanças"/>
+        <div id = "warning-require-email" class="warning"></div>
+        <div id = "warning-require-password" class="warning"></div>
         <br>
         <br>
         <label for="profile-image">Escolha sua imagem de perfil:</label>
@@ -114,6 +121,8 @@ export default () => {
         <br>
         <input id = "cover-image" type="file"  name="cover-image" accept=".jpg, .jpeg, .png"/>
         <br>
+        <br>
+        <div id = "warning"></div>
         <br>
         <button id = "save-modifications" class = " edit-profile-button main-btn">Salvar modificações</button>
         <br>
@@ -134,37 +143,89 @@ export default () => {
         const oldPassword = document.querySelector("#old-password").value;
         const idUserOn = firebase.auth().currentUser.uid;
 
+        const authenticate = reauthenticateUser(oldPassword);
+
         //alert(`${profileImage}`)
         //alert(`${coverImage}`
 
+        /*
+        const validationArray = [];
 
+        if(newEmail !== "" && oldPassword === ""){
+          document.querySelector("#warning-require-email").innerHTML = "Atenção: insira senha atual para editar o email!";
+          validationArray.push(false);
+        }else{
+          if(newEmail !== ""){
+            emailUpdate(authenticate, newEmail)
+            updateUserDocEmail(idUserOn, newEmail)
+            validationArray.push(true);
+          }
+        }
 
-        
-        
-          /*
-          // PARA ATUALIZAR O DISPLAY NAME
+        if(newPassword !== "" && oldPassword === ""){
+          document.querySelector("#warning-require-password").innerHTML = "Atenção: insira senha atual para editar a senha!";
+          validationArray.push(false);
+        }else{
+          if(newPassword !== ""){
+            passwordUpdate(authenticate, newPassword)
+            validationArray.push(true);
+          }
+        }
+
+        if(newNameContainerForUpdateDisplayName !== ""){
           updateDisplayName(newNameContainerForUpdateDisplayName)
+          updateUserDocName(idUserOn, newName)
+          validationArray.push(true);
+        }else{
+          validationArray.push(false);
+        }
 
-          // PARA ATUALIZAR MINIBIO
-          updateUserDoc(idUserOn, newName, newEmail, newMinibio)
-          
-          //PARA REAUTENTICAR O USER 
-          const authenticate = reauthenticateUser(oldPassword)
-          
-          //PARA ATUALIZAR EMAIL 
-          emailUpdate(authenticate, newEmail)
+        if(newMinibio !== ""){
+          updateUserDocMiniBio(idUserOn, newMinibio)
+          validationArray.push(true);
+        }else{
+          validationArray.push(false);
+        }
 
-          //PARA ATUALIZAR A SENHA 
-          passwordUpdate(authenticate, newPassword)
+                         
+        const status = validationArray.indexOf(true);
+        if(status == -1){
+          document.querySelector("#warning").innerHTML = "Atenção: todos o campos estão em branco ou campos necessários não foram preenchidos! Para fazer atualizações insira dados nos respectivos campos acima!";
+        }else{
 
-          
-          //MOSTRANDO INFORMAÇÕES ATUALIZADAS
-          document.getElementById("pb-info-profile").innerHTML =`
-            <p class = "user-name" >${newName}</p>
-            <p>${newEmail}</p>
+          document.getElementById("pb-info-profile").innerHTML = "";
+
+          if(newNameContainerForUpdateDisplayName !== ""){
+            document.getElementById("edit-info-profile").innerHTML +=`
+            <p class = "user-name" >${newNameContainerForUpdateDisplayName}</p>
+            `;
+          }else{
+            document.getElementById("edit-info-profile").innerHTML +=`
+            <p class = "user-name" >${firebase.auth().currentUser.displayName}</p>
+            `;
+          }
+
+          if(newEmail !== ""){
+            document.getElementById("edit-info-profile").innerHTML +=`
+            <p class = "user-name" >${newEmail}</p>
+            `;
+          }else{
+            document.getElementById("edit-info-profile").innerHTML +=`
+            <p>${firebase.auth().currentUser.email}</p>
+            `;
+          }
+
+          if(newMinibio !== ""){
+            document.getElementById("edit-info-profile").innerHTML +=`
             <p>${newMinibio}</p>
-            `; 
-          */         
+            `;
+          }else{
+            document.getElementById("edit-info-profile").innerHTML +=`
+            <p>${miniBioCurrent}</p>
+            `;
+          }
+        } 
+        */                
     })
 
       //PARA CANCELAR 
