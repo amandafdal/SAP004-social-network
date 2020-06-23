@@ -1,15 +1,30 @@
 import { createPost, watchPosts, logout, deletePost, editPost, updateLike, editPrivacy } from './data.js';
 
 export default () => {
+
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
       const nameAuth = firebase.auth().currentUser.displayName;
-      const emailAuth = firebase.auth().currentUser.email;
-      showData(nameAuth, emailAuth)   
+      firebase.firestore().collection("users").where("uid", "==", firebase.auth().currentUser.uid )
+      .get()
+      .then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+          const nameFirestore = doc.data().name;
+          const minibioFirestore =  doc.data().minibio;
+
+          showData(nameFirestore, minibioFirestore);
+            
+        });
+      })
+      .catch(function(error) {
+        console.log("Error getting documents: ", error);
+      });
     }
-  });
+  })
+
+
   const container = document.createElement('div');
-  function showData(nameUser, emailUser){  
+  function showData(nameUser, miniBioUser){  
     const template = `
       <header>
         <img class="btn-menu" src="img/menu.png">
@@ -26,7 +41,7 @@ export default () => {
             <img class="user-photo" src="img/mimi.png">
             <div class="pb-info" id="pb-info">
             <p class = "user-name" >${nameUser}</p>
-            <p>${emailUser}</p>
+            <p>${miniBioUser}</p>
             </div>
           </div>
         </div>

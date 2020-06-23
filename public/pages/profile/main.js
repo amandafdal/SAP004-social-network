@@ -116,11 +116,7 @@ export default () => {
         <input id="profile-image" type="file" value="upload" />
         <br>
         <br>
-        <label for="cover-image">Escolha sua imagem de background:</label>
-        <br>
-        <input id = "cover-image" type="file"  name="cover-image"/>
-        <br>
-        <br>
+        
         <div id = "warning"></div>
         <br>
         <button id = "save-modifications" class = " edit-profile-button main-btn">Salvar modificações</button>
@@ -129,6 +125,13 @@ export default () => {
       </form>
       `;
 
+      /* BOTÃO INPUT COVER
+      <label for="cover-image">Escolha sua imagem de background:</label>
+        <br>
+        <input id = "cover-image" type="file"  name="cover-image"/>
+        <br>
+        <br>
+      */
     //SALVAR ATUALIZAÇÕES
     document.querySelector("#save-modifications").addEventListener("click", (event)=>{
         event.preventDefault();
@@ -136,7 +139,7 @@ export default () => {
         const newNameContainerForUpdateDisplayName = container.querySelector("#edit-name").value;
         const newEmail = document.querySelector("#edit-email").value;
         const newMinibio = document.querySelector("#mini-bio-value").value;
-        const coverImage = container.querySelector("#cover-image").value;
+        //const coverImage = container.querySelector("#cover-image").value;
         const newPassword = document.querySelector("#new-password").value;
         const oldPassword = document.querySelector("#old-password").value;
         const idUserOn = firebase.auth().currentUser.uid;
