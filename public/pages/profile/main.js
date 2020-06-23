@@ -53,7 +53,7 @@ export default () => {
                 <div class="profile-cover-profile"></div>
                 <button class = "edit-profile-button main-btn" id = "edit-profile-button" type="button">Editar perfil</button>
                 <div class="profile-content-profile">
-                    <img class="user-photo-profile" src="https://firebasestorage.googleapis.com/v0/b/social-network-sap004.appspot.com/o/profile-imagesZai.jpeg?alt=media&token=428e0bc9-c983-4fcc-85d2-0a855e4659ab"> 
+                    <img class="user-photo-profile" src="img/mimi.png"> 
                     <div class="pb-info-profile" id="pb-info-profile">
                     <p class = "user-name" >${nameCurrent}</p>
                     <p>${emailCurrent}</p>
