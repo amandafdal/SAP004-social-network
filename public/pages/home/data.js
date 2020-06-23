@@ -3,7 +3,9 @@ export const watchPosts = (callback) => {
     .orderBy("date", "desc")
     .onSnapshot((querySnapshot) => {
       querySnapshot.forEach((newPost) => {
-        callback(newPost) 
+        if (newPost.data().privacy === false || newPost.data().user === firebase.auth().currentUser.uid) {
+          callback(newPost)
+        }
       });
     });
 }
@@ -35,6 +37,7 @@ export const editPost = (postId, textValue) => {
   firebase.firestore().collection("posts").doc(postId)
     .update({text: textValue})
 }
+
 export const updateLike = (postId, action)=>{
   firebase.firestore().collection("posts").doc(postId)
     .update({likes: action})

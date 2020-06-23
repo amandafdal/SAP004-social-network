@@ -154,7 +154,7 @@ export default () => {
         clearPosts();
         deletePost(deleteId);
       });
-
+      
       const privacy = () => {
         const id = privacyBtn.dataset.id;
         const db = newPost.data().privacy;
@@ -170,14 +170,14 @@ export default () => {
 
       privacyBtn.addEventListener("click", (event) => {
         event.preventDefault();
-        privacy();      
+        privacy();
       });
 
       publicBtn.addEventListener("click", (event) => {
         event.preventDefault();
         privacy();
       });
-      
+        
       likeBtn.addEventListener("click", (event) =>{
         event.preventDefault();
         const likeId = likeBtn.dataset.id;
@@ -232,6 +232,7 @@ export default () => {
       setTimeout(closeMenu, 5000)
     });
     }
+
   return container;
 };
 
