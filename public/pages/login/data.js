@@ -23,6 +23,7 @@ export const loginGoogle = () => {
                     email: firebase.auth().currentUser.email,
                     name: firebase.auth().currentUser.displayName,
                     minibio: "Escreva sua MiniBio",
+                    login: "Google",
                     profileimage: [],
                     coverimage: []             
                     }) 

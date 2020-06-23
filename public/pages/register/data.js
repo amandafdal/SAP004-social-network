@@ -25,6 +25,7 @@ export const register = (email, password, nameParameter, callback) => {
                             email: email,
                             name: nameParameter,
                             minibio: "Escreva sua MiniBio",
+                            login: "emailAndPassword",
                             profileimage: [],
                             coverimage: []             
                             }) 
