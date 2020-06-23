@@ -53,7 +53,7 @@ export default () => {
                 <div class="profile-cover-profile"></div>
                 <button class = "edit-profile-button main-btn" id = "edit-profile-button" type="button">Editar perfil</button>
                 <div class="profile-content-profile">
-                    <img class="user-photo-profile" src="https://firebasestorage.googleapis.com/v0/b/social-network-sap004.appspot.com/o/profile-imagesZai.jpeg?alt=media&token=428e0bc9-c983-4fcc-85d2-0a855e4659ab"> 
+                    <img class="user-photo-profile" src="img/mimi.png"> 
                     <div class="pb-info-profile" id="pb-info-profile">
                     <p class = "user-name" >${nameCurrent}</p>
                     <p>${emailCurrent}</p>
@@ -113,7 +113,7 @@ export default () => {
         <br>
         <progress value="0" max="100" id="uploader">0%</progress>
         <br>
-        <input id="profile-image" type="file" name="profile-image" value="upload" accept=".jpg, .jpeg, .png"/>
+        <input id="profile-image" type="file" value="upload" />
         <br>
         <br>
         <label for="cover-image">Escolha sua imagem de background:</label>
@@ -147,41 +147,38 @@ export default () => {
         const profileImage = container.querySelector("#profile-image");
         const uploader = container.querySelector("#uploader");
 
-        profileImage.addEventListener("change", function(e){
-          const file = e.target.files[0];
+        profileImage.addEventListener('change', function(e){
+          let file = e.target.files[0];
 
-
-          firebase.storage().ref('profile-images/' + file.name).put(file).then(function() {
+          console.log("Oi")
+          /*
+          firebase.storage().ref('images/' + file.name).put(file).then(function(snapshot) {
             console.log('Uploaded a blob or file!');
           });
 
-          const task = firebase.storage().ref('profile-images/' + file.name).put(file);
-
-          task.on('state_changed',
-            
-            function progress(snapshot){
-              var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-              uploader.value = percentage;
-
-            },
-
-            function error(err){
-
-            }, 
-
-            function complete(){
-
-            }
           
+          
+          
+          task.on(firebase.storage.TaskEvent.STATE_CHANGED,
+            function(snapshot) {
+              var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              uploader.value = progress;
+              
+            }, function(error) {
+          
+            
+            }, function() {
+                //uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+                //})
+            }
           )
-
+          */
         })
-        
+
+        //-------------------------------------------------------
+
 
         
-        
-
-        /*
         const validationArray = [];
 
         if(newEmail !== "" && oldPassword === ""){
@@ -258,7 +255,7 @@ export default () => {
             `;
           }
         } 
-        */                
+                       
     })
 
       //PARA CANCELAR 
