@@ -8,12 +8,13 @@ export const loginGoogle = () => {
                 querySnapshot.forEach(function(doc) {
                     emailArray.push(doc.data().email);
                 })
-    
+                
                 const booleanEmail = [];
                 for (let value of emailArray) {
                     booleanEmail.push(value === firebase.auth().currentUser.email);
                 }  
-            
+                
+                console.log(booleanEmail)
                 const status = booleanEmail.indexOf(true);
 
                 if(status === -1){
@@ -25,8 +26,11 @@ export const loginGoogle = () => {
                     profileimage: [],
                     coverimage: []             
                     }) 
-                } 
-                window.location.hash = "home";    
+                    window.location.hash = "home"; 
+                }else{
+                    window.location.hash = "home"; 
+                }
+                   
             }) 
         });
 };

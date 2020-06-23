@@ -53,7 +53,7 @@ export default () => {
                 <div class="profile-cover-profile"></div>
                 <button class = "edit-profile-button main-btn" id = "edit-profile-button" type="button">Editar perfil</button>
                 <div class="profile-content-profile">
-                    <img class="user-photo-profile" src="img/mimi.png"> 
+                    <img class="user-photo-profile" src="https://firebasestorage.googleapis.com/v0/b/social-network-sap004.appspot.com/o/profile-imagesZai.jpeg?alt=media&token=428e0bc9-c983-4fcc-85d2-0a855e4659ab"> 
                     <div class="pb-info-profile" id="pb-info-profile">
                     <p class = "user-name" >${nameCurrent}</p>
                     <p>${emailCurrent}</p>
@@ -80,6 +80,7 @@ export default () => {
           container.querySelector(".btn-menu").classList.remove("hide");
           container.querySelector(".menu").classList.remove("menu-items-show");
         }
+        
         container.querySelector(".btn-menu").addEventListener("click",(event)=>{
           event.preventDefault()
           container.querySelector(".btn-menu").classList.toggle("hide")
@@ -110,12 +111,14 @@ export default () => {
         <br>
         <label for="profile-image">Escolha sua imagem de perfil:</label>
         <br>
-        <input id = "profile-image" type="file"  name="profile-image" accept=".jpg, .jpeg, .png"/>
+        <progress value="0" max="100" id="uploader">0%</progress>
+        <br>
+        <input id="profile-image" type="file" name="profile-image" value="upload" accept=".jpg, .jpeg, .png"/>
         <br>
         <br>
         <label for="cover-image">Escolha sua imagem de background:</label>
         <br>
-        <input id = "cover-image" type="file"  name="cover-image" accept=".jpg, .jpeg, .png"/>
+        <input id = "cover-image" type="file"  name="cover-image"/>
         <br>
         <br>
         <div id = "warning"></div>
@@ -133,7 +136,6 @@ export default () => {
         const newNameContainerForUpdateDisplayName = container.querySelector("#edit-name").value;
         const newEmail = document.querySelector("#edit-email").value;
         const newMinibio = document.querySelector("#mini-bio-value").value;
-        const profileImage = container.querySelector("#profile-image").value;
         const coverImage = container.querySelector("#cover-image").value;
         const newPassword = document.querySelector("#new-password").value;
         const oldPassword = document.querySelector("#old-password").value;
@@ -141,8 +143,43 @@ export default () => {
 
         const authenticate = reauthenticateUser(oldPassword);
 
-        //alert(`${profileImage}`)
-        //alert(`${coverImage}`
+
+        const profileImage = container.querySelector("#profile-image");
+        const uploader = container.querySelector("#uploader");
+
+        profileImage.addEventListener("change", function(e){
+          const file = e.target.files[0];
+
+
+          firebase.storage().ref('profile-images/' + file.name).put(file).then(function() {
+            console.log('Uploaded a blob or file!');
+          });
+
+          const task = firebase.storage().ref('profile-images/' + file.name).put(file);
+
+          task.on('state_changed',
+            
+            function progress(snapshot){
+              var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              uploader.value = percentage;
+
+            },
+
+            function error(err){
+
+            }, 
+
+            function complete(){
+
+            }
+          
+          )
+
+        })
+        
+
+        
+        
 
         /*
         const validationArray = [];
