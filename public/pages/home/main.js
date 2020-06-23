@@ -1,55 +1,46 @@
 import { createPost, watchPosts, logout, deletePost, editPost, updateLike, editPrivacy } from './data.js';
 
 export default () => {
-
-  firebase.auth().onAuthStateChanged(function (user) {
+  firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
-
       const nameAuth = firebase.auth().currentUser.displayName;
       const emailAuth = firebase.auth().currentUser.email;
-
-      if (typeof nameAuth !== 'string') {
-        showData("Que bom ter você conosco!", emailAuth)
-      } else {
-        showData(nameAuth, emailAuth)
-      }
+      showData(nameAuth, emailAuth)   
     }
-  })
-
-
+  });
   const container = document.createElement('div');
-  function showData(nameUser, emailUser) {
+  function showData(nameUser, emailUser){  
     const template = `
-    <header>
-      <img class="btn-menu" src="img/menu.png">
-      <ul class="menu" id="menu">
-        <li class="menu-item" id= "menu-item-profile">Perfil</a></li>
-        <li class="menu-item" id=sign-out>Sair</li>
-      </ul>
-      <img class="header-logo" src="img/LOGO-SH-SITE2.png" alt="Logo SafeHome">
-    </header>
-    <section class="home-page flex-column">
-      <div class="profile-box" id="profile-box">
-        <img class="user-cover-img" src="img/cover-img.jpg">
-        <div class="profile-content">
-          <img class="user-photo" src="img/mimi.png">
-          <div class="pb-info" id="pb-info">
-          <p class = "user-name" >${nameUser}</p>
-          <p>${emailUser}</p>
+      <header>
+        <img class="btn-menu" src="img/menu.png">
+        <ul class="menu" id="menu">
+          <li class="menu-item" id= "menu-item-profile">Perfil</a></li>
+          <li class="menu-item" id=sign-out>Sair</li>
+        </ul>
+        <img class="header-logo" src="img/LOGO-SH-SITE2.png" alt="Logo SafeHome">
+      </header>
+      <section class="home-page flex-column">
+        <div class="profile-box" id="profile-box">
+          <img class="user-cover-img" src="img/cover-img.jpg">
+          <div class="profile-content">
+            <img class="user-photo" src="img/mimi.png">
+            <div class="pb-info" id="pb-info">
+            <p class = "user-name" >${nameUser}</p>
+            <p>${emailUser}</p>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="feed flex-column">
-        <div class="create-post-box flex-column" id="create-post">
-          <textarea style="resize: none" class="create-post-input" id="create-post-input" rows="5" placeholder="Como você está se sentindo?"></textarea>
-          <div class="create-post-btns">
-            <button type="submit" class="post-btn" id="post-btn">Postar</button>
+        <div class="feed flex-column">
+          <div class="create-post-box flex-column" id="create-post">
+            <textarea style="resize: none" class="create-post-input" id="create-post-input" rows="5" placeholder="Como você está se sentindo?"></textarea>
+            <div class="create-post-btns">
+              <button type="submit" class="post-btn" id="post-btn">Postar</button>
+            </div>
           </div>
+          <div class="posts-container" id="posts-container"></div>
         </div>
-        <div class="posts-container" id="posts-container"></div>
-      </div>
-    </section>
-  `;
+      </section>
+    `;
     container.innerHTML = template;
     const clearPosts = () => postContainer.innerHTML = "";
 
@@ -62,39 +53,38 @@ export default () => {
       postTemplate.classList.add("post");
       postTemplate.classList.add("flex-column");
       postTemplate.innerHTML = `
-      <div class = "color-post template-post position-post">
-        <div class = "post-top">
-          <span class="name-post">${newPost.data().name}</span>
-          <img id="privacy-btn"  data-id = "${newPost.id}" class = "icons" src="./img/privacy.svg" alt = "Post Privado" />
-          <img id="public-btn"  data-id = "${newPost.id}" class = "icons" src="./img/public.svg" alt = "Post Publico" />
+        <div class = "color-post template-post position-post">
+          <div class = "post-top">
+            <span class="name-post">${newPost.data().name}</span>
+            <img id="privacy-btn"  data-id = "${newPost.id}" class = "icons" src="./img/privacy.svg" alt = "Post Privado" />
+            <img id="public-btn"  data-id = "${newPost.id}" class = "icons" src="./img/public.svg" alt = "Post Publico" />
+          </div>
+          <img
+            class = "icons"
+            src = "./img/delete.svg"
+            alt = "Deletar Post"
+            id = "delete-btn"
+            data-id = "${newPost.id}"
+          />
         </div>
-        <img
-          class = "icons"
-          src = "./img/delete.svg"
-          alt = "Deletar Post"
-          id = "delete-btn"
-          data-id = "${newPost.id}"
-        />
-      </div>
-      <div class="template-post post-middle">
-        <textarea disabled style="resize: none" rows="4" class="edit-post-input" 
-          id="text-post" data-id="${newPost.id}"> ${newPost.data().text}
-        </textarea>
-        <button id="save-edit-btn" data-id="${newPost.id}" class="hide">Save</button>
-      </div>
-      <div class = "color-post template-post position-post">
-        <div class = "position-post">
-          <img class = "icons" src = "./img/like.svg" alt = "Like" 
-          id="like" data-id="${newPost.id}"/>
-          <span class="name-post">${newPost.data().likes}</span>
+        <div class="template-post post-middle">
+          <textarea disabled style="resize: none" rows="4" class="edit-post-input" 
+            id="text-post" data-id="${newPost.id}"> ${newPost.data().text}
+          </textarea>
         </div>
-        <img id = "edit-btn" data-id="${newPost.id}" class = "icons icon-edit" 
-          src = "./img/edit.svg" alt = "Editar Post" />
-        <img id="save-edit-btn" data-id="${newPost.id}" class="hide save-icon" 
-          src="./img/checkmark.svg" alt = "Salvar edição"/>
+        <div class = "color-post template-post position-post">
+          <div class = "position-post">
+            <img class = "icons" src = "./img/like.svg" alt = "Like" 
+            id="like" data-id="${newPost.id}"/>
+            <span class="name-post">${newPost.data().likes.length}</span>
+          </div>
+          <img id = "edit-btn" data-id="${newPost.id}" class = "icons icon-edit" 
+            src = "./img/edit.svg" alt = "Editar Post" />
+          <img id="save-edit-btn" data-id="${newPost.id}" class="hide save-icon" 
+            src="./img/checkmark.svg" alt = "Salvar edição"/>
+        </div>
       </div>
-    </div>
-    `;
+      `;
       postContainer.appendChild(postTemplate);
 
       const deleteBtn = postTemplate.querySelector(`#delete-btn[data-id="${newPost.id}"]`);
@@ -164,7 +154,7 @@ export default () => {
         clearPosts();
         deletePost(deleteId);
       });
-
+      
       const privacy = () => {
         const id = privacyBtn.dataset.id;
         const db = newPost.data().privacy;
@@ -187,14 +177,21 @@ export default () => {
         event.preventDefault();
         privacy();
       });
-
-      likeBtn.addEventListener("click", (event) => {
+        
+      likeBtn.addEventListener("click", (event) =>{
         event.preventDefault();
         const likeId = likeBtn.dataset.id;
-        const likesAmount = newPost.data().likes
         if (newPost.data().user !== firebase.auth().currentUser.uid) {
           clearPosts();
-          updateLike(likeId, likesAmount, 1);
+          if(newPost.data().likes.includes(firebase.auth().currentUser.uid)){
+            const removeUid = firebase.firestore.FieldValue
+              .arrayRemove(firebase.auth().currentUser.uid)
+          updateLike(likeId, removeUid);
+          }else{
+            const pushUid = firebase.firestore.FieldValue
+              .arrayUnion(firebase.auth().currentUser.uid)
+          updateLike(likeId, pushUid);
+          }
         }
       })
     };
@@ -204,7 +201,7 @@ export default () => {
         user: firebase.auth().currentUser.uid,
         name: firebase.auth().currentUser.displayName,
         text: textPost.value,
-        likes: 0,
+        likes: [],
         privacy: true,
         date: new Date()
       };
@@ -218,26 +215,24 @@ export default () => {
       event.preventDefault()
       logout();
     })
-
+    
     container.querySelector("#menu-item-profile").addEventListener("click", (event) => {
       event.preventDefault()
       window.location.hash = "profile"
     });
 
-
-    container.querySelector(".btn-menu").addEventListener("click", (event) => {
+    const closeMenu = ()=>{
+      container.querySelector(".btn-menu").classList.remove("hide");
+      container.querySelector(".menu").classList.remove("menu-items-show");
+    }
+    container.querySelector(".btn-menu").addEventListener("click",(event)=>{
       event.preventDefault()
       container.querySelector(".btn-menu").classList.toggle("hide")
       container.querySelector(".menu").classList.toggle("menu-items-show")
+      setTimeout(closeMenu, 5000)
     });
-    container.addEventListener("click", (event) => {
-      event.preventDefault()
-      if (!event.target.matches(".btn-menu")) {
-        container.querySelector(".btn-menu").classList.remove("hide");
-        container.querySelector(".menu").classList.remove("menu-items-show");
-      };
-    });
-  }
+    }
+
   return container;
 };
 

@@ -1,8 +1,10 @@
 import { updateDisplayName,
-         updateUserDoc,
          reauthenticateUser,
          emailUpdate,
-         passwordUpdate } from './data.js';
+         passwordUpdate,
+         updateUserDocName,
+         updateUserDocEmail,
+         updateUserDocMiniBio } from './data.js';
 
 
 export default () => {
@@ -51,12 +53,13 @@ export default () => {
                 <div class="profile-cover-profile"></div>
                 <button class = "edit-profile-button main-btn" id = "edit-profile-button" type="button">Editar perfil</button>
                 <div class="profile-content-profile">
-                    <img class="user-photo-profile" src="img/mimi.png"> 
+                    <img class="user-photo-profile" src="https://firebasestorage.googleapis.com/v0/b/social-network-sap004.appspot.com/o/profile-imagesZai.jpeg?alt=media&token=428e0bc9-c983-4fcc-85d2-0a855e4659ab"> 
                     <div class="pb-info-profile" id="pb-info-profile">
                     <p class = "user-name" >${nameCurrent}</p>
                     <p>${emailCurrent}</p>
                     <p>${miniBioCurrent}</p>
                     </div>
+                    <div class="pb-info-profile" id="edit-info-profile"></div>
                 </div>        
             </div>
           </section>
@@ -73,24 +76,23 @@ export default () => {
           window.location.hash = "home";
         });
       
+        const closeMenu = ()=>{
+          container.querySelector(".btn-menu").classList.remove("hide");
+          container.querySelector(".menu").classList.remove("menu-items-show");
+        }
+        
         container.querySelector(".btn-menu").addEventListener("click",(event)=>{
           event.preventDefault()
           container.querySelector(".btn-menu").classList.toggle("hide")
           container.querySelector(".menu").classList.toggle("menu-items-show")
+          setTimeout(closeMenu, 5000)
         });
-      /*
-        container.addEventListener("click",(event)=>{
-          event.preventDefault()
-          if (!event.target.matches(".btn-menu")) {
-            container.querySelector(".btn-menu").classList.remove("hide");
-            container.querySelector(".menu").classList.remove("menu-items-show");
-          }
-        })
-      */
 
     //EDITAR INFOS
-    container.querySelector("#edit-profile-button").addEventListener("click",()=>{
-      //event.preventDefault();
+    container.querySelector("#edit-profile-button").addEventListener("click",(event)=>{
+      event.preventDefault();
+
+      document.getElementById("edit-info-profile").innerHTML = "";
 
       document.getElementById("pb-info-profile").innerHTML = `
       <form>
@@ -103,17 +105,23 @@ export default () => {
         <input id = "new-password" type="text" class="edit-profile-input" placeholder="Digite aqui sua nova senha"/>
         <br>
         <input id = "old-password" type="password" class="edit-profile-confirm" placeholder="Digite aqui sua senha atual para confirmar as mudanças"/>
+        <div id = "warning-require-email" class="warning"></div>
+        <div id = "warning-require-password" class="warning"></div>
         <br>
         <br>
         <label for="profile-image">Escolha sua imagem de perfil:</label>
         <br>
-        <input id = "profile-image" type="file"  name="profile-image" accept=".jpg, .jpeg, .png"/>
+        <progress value="0" max="100" id="uploader">0%</progress>
+        <br>
+        <input id="profile-image" type="file" name="profile-image" value="upload" accept=".jpg, .jpeg, .png"/>
         <br>
         <br>
         <label for="cover-image">Escolha sua imagem de background:</label>
         <br>
-        <input id = "cover-image" type="file"  name="cover-image" accept=".jpg, .jpeg, .png"/>
+        <input id = "cover-image" type="file"  name="cover-image"/>
         <br>
+        <br>
+        <div id = "warning"></div>
         <br>
         <button id = "save-modifications" class = " edit-profile-button main-btn">Salvar modificações</button>
         <br>
@@ -128,43 +136,129 @@ export default () => {
         const newNameContainerForUpdateDisplayName = container.querySelector("#edit-name").value;
         const newEmail = document.querySelector("#edit-email").value;
         const newMinibio = document.querySelector("#mini-bio-value").value;
-        const profileImage = container.querySelector("#profile-image").value;
         const coverImage = container.querySelector("#cover-image").value;
         const newPassword = document.querySelector("#new-password").value;
         const oldPassword = document.querySelector("#old-password").value;
         const idUserOn = firebase.auth().currentUser.uid;
 
-        //alert(`${profileImage}`)
-        //alert(`${coverImage}`
+        const authenticate = reauthenticateUser(oldPassword);
 
 
+        const profileImage = container.querySelector("#profile-image");
+        const uploader = container.querySelector("#uploader");
+
+        profileImage.addEventListener("change", function(e){
+          const file = e.target.files[0];
+
+
+          firebase.storage().ref('profile-images/' + file.name).put(file).then(function() {
+            console.log('Uploaded a blob or file!');
+          });
+
+          const task = firebase.storage().ref('profile-images/' + file.name).put(file);
+
+          task.on('state_changed',
+            
+            function progress(snapshot){
+              var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              uploader.value = percentage;
+
+            },
+
+            function error(err){
+
+            }, 
+
+            function complete(){
+
+            }
+          
+          )
+
+        })
+        
 
         
         
-          /*
-          // PARA ATUALIZAR O DISPLAY NAME
+
+        /*
+        const validationArray = [];
+
+        if(newEmail !== "" && oldPassword === ""){
+          document.querySelector("#warning-require-email").innerHTML = "Atenção: insira senha atual para editar o email!";
+          validationArray.push(false);
+        }else{
+          if(newEmail !== ""){
+            emailUpdate(authenticate, newEmail)
+            updateUserDocEmail(idUserOn, newEmail)
+            validationArray.push(true);
+          }
+        }
+
+        if(newPassword !== "" && oldPassword === ""){
+          document.querySelector("#warning-require-password").innerHTML = "Atenção: insira senha atual para editar a senha!";
+          validationArray.push(false);
+        }else{
+          if(newPassword !== ""){
+            passwordUpdate(authenticate, newPassword)
+            validationArray.push(true);
+          }
+        }
+
+        if(newNameContainerForUpdateDisplayName !== ""){
           updateDisplayName(newNameContainerForUpdateDisplayName)
+          updateUserDocName(idUserOn, newName)
+          validationArray.push(true);
+        }else{
+          validationArray.push(false);
+        }
 
-          // PARA ATUALIZAR MINIBIO
-          updateUserDoc(idUserOn, newName, newEmail, newMinibio)
-          
-          //PARA REAUTENTICAR O USER 
-          const authenticate = reauthenticateUser(oldPassword)
-          
-          //PARA ATUALIZAR EMAIL 
-          emailUpdate(authenticate, newEmail)
+        if(newMinibio !== ""){
+          updateUserDocMiniBio(idUserOn, newMinibio)
+          validationArray.push(true);
+        }else{
+          validationArray.push(false);
+        }
 
-          //PARA ATUALIZAR A SENHA 
-          passwordUpdate(authenticate, newPassword)
+                         
+        const status = validationArray.indexOf(true);
+        if(status == -1){
+          document.querySelector("#warning").innerHTML = "Atenção: todos o campos estão em branco ou campos necessários não foram preenchidos! Para fazer atualizações insira dados nos respectivos campos acima!";
+        }else{
 
-          
-          //MOSTRANDO INFORMAÇÕES ATUALIZADAS
-          document.getElementById("pb-info-profile").innerHTML =`
-            <p class = "user-name" >${newName}</p>
-            <p>${newEmail}</p>
+          document.getElementById("pb-info-profile").innerHTML = "";
+
+          if(newNameContainerForUpdateDisplayName !== ""){
+            document.getElementById("edit-info-profile").innerHTML +=`
+            <p class = "user-name" >${newNameContainerForUpdateDisplayName}</p>
+            `;
+          }else{
+            document.getElementById("edit-info-profile").innerHTML +=`
+            <p class = "user-name" >${firebase.auth().currentUser.displayName}</p>
+            `;
+          }
+
+          if(newEmail !== ""){
+            document.getElementById("edit-info-profile").innerHTML +=`
+            <p class = "user-name" >${newEmail}</p>
+            `;
+          }else{
+            document.getElementById("edit-info-profile").innerHTML +=`
+            <p>${firebase.auth().currentUser.email}</p>
+            `;
+          }
+
+          if(newMinibio !== ""){
+            document.getElementById("edit-info-profile").innerHTML +=`
             <p>${newMinibio}</p>
-            `; 
-          */         
+            `;
+          }else{
+            document.getElementById("edit-info-profile").innerHTML +=`
+            <p>${miniBioCurrent}</p>
+            `;
+          }
+        } 
+        */                
     })
 
       //PARA CANCELAR 
@@ -190,9 +284,7 @@ export default () => {
             });
       })
     }) //FECHA FUNCTION DE EDITAR DADOS          
-} //FECHA A FUNCTION SHOW DATA  
-console.log("perfil")
-
+  } //FECHA A FUNCTION SHOW DATA 
     return container;
 }; //FECHA O EXPORT DEFAULT
   
