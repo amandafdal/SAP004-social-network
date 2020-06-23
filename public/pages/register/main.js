@@ -1,9 +1,9 @@
 import { register } from './data.js';
-export default () =>{
-    console.log("registro")
-    const container = document.createElement("div");
-    container.className = "login-page flex-column";
-    const template = `
+
+export default () => {
+  const container = document.createElement('div');
+  container.className = 'login-page flex-column';
+  const template = `
         <img class="logo" src="img/LOGO-SH-SITE6.png" alt="Safe Home Logo">
         <div class="login-container flex-column">
             <img class="logotype" src="img/LOGO-SH-SITE.png" alt="Safe Home Logotype">
@@ -20,28 +20,24 @@ export default () =>{
             </p>
         </div>
     `;
-    container.innerHTML = template;
-    
-    const messageError = (erro) => {
-        container.querySelector('#different-password').innerHTML = erro;  
+  container.innerHTML = template;
+
+  const messageError = (erro) => {
+    container.querySelector('#different-password').innerHTML = erro;
+  };
+
+  container.querySelector('#create-account-btn').addEventListener('click', (event) => {
+    event.preventDefault();
+    const nameRegister = document.querySelector('#user-name').value;
+    const emailRegister = document.querySelector('#user-email').value;
+    const passwordRegister = document.querySelector('#user-password').value;
+    const passwordConfirmRegister = document.querySelector('#user-password-confirm').value;
+
+    if (passwordRegister !== passwordConfirmRegister) {
+      document.getElementById('different-password').innerHTML = 'Passwords are not the same';
+    } else {
+      register(emailRegister, passwordRegister, nameRegister, messageError);
     }
-    
-    
-    container.querySelector("#create-account-btn").addEventListener("click", (event) =>{
-        event.preventDefault();
-        const nameRegister = document.querySelector("#user-name").value; 
-        const emailRegister = document.querySelector("#user-email").value; 
-        const passwordRegister = document.querySelector("#user-password").value;
-        const passwordConfirmRegister = document.querySelector("#user-password-confirm").value;
-        
-        if (passwordRegister !== passwordConfirmRegister) {
-            document.getElementById("different-password").innerHTML = "Passwords are not the same";
-            
-        }else{
-            register(emailRegister, passwordRegister, nameRegister, messageError);
-        } 
-        
-        
-    })
-    return container;
-}
+  });
+  return container;
+};
