@@ -1,10 +1,11 @@
 export const watchPosts = (callback) => {
   firebase.firestore().collection("posts")
-     .orderBy("date", "desc")
-
+    .orderBy("date", "desc")
     .onSnapshot((querySnapshot) => {
       querySnapshot.forEach((newPost) => {
-        callback(newPost) 
+        if (newPost.data().privacy === false || newPost.data().user === firebase.auth().currentUser.uid) {
+          callback(newPost)
+        }
       });
     });
 }
@@ -35,9 +36,9 @@ export const editPrivacy = (postId, privacyPost) => {
 export const editPost = (postId, textValue) => {
   firebase.firestore().collection("posts").doc(postId)
 
-    .update({text: textValue})
+    .update({ text: textValue })
 }
-export const updateLike = (postId, value, newlike)=>{
+export const updateLike = (postId, value, newlike) => {
   firebase.firestore().collection("posts").doc(postId)
-    .update({likes: value + newlike})
+    .update({ likes: value + newlike })
 }

@@ -417,7 +417,7 @@ header {
     flex-direction: column;
     border: 1px solid rgba(69, 38, 87, 1);
     border-radius: 4px;
-    width: 250px;
+    width: min-content;
   }
   .user-cover-img {
     display: flex;

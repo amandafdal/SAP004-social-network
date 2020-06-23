@@ -2,24 +2,24 @@ import { createPost, watchPosts, logout, deletePost, editPost, updateLike, editP
 
 export default () => {
 
-  firebase.auth().onAuthStateChanged(function(user) {
+  firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
 
-        const nameAuth = firebase.auth().currentUser.displayName;
-        const emailAuth = firebase.auth().currentUser.email;
+      const nameAuth = firebase.auth().currentUser.displayName;
+      const emailAuth = firebase.auth().currentUser.email;
 
-        if(typeof nameAuth !== 'string'){
-          showData("Que bom ter você conosco!", emailAuth) 
-        }else{
-          showData(nameAuth, emailAuth) 
-        }   
+      if (typeof nameAuth !== 'string') {
+        showData("Que bom ter você conosco!", emailAuth)
+      } else {
+        showData(nameAuth, emailAuth)
+      }
     }
   })
 
 
-const container = document.createElement('div');
-function showData(nameUser, emailUser){  
-const template = `
+  const container = document.createElement('div');
+  function showData(nameUser, emailUser) {
+    const template = `
     <header>
       <img class="btn-menu" src="img/menu.png">
       <ul class="menu" id="menu">
@@ -50,18 +50,18 @@ const template = `
       </div>
     </section>
   `;
-  container.innerHTML = template;
-  const clearPosts = () => postContainer.innerHTML = "";
+    container.innerHTML = template;
+    const clearPosts = () => postContainer.innerHTML = "";
 
-  const postBtn = container.querySelector("#post-btn");
-  const postContainer = container.querySelector("#posts-container");
-  const textPost = container.querySelector("#create-post-input");
+    const postBtn = container.querySelector("#post-btn");
+    const postContainer = container.querySelector("#posts-container");
+    const textPost = container.querySelector("#create-post-input");
 
-  const displayPost = (newPost) => {
-    const postTemplate = document.createElement("div");
-    postTemplate.classList.add("post");
-    postTemplate.classList.add("flex-column");
-    postTemplate.innerHTML = `
+    const displayPost = (newPost) => {
+      const postTemplate = document.createElement("div");
+      postTemplate.classList.add("post");
+      postTemplate.classList.add("flex-column");
+      postTemplate.innerHTML = `
       <div class = "color-post template-post position-post">
         <div class = "post-top">
           <span class="name-post">${newPost.data().name}</span>
@@ -95,149 +95,149 @@ const template = `
       </div>
     </div>
     `;
-    postContainer.appendChild(postTemplate);
+      postContainer.appendChild(postTemplate);
 
-    const deleteBtn = postTemplate.querySelector(`#delete-btn[data-id="${newPost.id}"]`);
-    const editBtn = postTemplate.querySelector(`#edit-btn[data-id="${newPost.id}"]`);
-    const saveEditBtn = postTemplate.querySelector(`#save-edit-btn[data-id="${newPost.id}"]`);
-    const editInput = postTemplate.querySelector(`#text-post[data-id="${newPost.id}"]`);
-    const privacyBtn = postTemplate.querySelector(`#privacy-btn[data-id="${newPost.id}"]`);
-    const publicBtn = postTemplate.querySelector(`#public-btn[data-id="${newPost.id}"]`)
-    const likeBtn = postTemplate.querySelector(`#like[data-id="${newPost.id}"]`);
+      const deleteBtn = postTemplate.querySelector(`#delete-btn[data-id="${newPost.id}"]`);
+      const editBtn = postTemplate.querySelector(`#edit-btn[data-id="${newPost.id}"]`);
+      const saveEditBtn = postTemplate.querySelector(`#save-edit-btn[data-id="${newPost.id}"]`);
+      const editInput = postTemplate.querySelector(`#text-post[data-id="${newPost.id}"]`);
+      const privacyBtn = postTemplate.querySelector(`#privacy-btn[data-id="${newPost.id}"]`);
+      const publicBtn = postTemplate.querySelector(`#public-btn[data-id="${newPost.id}"]`)
+      const likeBtn = postTemplate.querySelector(`#like[data-id="${newPost.id}"]`);
 
-    const validateUser = () => {
-      firebase.auth().onAuthStateChanged(function (user) {
-        if (user) {
-          if (newPost.data().user !== firebase.auth().currentUser.uid) {
-            deleteBtn.style.display = "none";
-            editBtn.style.display = "none";
-          } else {
-            deleteBtn.style.display = "inline-block";
-            editBtn.style.display = "inline-block";
+      const validateUser = () => {
+        firebase.auth().onAuthStateChanged(function (user) {
+          if (user) {
+            if (newPost.data().user !== firebase.auth().currentUser.uid) {
+              deleteBtn.style.display = "none";
+              editBtn.style.display = "none";
+            } else {
+              deleteBtn.style.display = "inline-block";
+              editBtn.style.display = "inline-block";
+            }
           }
-        }
-      });
-    }
-    validateUser()
+        });
+      }
+      validateUser()
 
-    const privacyIcon = () => {
-      firebase.auth().onAuthStateChanged(function (user) {
-        if (user) {
-          if (newPost.data().user !== firebase.auth().currentUser.uid) {
-            privacyBtn.style.display = "none";
-            publicBtn.style.display = "none";
+      const privacyIcon = () => {
+        firebase.auth().onAuthStateChanged(function (user) {
+          if (user) {
+            if (newPost.data().user !== firebase.auth().currentUser.uid) {
+              privacyBtn.style.display = "none";
+              publicBtn.style.display = "none";
 
-          } else if (newPost.data().user === firebase.auth().currentUser.uid && newPost.data().privacy === true) {
-            privacyBtn.style.display = "inline-block";
-            publicBtn.style.display = "none";
+            } else if (newPost.data().user === firebase.auth().currentUser.uid && newPost.data().privacy === true) {
+              privacyBtn.style.display = "inline-block";
+              publicBtn.style.display = "none";
 
-          } else {
-            privacyBtn.style.display = "none";
-            publicBtn.style.display = "inline-block";
+            } else {
+              privacyBtn.style.display = "none";
+              publicBtn.style.display = "inline-block";
+            }
           }
-        }
-      });
-    }
-    privacyIcon();
+        });
+      }
+      privacyIcon();
 
-    editBtn.addEventListener("click", (event) => {
-      event.preventDefault();
-      saveEditBtn.style.display = "inline-block";
-      editBtn.style.display = "none";
-      editInput.removeAttribute('disabled');
+      editBtn.addEventListener("click", (event) => {
+        event.preventDefault();
+        saveEditBtn.style.display = "inline-block";
+        editBtn.style.display = "none";
+        editInput.removeAttribute('disabled');
+      })
+
+      saveEditBtn.addEventListener("click", (event) => {
+        event.preventDefault();
+        const editId = saveEditBtn.dataset.id;
+        const editPostValue = editInput.value;
+        clearPosts();
+        editPost(editId, editPostValue);
+        saveEditBtn.style.display = "none";
+        editBtn.style.display = "inline-block";
+        editInput.setAttribute('disabled', true);
+      });
+
+      deleteBtn.addEventListener("click", (event) => {
+        event.preventDefault();
+        const deleteId = deleteBtn.dataset.id;
+        clearPosts();
+        deletePost(deleteId);
+      });
+
+      const privacy = () => {
+        const id = privacyBtn.dataset.id;
+        const db = newPost.data().privacy;
+        clearPosts();
+        if (db === true) {
+          editPrivacy(id, false)
+          console.log(false)
+        } else {
+          editPrivacy(id, true);
+          console.log(true)
+        }
+      }
+
+      privacyBtn.addEventListener("click", (event) => {
+        event.preventDefault();
+        privacy();
+      });
+
+      publicBtn.addEventListener("click", (event) => {
+        event.preventDefault();
+        privacy();
+      });
+
+      likeBtn.addEventListener("click", (event) => {
+        event.preventDefault();
+        const likeId = likeBtn.dataset.id;
+        const likesAmount = newPost.data().likes
+        if (newPost.data().user !== firebase.auth().currentUser.uid) {
+          clearPosts();
+          updateLike(likeId, likesAmount, 1);
+        }
+      })
+    };
+    postBtn.addEventListener("click", (event) => {
+      event.preventDefault()
+      const post = {
+        user: firebase.auth().currentUser.uid,
+        name: firebase.auth().currentUser.displayName,
+        text: textPost.value,
+        likes: 0,
+        privacy: true,
+        date: new Date()
+      };
+      clearPosts();
+      createPost(post);
+      textPost.value = "";
+    })
+    watchPosts(displayPost)
+
+    container.querySelector("#sign-out").addEventListener("click", (event) => {
+      event.preventDefault()
+      logout();
     })
 
-    saveEditBtn.addEventListener("click", (event) => {
-      event.preventDefault();
-      const editId = saveEditBtn.dataset.id;
-      const editPostValue = editInput.value;
-      clearPosts();
-      editPost(editId, editPostValue);
-      saveEditBtn.style.display = "none";
-      editBtn.style.display = "inline-block";
-      editInput.setAttribute('disabled', true);
+    container.querySelector("#menu-item-profile").addEventListener("click", (event) => {
+      event.preventDefault()
+      window.location.hash = "profile"
     });
 
-    deleteBtn.addEventListener("click", (event) => {
-      event.preventDefault();
-      const deleteId = deleteBtn.dataset.id;
-      clearPosts();
-      deletePost(deleteId);
+
+    container.querySelector(".btn-menu").addEventListener("click", (event) => {
+      event.preventDefault()
+      container.querySelector(".btn-menu").classList.toggle("hide")
+      container.querySelector(".menu").classList.toggle("menu-items-show")
     });
-
-    const privacy = () => {
-      const id = privacyBtn.dataset.id;
-      const db = newPost.data().privacy;
-      clearPosts();
-      if (db === true) {
-        editPrivacy(id, false)
-        console.log(false)
-      } else {
-        editPrivacy(id, true);
-        console.log(true)
-      }
-    }
-
-    privacyBtn.addEventListener("click", (event) => {
-      event.preventDefault();
-      privacy();      
+    container.addEventListener("click", (event) => {
+      event.preventDefault()
+      if (!event.target.matches(".btn-menu")) {
+        container.querySelector(".btn-menu").classList.remove("hide");
+        container.querySelector(".menu").classList.remove("menu-items-show");
+      };
     });
-
-    publicBtn.addEventListener("click", (event) => {
-      event.preventDefault();
-     privacy();
-    });
-    
-    likeBtn.addEventListener("click", (event) =>{
-      event.preventDefault();
-      const likeId = likeBtn.dataset.id;
-      const likesAmount = newPost.data().likes
-      if (newPost.data().user !== firebase.auth().currentUser.uid) {
-        clearPosts(); 
-        updateLike(likeId, likesAmount, 1);
-      }
-    })
-  };
-  postBtn.addEventListener("click", (event) => {
-    event.preventDefault()
-    const post = {
-      user: firebase.auth().currentUser.uid,
-      name: firebase.auth().currentUser.displayName,
-      text: textPost.value,
-      likes: 0,
-      privacy: true,
-      date: new Date()
-    };
-    clearPosts();
-    createPost(post);
-    textPost.value = "";
-  })
-  watchPosts(displayPost)
-
-  container.querySelector("#sign-out").addEventListener("click", (event) => {
-    event.preventDefault()
-    logout();
-  })
-
-  container.querySelector("#menu-item-profile").addEventListener("click", (event) => {
-    event.preventDefault()
-    window.location.hash = "profile"
-  });
-
-
-  container.querySelector(".btn-menu").addEventListener("click", (event) => {
-    event.preventDefault()
-    container.querySelector(".btn-menu").classList.toggle("hide")
-    container.querySelector(".menu").classList.toggle("menu-items-show")
-  });
-  container.addEventListener("click", (event) => {
-    event.preventDefault()
-    if (!event.target.matches(".btn-menu")) {
-      container.querySelector(".btn-menu").classList.remove("hide");
-      container.querySelector(".menu").classList.remove("menu-items-show");
-    };
-  });
-}
+  }
   return container;
 };
 
