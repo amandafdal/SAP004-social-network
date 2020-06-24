@@ -130,59 +130,13 @@ export default () => {
           </form>
           `;
 
+         // PARA FOTO DE PERFIL
+         const profileImage = container.querySelector("#profile-image");
+         const uploader = container.querySelector("#uploader");
 
-          // PARA FOTO DE PERFIL
-          const profileImage = container.querySelector("#profile-image");
-          const uploader = container.querySelector("#uploader");
-
-          profileImage.addEventListener("change", function(e){
+         profileImage.addEventListener("change", function(e){
             const file = e.target.files[0];
-
-            updateProfilePicture(file, uploader)
-            /*
-            const task = firebase.storage().ref('images/' + file.name).put(file);
-
-           task.then(function(snapshot) {
-             console.log('Uploaded a blob or file!');
-             return snapshot.ref.getDownloadURL()
-             
-           }).then((url) =>{
-             console.log(url)
-
-             firebase.firestore().collection("users").where("uid", "==", firebase.auth().currentUser.uid)
-             .get()
-             .then(function(querySnapshot) {
-                 querySnapshot.forEach(function(doc) {
-                     firebase.firestore().collection("users").doc(doc.id).update({
-                       profileimage: url
-                     })
-                     .then(function() {
-                         console.log("Document successfully updated!");
-                     })
-                     .catch(function(error) {
-                         console.error("Error updating document: ", error);
-                     })
-                 })
-             })
-             .catch(function(error) {
-                 console.log("Error getting documents: ", error);
-             })
-
-             document.querySelector("#profile-img-template").src = url;
-           })
-
-
-           task.on('state_changed',    
-             function progress(snapshot){
-               var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-               uploader.value = percentage;  
-             },    
-             function error(err){    
-             },     
-             function complete(){
-             }
-           )
-           */
+            updateProfilePicture(file, uploader)            
          })
 
          // PARA COVER
@@ -191,56 +145,8 @@ export default () => {
 
          coverImage.addEventListener("change", function(e){
             const fileCover = e.target.files[0];
-    
             updateCoverImage(fileCover, uploaderForCover)
- 
-           /*
-           const task = firebase.storage().ref('cover/' + file.name).put(file);
-
-           task.then(function(snapshot) {
-             console.log('Uploaded a blob or file!');
-
-             return snapshot.ref.getDownloadURL()
-             
-           }).then((url) =>{
-             console.log(url)                
-
-             firebase.firestore().collection("users").where("uid", "==", firebase.auth().currentUser.uid)
-             .get()
-             .then(function(querySnapshot) {
-                 querySnapshot.forEach(function(doc) {
-                     firebase.firestore().collection("users").doc(doc.id).update({
-                       coverimage: url
-                     })
-                     .then(function() {
-                         console.log("Document successfully updated!");
-                     })
-                     .catch(function(error) {
-                         console.error("Error updating document: ", error);
-                     })
-                 })
-             })
-             .catch(function(error) {
-                 console.log("Error getting documents: ", error);
-             })
-
-             document.querySelector(".profile-cover-profile").style.backgroundImage = `url("${url}")`;
-           })
-
-           task.on('state_changed',    
-             function progress(snapshot){
-               var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-               uploaderForCover.value = percentage;  
-             },    
-             function error(err){    
-             },     
-             function complete(){
-             }
-           )
-           */
          })
-
-
 
         //SALVAR ATUALIZAÇÕES
         document.querySelector("#save-modifications").addEventListener("click", (event)=>{
@@ -364,59 +270,13 @@ export default () => {
           </form>
           `;
 
-        // PARA FOTO DE PERFIL
-         const profileImage = container.querySelector("#profile-image");
+            // PARA FOTO DE PERFIL
+            const profileImage = container.querySelector("#profile-image");
             const uploader = container.querySelector("#uploader");
 
             profileImage.addEventListener("change", function(e){
               const file = e.target.files[0];
-
-              updateProfilePicture(file, uploader)
-              
-              /*
-              const task = firebase.storage().ref('images/' + file.name).put(file);
-
-              task.then(function(snapshot) {
-                console.log('Uploaded a blob or file!');
-                return snapshot.ref.getDownloadURL()
-                
-              }).then((url) =>{
-                console.log(url)
-
-                firebase.firestore().collection("users").where("uid", "==", firebase.auth().currentUser.uid)
-                .get()
-                .then(function(querySnapshot) {
-                    querySnapshot.forEach(function(doc) {
-                        firebase.firestore().collection("users").doc(doc.id).update({
-                          profileimage: url
-                        })
-                        .then(function() {
-                            console.log("Document successfully updated!");
-                        })
-                        .catch(function(error) {
-                            console.error("Error updating document: ", error);
-                        })
-                    })
-                })
-                .catch(function(error) {
-                    console.log("Error getting documents: ", error);
-                })
-
-                document.querySelector("#profile-img-template").src = url;
-              })
-
-
-              task.on('state_changed',    
-                function progress(snapshot){
-                  var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                  uploader.value = percentage;  
-                },    
-                function error(err){    
-                },     
-                function complete(){
-                }
-              )
-              */
+              updateProfilePicture(file, uploader)              
             })
 
             // PARA COVER
@@ -424,56 +284,9 @@ export default () => {
             const uploaderForCover = container.querySelector("#uploader-for-cover");
 
             coverImage.addEventListener("change", function(e){
-              const fileCover = e.target.files[0];
-    
-              updateCoverImage(fileCover, uploaderForCover)
-
-              /*
-              const task = firebase.storage().ref('cover/' + file.name).put(file);
-
-              task.then(function(snapshot) {
-                console.log('Uploaded a blob or file!');
-
-                return snapshot.ref.getDownloadURL()
-                
-              }).then((url) =>{
-                console.log(url)                
-
-                firebase.firestore().collection("users").where("uid", "==", firebase.auth().currentUser.uid)
-                .get()
-                .then(function(querySnapshot) {
-                    querySnapshot.forEach(function(doc) {
-                        firebase.firestore().collection("users").doc(doc.id).update({
-                          coverimage: url
-                        })
-                        .then(function() {
-                            console.log("Document successfully updated!");
-                        })
-                        .catch(function(error) {
-                            console.error("Error updating document: ", error);
-                        })
-                    })
-                })
-                .catch(function(error) {
-                    console.log("Error getting documents: ", error);
-                })
-
-                document.querySelector(".profile-cover-profile").style.backgroundImage = `url("${url}")`;
-              })
-
-              task.on('state_changed',    
-                function progress(snapshot){
-                  var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                  uploaderForCover.value = percentage;  
-                },    
-                function error(err){    
-                },     
-                function complete(){
-                }
-              )
-              */
+              const fileCover = e.target.files[0];    
+              updateCoverImage(fileCover, uploaderForCover)              
             })
-
 
 
         //SALVAR ATUALIZAÇÕES
