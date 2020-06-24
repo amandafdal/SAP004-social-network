@@ -33,16 +33,15 @@ export const loginGoogle = () => {
                 }
                    
             }) 
-        });
+    });
 };
 
 export const login = (email, password, callback) => {
-    firebase.auth().signInWithEmailAndPassword(email, password)
-        .then(function () {
-            
-            window.location.hash = "home";
-        })
-        .catch(function (error) {
-            callback(error.message);
-        });
+  firebase.auth().signInWithEmailAndPassword(email, password)
+    .then(() => {
+      window.location.hash = 'home';
+    })
+    .catch((error) => {
+      callback(error.message);
+    });
 };
