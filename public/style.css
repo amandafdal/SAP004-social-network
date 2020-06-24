@@ -420,6 +420,9 @@ header {
     width: 400px;
     margin: 15px;
   }
+  .cover-home-mobile{
+    display: flex;
+  }
   .profile-box {
     flex-direction: column;
     border: 1px solid rgba(69, 38, 87, 1);
