@@ -4,7 +4,7 @@
 
 O isolamento social decorrente da pandemia do Covid 19 pegou toda a sociedade moderna desprevinida. Não sabíamos que esse período poderia nós afetar de forma tão profunda. Aumento de ansiedade, problemas de sono e de alimentação são apenas alguns dos distúrbios causados pela quarentena, conforme mostram dados da NASA.
 
-A [SafeHome](http://handlebarsjs.com/) tem como objetivo fornecer apoio a pessoas confinadas durante a quarentena. Aqui, você pode postar dicas de como passar pelo período de isolamento, pedir dicas sobre diversos assuntos e, o mais importante, você perceberá que não esta sozinho!
+A [SafeHome](https://social-network-sap004.web.app/) tem como objetivo fornecer apoio a pessoas confinadas durante a quarentena. Aqui, você pode postar dicas de como passar pelo período de isolamento, pedir dicas sobre diversos assuntos e, o mais importante, você perceberá que não esta sozinho!
 
 ***
 
