@@ -4,7 +4,7 @@
 
 O isolamento social decorrente da pandemia do Covid 19 pegou toda a sociedade moderna desprevinida. Não sabíamos que esse período poderia nós afetar de forma tão profunda. Aumento de ansiedade, problemas de sono e de alimentação são apenas alguns dos distúrbios causados pela quarentena, conforme mostram dados da NASA.
 
-A SafeHome tem como objetivo fornecer apoio a pessoas confinadas durante a quarentena. Aqui, você pode postar dicas de como passar pelo período de isolamento, pedir dicas sobre diversos assuntos e, o mais importante, você perceberá que não esta sozinho!
+A [SafeHome](http://handlebarsjs.com/) tem como objetivo fornecer apoio a pessoas confinadas durante a quarentena. Aqui, você pode postar dicas de como passar pelo período de isolamento, pedir dicas sobre diversos assuntos e, o mais importante, você perceberá que não esta sozinho!
 
 ***
 
@@ -18,6 +18,11 @@ O direcionamento para a página principal da aplicação só é permitido se hou
 
 Ressalva-se ainda que se o usuário não preencher todos os campos solicitados corretamente, **será notificado o erro para este**, a fim de orientá-lo a preencher seus dados de forma compatível com o requerido.
 
+| ![Tela de Login](/public/img/Login.PNG) |
+|:--:|
+| *Tela de Login* |
+
+
 #### Posts
 O usuário pode postar mensagens motivacionais ou compartilhar suas experiências diárias, com a possibilidade de **editar esse post** depois que ele já tiver sido criado; **deletá-lo**, se assim o usuário julgar necessário; bem como **alterar a privacidade desse post**, sendo possível a sua visualização (se público) ou não (se privado).
 
@@ -25,12 +30,22 @@ O usuário pode postar mensagens motivacionais ou compartilhar suas experiência
 
 Dentro do template dos posts, é possível observar que as opções de alteração deste documento só são visíveis ao usuário responsável pela postagem, sendo os demais post identificados com o nome de quem postou, o conteudo dessa postagem e a possibilidade de **dar like**. Aqui, não é permitido ao usuário dar like em seu prórpio post, e aos demais usuários, é possível dar um like e dislike.
 
+| ![Tela de Posts](/public/img/Home.PNG) |
+|:--:|
+| *Tela Principal* |
+
 #### Perfil
 Já devidamente logado na rede social, o usuário poderá **editar seu perfil**, tendo como opção mudar seu e-mail, seu nome e alterar senha. Também é possível **escrever uma "minibiografia"** que estará visível tanto na tela de perfil quanto na página principal do usuário. Importante lembrar que as informações não preenchidas durante a edição do perfil são descartadas, alterando apenas os campos em que o usuário efetivamente preencheu.
 
 O usuário também pode selecionar sua **foto de perfil** bem como sua **imagem de capa de fundo**, que estarão presentes tanto em sua página de perfil como na sua página principal.
 
+| ![Tela de Perfil](/public/img/Profile.PNG) |
+|:--:|
+| *Tela de Perfil* |
+
 Tanto na tela de perfil como na tela principal, o usuário tem a possibilidade de fazer *logout* de sua conta, sendo este redirecionado para a tela de login.
+
+***
 
 ## 3. Implementações Futuras
 
