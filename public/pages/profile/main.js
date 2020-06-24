@@ -103,6 +103,7 @@ export default () => {
       if(loginCurrent === "Google"){
 
         document.getElementById("pb-info-profile").innerHTML = `
+          <p>Insira apenas as informações que deseja editar nos campos correspondentes:</p>
           <form>
             <input id = "edit-name" type="text" class="edit-profile-input" placeholder="Digite aqui seu nome"/>
             <br>
@@ -234,6 +235,7 @@ export default () => {
       }else{
 
           document.getElementById("pb-info-profile").innerHTML = `
+          <p>Insira apenas as informações que deseja editar nos campos correspondentes:</p>
           <form>
             <input id = "edit-name" type="text" class="edit-profile-input" placeholder="Digite aqui seu nome"/>
             <br>
