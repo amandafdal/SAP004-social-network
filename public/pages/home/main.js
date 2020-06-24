@@ -32,7 +32,7 @@ export default () => {
       </header>
       <section class="home-page flex-column">
         <div class="profile-box" id="profile-box">
-          <img class="user-cover-img" src="${coverImageCurrent}">
+          <div class="profile-cover-profile cover-home-mobile"></div>
           <div class="profile-content">
             <img class="user-photo" src="${profileImageCurrent}">
             <div class="pb-info" id="pb-info">
@@ -53,6 +53,8 @@ export default () => {
       </section>
     `;
     container.innerHTML = template;
+    container.querySelector('.profile-cover-profile').style.backgroundImage = `url("${coverImageCurrent}")`;
+
     const clearPosts = () => postContainer.innerHTML = '';
     const postBtn = container.querySelector('#post-btn');
     const postContainer = container.querySelector('#posts-container');

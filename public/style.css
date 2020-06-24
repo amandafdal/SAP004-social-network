@@ -304,7 +304,9 @@ header {
   justify-content: center;
   flex-direction: column;    
 }
-
+.cover-home-mobile{
+  display: none;
+}
 .profile-cover-profile{
   position: relative;
   width: 100%;
@@ -422,7 +424,7 @@ header {
     flex-direction: column;
     border: 1px solid rgba(69, 38, 87, 1);
     border-radius: 4px;
-    width: min-content;
+    width: 400px;
   }
   .user-cover-img {
     display: flex;
