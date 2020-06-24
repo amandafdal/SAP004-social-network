@@ -3,15 +3,31 @@ import {
 } from './data.js';
 
 export default () => {
-  firebase.auth().onAuthStateChanged((user) => {
+  firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
       const nameAuth = firebase.auth().currentUser.displayName;
-      const emailAuth = firebase.auth().currentUser.email;
-      showData(nameAuth, emailAuth);
+      firebase.firestore().collection("users").where("uid", "==", firebase.auth().currentUser.uid )
+      .get()
+      .then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+          const nameFirestore = doc.data().name;
+          const minibioFirestore =  doc.data().minibio;
+          const profileImageFirestore = doc.data().profileimage;
+          const coverImageFirestore = doc.data().coverimage;
+
+          showData(nameFirestore, minibioFirestore, profileImageFirestore, coverImageFirestore);
+            
+        });
+      })
+      .catch(function(error) {
+        console.log("Error getting documents: ", error);
+      });
     }
-  });
+  })
+
+
   const container = document.createElement('div');
-  function showData(nameUser, emailUser) {
+  function showData(nameUser, miniBioUser, profileImageCurrent, coverImageCurrent){  
     const template = `
       <header>
         <img class="btn-menu" src="img/menu.png">
@@ -23,12 +39,12 @@ export default () => {
       </header>
       <section class="home-page flex-column">
         <div class="profile-box" id="profile-box">
-          <img class="user-cover-img" src="img/cover-img.jpg">
+          <img class="user-cover-img" src="${coverImageCurrent}">
           <div class="profile-content">
-            <img class="user-photo" src="img/mimi.png">
+            <img class="user-photo" src="${profileImageCurrent}">
             <div class="pb-info" id="pb-info">
             <p class = "user-name" >${nameUser}</p>
-            <p>${emailUser}</p>
+            <p>${miniBioUser}</p>
             </div>
           </div>
         </div>

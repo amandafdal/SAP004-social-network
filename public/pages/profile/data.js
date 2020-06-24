@@ -99,3 +99,94 @@ export function updateUserDocMiniBio(uidParameter, newMinibioParameter){
     })
 
 }
+
+export function updateProfilePicture(fileParameter, uploaderParameter){
+
+   const task = firebase.storage().ref('images/' + fileParameter.name).put(fileParameter);
+
+   task.then(function(snapshot) {
+     console.log('Uploaded a blob or file!');
+     return snapshot.ref.getDownloadURL()
+     
+   }).then((url) =>{
+
+        firebase.firestore().collection("users").where("uid", "==", firebase.auth().currentUser.uid)
+        .get()
+        .then(function(querySnapshot) {
+            querySnapshot.forEach(function(doc) {
+                firebase.firestore().collection("users").doc(doc.id).update({
+                    profileimage: url
+                })
+                .then(function() {
+                    console.log("Document successfully updated!");
+                })
+                .catch(function(error) {
+                    console.error("Error updating document: ", error);
+                })
+            })
+        })
+        .catch(function(error) {
+            console.log("Error getting documents: ", error);
+        })
+
+        document.querySelector("#profile-img-template").src = url;
+    })
+
+
+   task.on('state_changed',    
+        function progress(snapshot){
+            var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            uploaderParameter.value = percentage;  
+        },    
+        function error(err){    
+        },     
+        function complete(){
+        }
+    )
+}
+
+export function updateCoverImage(fileParameter, uploaderParameter){
+
+    const task = firebase.storage().ref('images/' + fileParameter.name).put(fileParameter);
+ 
+    task.then(function(snapshot) {
+      console.log('Uploaded a blob or file!');
+      return snapshot.ref.getDownloadURL()
+      
+    }).then((url) =>{
+ 
+         firebase.firestore().collection("users").where("uid", "==", firebase.auth().currentUser.uid)
+         .get()
+         .then(function(querySnapshot) {
+             querySnapshot.forEach(function(doc) {
+                 firebase.firestore().collection("users").doc(doc.id).update({
+                    coverimage: url
+                 })
+                 .then(function() {
+                     console.log("Document successfully updated!");
+                 })
+                 .catch(function(error) {
+                     console.error("Error updating document: ", error);
+                 })
+             })
+         })
+         .catch(function(error) {
+             console.log("Error getting documents: ", error);
+         })
+ 
+         document.querySelector(".profile-cover-profile").style.backgroundImage = `url("${url}")`;
+     })
+ 
+ 
+    task.on('state_changed',    
+         function progress(snapshot){
+             var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+             uploaderParameter.value = percentage;  
+         },    
+         function error(err){    
+         },     
+         function complete(){
+         }
+     )
+ }
+ 
