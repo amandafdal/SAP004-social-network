@@ -121,7 +121,8 @@ export default () => {
             <progress value="0" max="100" id="uploader-for-cover">0%</progress>
             <br>
             <input id="cover-image" type="file" name="cover-image" value="upload" accept=".jpg, .jpeg, .png"/>
-            <br>            
+            <br>  
+            <br>          
             <div id = "warning"></div>
             <br>
             <button id = "save-modifications" class = " edit-profile-button main-btn">Salvar modificações</button>
@@ -243,9 +244,9 @@ export default () => {
             <input id = "new-password" type="text" class="edit-profile-input" placeholder="Digite aqui sua nova senha"/>
             <br>
             <input id = "old-password" type="password" class="edit-profile-confirm" placeholder="Digite aqui sua senha atual para confirmar as mudanças"/>
+            <br>
             <div id = "warning-require-email" class="warning"></div>
             <div id = "warning-require-password" class="warning"></div>
-            
             <br>
             <label for="profile-image">Escolha sua imagem de perfil:</label>
             <br>
@@ -254,14 +255,13 @@ export default () => {
             <input id="profile-image" type="file" name="profile-image" value="upload" accept=".jpg, .jpeg, .png"/>
             <br>
             <br>
-
             <label for="cover-image">Escolha sua imagem de background:</label>
             <br>
             <progress value="0" max="100" id="uploader-for-cover">0%</progress>
             <br>
             <input id="cover-image" type="file" name="cover-image" value="upload" accept=".jpg, .jpeg, .png"/>
             <br>
-            
+            <br>
             <div id = "warning"></div>
             <br>
             <button id = "save-modifications" class = " edit-profile-button main-btn">Salvar modificações</button>
