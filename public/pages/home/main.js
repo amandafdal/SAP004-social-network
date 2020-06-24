@@ -3,31 +3,24 @@ import {
 } from './data.js';
 
 export default () => {
-  firebase.auth().onAuthStateChanged(function(user) {
+  firebase.auth().onAuthStateChanged((user) => {
     if (user) {
-      const nameAuth = firebase.auth().currentUser.displayName;
-      firebase.firestore().collection("users").where("uid", "==", firebase.auth().currentUser.uid )
-      .get()
-      .then(function(querySnapshot) {
-        querySnapshot.forEach(function(doc) {
-          const nameFirestore = doc.data().name;
-          const minibioFirestore =  doc.data().minibio;
-          const profileImageFirestore = doc.data().profileimage;
-          const coverImageFirestore = doc.data().coverimage;
-
-          showData(nameFirestore, minibioFirestore, profileImageFirestore, coverImageFirestore);
-            
+      firebase.firestore().collection('users').where('uid', '==', firebase.auth().currentUser.uid)
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            const nameFirestore = doc.data().name;
+            const minibioFirestore = doc.data().minibio;
+            const profileImageFirestore = doc.data().profileimage;
+            const coverImageFirestore = doc.data().coverimage;
+            showData(nameFirestore, minibioFirestore, profileImageFirestore, coverImageFirestore);
+          });
         });
-      })
-      .catch(function(error) {
-        console.log("Error getting documents: ", error);
-      });
     }
-  })
-
+  });
 
   const container = document.createElement('div');
-  function showData(nameUser, miniBioUser, profileImageCurrent, coverImageCurrent){  
+  function showData(nameUser, miniBioUser, profileImageCurrent, coverImageCurrent) {
     const template = `
       <header>
         <img class="btn-menu" src="img/menu.png">
@@ -61,7 +54,6 @@ export default () => {
     `;
     container.innerHTML = template;
     const clearPosts = () => postContainer.innerHTML = '';
-
     const postBtn = container.querySelector('#post-btn');
     const postContainer = container.querySelector('#posts-container');
     const textPost = container.querySelector('#create-post-input');

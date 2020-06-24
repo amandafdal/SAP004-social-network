@@ -12,10 +12,7 @@ export const watchPosts = (callback) => {
 };
 
 export const createPost = (newPost) => {
-  firebase.firestore().collection('posts').add(newPost)
-    .catch((error) => {
-      console.error('Error adding document: ', error);
-    });
+  firebase.firestore().collection('posts').add(newPost);
 };
 
 export const logout = () => {
