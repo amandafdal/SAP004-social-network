@@ -4,7 +4,9 @@ import { updateDisplayName,
          passwordUpdate,
          updateUserDocName,
          updateUserDocEmail,
-         updateUserDocMiniBio } from './data.js';
+         updateUserDocMiniBio,
+         updateProfilePicture,
+         updateCoverImage } from './data.js';
 
 
 export default () => {
@@ -13,7 +15,7 @@ export default () => {
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
 
-      firebase.firestore().collection("users").where("uid", "==", firebase.auth().currentUser.uid )
+      firebase.firestore().collection("users").where("uid", "==", firebase.auth().currentUser.uid)
       .get()
       .then(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
@@ -21,8 +23,10 @@ export default () => {
           const emailFirestore =  doc.data().email;
           const minibioFirestore =  doc.data().minibio;
           const loginType = doc.data().login;
+          const profileImageFirestore = doc.data().profileimage;
+          const coverImageFirestore = doc.data().coverimage;
 
-          showData(nameFirestore, emailFirestore, minibioFirestore, loginType);
+          showData(nameFirestore, emailFirestore, minibioFirestore, loginType, profileImageFirestore, coverImageFirestore);
             
         });
       })
@@ -34,11 +38,8 @@ export default () => {
   
     const container = document.createElement("div");
       
-    
-    // FIREBASE
-      //MOSTRAR INFOS
-
-    function showData(nameCurrent, emailCurrent, miniBioCurrent, loginCurrent){
+    //MOSTRAR INFOS
+    function showData(nameCurrent, emailCurrent, miniBioCurrent, loginCurrent, profileImageCurrent, coverImageCurrent){
       
         container.innerHTML =`
         <header>
@@ -54,7 +55,7 @@ export default () => {
                 <div class="profile-cover-profile"></div>
                 <button class = "edit-profile-button main-btn" id = "edit-profile-button" type="button">Editar perfil</button>
                 <div class="profile-content-profile">
-                    <img class="user-photo-profile" src="img/mimi.png"> 
+                    <img class="user-photo-profile" id="profile-img-template" src="${profileImageCurrent}"> 
                     <div class="pb-info-profile" id="pb-info-profile">
                     <p class = "user-name" >${nameCurrent}</p>
                     <p>${emailCurrent}</p>
@@ -65,6 +66,10 @@ export default () => {
             </div>
           </section>
         ` ; 
+        
+
+        container.querySelector(".profile-cover-profile").style.backgroundImage = `url("${coverImageCurrent}")`;
+
         container.querySelector("#sign-out").addEventListener("click", (event) =>{
           event.preventDefault()
           firebase.auth().signOut().then(function() {
@@ -103,15 +108,19 @@ export default () => {
             <br>
             <input id = "mini-bio-value" type="text" class="edit-profile-input" placeholder="Digite aqui sua MiniBio"/>
             <br>
-            <div id = "warning-require-email" class="warning"></div>
-            <div id = "warning-require-password" class="warning"></div>
-            
             <br>
             <label for="profile-image">Escolha sua imagem de perfil:</label>
-            <br>
+            <br>            
             <progress value="0" max="100" id="uploader">0%</progress>
             <br>
-            <input id="profile-image" type="file" value="upload" />
+            <input id="profile-image" type="file" name="profile-image" value="upload" accept=".jpg, .jpeg, .png"/>
+            <br>
+            <br>
+            <label for="cover-image">Escolha sua imagem de background:</label>
+            <br>
+            <progress value="0" max="100" id="uploader-for-cover">0%</progress>
+            <br>
+            <input id="cover-image" type="file" name="cover-image" value="upload" accept=".jpg, .jpeg, .png"/>
             <br>            
             <div id = "warning"></div>
             <br>
@@ -121,50 +130,125 @@ export default () => {
           </form>
           `;
 
-          /* BOTÃO INPUT COVER
-          <label for="cover-image">Escolha sua imagem de background:</label>
-            <br>
-            <input id = "cover-image" type="file"  name="cover-image"/>
-            <br>
-            <br>
-          */
+
+          // PARA FOTO DE PERFIL
+          const profileImage = container.querySelector("#profile-image");
+          const uploader = container.querySelector("#uploader");
+
+          profileImage.addEventListener("change", function(e){
+            const file = e.target.files[0];
+
+            updateProfilePicture(file, uploader)
+            /*
+            const task = firebase.storage().ref('images/' + file.name).put(file);
+
+           task.then(function(snapshot) {
+             console.log('Uploaded a blob or file!');
+             return snapshot.ref.getDownloadURL()
+             
+           }).then((url) =>{
+             console.log(url)
+
+             firebase.firestore().collection("users").where("uid", "==", firebase.auth().currentUser.uid)
+             .get()
+             .then(function(querySnapshot) {
+                 querySnapshot.forEach(function(doc) {
+                     firebase.firestore().collection("users").doc(doc.id).update({
+                       profileimage: url
+                     })
+                     .then(function() {
+                         console.log("Document successfully updated!");
+                     })
+                     .catch(function(error) {
+                         console.error("Error updating document: ", error);
+                     })
+                 })
+             })
+             .catch(function(error) {
+                 console.log("Error getting documents: ", error);
+             })
+
+             document.querySelector("#profile-img-template").src = url;
+           })
+
+
+           task.on('state_changed',    
+             function progress(snapshot){
+               var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+               uploader.value = percentage;  
+             },    
+             function error(err){    
+             },     
+             function complete(){
+             }
+           )
+           */
+         })
+
+         // PARA COVER
+         const coverImage = container.querySelector("#cover-image");
+         const uploaderForCover = container.querySelector("#uploader-for-cover");
+
+         coverImage.addEventListener("change", function(e){
+            const fileCover = e.target.files[0];
+    
+            updateCoverImage(fileCover, uploaderForCover)
+ 
+           /*
+           const task = firebase.storage().ref('cover/' + file.name).put(file);
+
+           task.then(function(snapshot) {
+             console.log('Uploaded a blob or file!');
+
+             return snapshot.ref.getDownloadURL()
+             
+           }).then((url) =>{
+             console.log(url)                
+
+             firebase.firestore().collection("users").where("uid", "==", firebase.auth().currentUser.uid)
+             .get()
+             .then(function(querySnapshot) {
+                 querySnapshot.forEach(function(doc) {
+                     firebase.firestore().collection("users").doc(doc.id).update({
+                       coverimage: url
+                     })
+                     .then(function() {
+                         console.log("Document successfully updated!");
+                     })
+                     .catch(function(error) {
+                         console.error("Error updating document: ", error);
+                     })
+                 })
+             })
+             .catch(function(error) {
+                 console.log("Error getting documents: ", error);
+             })
+
+             document.querySelector(".profile-cover-profile").style.backgroundImage = `url("${url}")`;
+           })
+
+           task.on('state_changed',    
+             function progress(snapshot){
+               var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+               uploaderForCover.value = percentage;  
+             },    
+             function error(err){    
+             },     
+             function complete(){
+             }
+           )
+           */
+         })
+
+
+
         //SALVAR ATUALIZAÇÕES
         document.querySelector("#save-modifications").addEventListener("click", (event)=>{
-            event.preventDefault();
-            const newName = document.querySelector("#edit-name").value;
-            const newNameContainerForUpdateDisplayName = container.querySelector("#edit-name").value;
-            const newMinibio = document.querySelector("#mini-bio-value").value;
-            const idUserOn = firebase.auth().currentUser.uid;
-
-            const profileImage = container.querySelector("#profile-image");
-            const uploader = container.querySelector("#uploader");
-
-            profileImage.addEventListener('change', function(e){
-              let file = e.target.files[0];
-
-              firebase.storage().ref('images/' + file.name).put(file).then(function(snapshot) {
-                console.log('Uploaded a blob or file!');
-              });
-
-              
-              
-              
-              task.on(firebase.storage.TaskEvent.STATE_CHANGED,
-                function(snapshot) {
-                  var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                  uploader.value = progress;
-                  
-                }, function(error) {
-              
-                
-                }, function() {
-                    //uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-                    //})
-                }
-              )
-              
-            })
-
+          event.preventDefault();
+          const newName = document.querySelector("#edit-name").value;
+          const newNameContainerForUpdateDisplayName = container.querySelector("#edit-name").value;
+          const newMinibio = document.querySelector("#mini-bio-value").value;
+          const idUserOn = firebase.auth().currentUser.uid;
             
             const validationArray = [];
 
@@ -261,8 +345,15 @@ export default () => {
             <br>
             <progress value="0" max="100" id="uploader">0%</progress>
             <br>
-            <input id="profile-image" type="file" value="upload" />
+            <input id="profile-image" type="file" name="profile-image" value="upload" accept=".jpg, .jpeg, .png"/>
             <br>
+            <br>
+
+            <label for="cover-image">Escolha sua imagem de background:</label>
+            <br>
+            <progress value="0" max="100" id="uploader-for-cover">0%</progress>
+            <br>
+            <input id="cover-image" type="file" name="cover-image" value="upload" accept=".jpg, .jpeg, .png"/>
             <br>
             
             <div id = "warning"></div>
@@ -273,13 +364,118 @@ export default () => {
           </form>
           `;
 
-          /* BOTÃO INPUT COVER
-          <label for="cover-image">Escolha sua imagem de background:</label>
-            <br>
-            <input id = "cover-image" type="file"  name="cover-image"/>
-            <br>
-            <br>
-          */
+        // PARA FOTO DE PERFIL
+         const profileImage = container.querySelector("#profile-image");
+            const uploader = container.querySelector("#uploader");
+
+            profileImage.addEventListener("change", function(e){
+              const file = e.target.files[0];
+
+              updateProfilePicture(file, uploader)
+              
+              /*
+              const task = firebase.storage().ref('images/' + file.name).put(file);
+
+              task.then(function(snapshot) {
+                console.log('Uploaded a blob or file!');
+                return snapshot.ref.getDownloadURL()
+                
+              }).then((url) =>{
+                console.log(url)
+
+                firebase.firestore().collection("users").where("uid", "==", firebase.auth().currentUser.uid)
+                .get()
+                .then(function(querySnapshot) {
+                    querySnapshot.forEach(function(doc) {
+                        firebase.firestore().collection("users").doc(doc.id).update({
+                          profileimage: url
+                        })
+                        .then(function() {
+                            console.log("Document successfully updated!");
+                        })
+                        .catch(function(error) {
+                            console.error("Error updating document: ", error);
+                        })
+                    })
+                })
+                .catch(function(error) {
+                    console.log("Error getting documents: ", error);
+                })
+
+                document.querySelector("#profile-img-template").src = url;
+              })
+
+
+              task.on('state_changed',    
+                function progress(snapshot){
+                  var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                  uploader.value = percentage;  
+                },    
+                function error(err){    
+                },     
+                function complete(){
+                }
+              )
+              */
+            })
+
+            // PARA COVER
+            const coverImage = container.querySelector("#cover-image");
+            const uploaderForCover = container.querySelector("#uploader-for-cover");
+
+            coverImage.addEventListener("change", function(e){
+              const fileCover = e.target.files[0];
+    
+              updateCoverImage(fileCover, uploaderForCover)
+
+              /*
+              const task = firebase.storage().ref('cover/' + file.name).put(file);
+
+              task.then(function(snapshot) {
+                console.log('Uploaded a blob or file!');
+
+                return snapshot.ref.getDownloadURL()
+                
+              }).then((url) =>{
+                console.log(url)                
+
+                firebase.firestore().collection("users").where("uid", "==", firebase.auth().currentUser.uid)
+                .get()
+                .then(function(querySnapshot) {
+                    querySnapshot.forEach(function(doc) {
+                        firebase.firestore().collection("users").doc(doc.id).update({
+                          coverimage: url
+                        })
+                        .then(function() {
+                            console.log("Document successfully updated!");
+                        })
+                        .catch(function(error) {
+                            console.error("Error updating document: ", error);
+                        })
+                    })
+                })
+                .catch(function(error) {
+                    console.log("Error getting documents: ", error);
+                })
+
+                document.querySelector(".profile-cover-profile").style.backgroundImage = `url("${url}")`;
+              })
+
+              task.on('state_changed',    
+                function progress(snapshot){
+                  var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                  uploaderForCover.value = percentage;  
+                },    
+                function error(err){    
+                },     
+                function complete(){
+                }
+              )
+              */
+            })
+
+
+
         //SALVAR ATUALIZAÇÕES
         document.querySelector("#save-modifications").addEventListener("click", (event)=>{
             event.preventDefault();
@@ -287,41 +483,12 @@ export default () => {
             const newNameContainerForUpdateDisplayName = container.querySelector("#edit-name").value;
             const newEmail = document.querySelector("#edit-email").value;
             const newMinibio = document.querySelector("#mini-bio-value").value;
-            //const coverImage = container.querySelector("#cover-image").value;
             const newPassword = document.querySelector("#new-password").value;
             const oldPassword = document.querySelector("#old-password").value;
             const idUserOn = firebase.auth().currentUser.uid;
 
             const authenticate = reauthenticateUser(oldPassword);            
-
-            const profileImage = container.querySelector("#profile-image");
-            const uploader = container.querySelector("#uploader");
-
-            profileImage.addEventListener('change', function(e){
-              console.log("Salvou")
-              let file = e.target.files[0];
-
-              var task = firebase.storage().ref('images/' + file.name).put(file);
-
-              task.then(function() {
-                console.log('Uploaded a blob or file!');
-              });
-              
-              task.on(firebase.storage.TaskEvent.STATE_CHANGED,
-                function(snapshot) {
-                  var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                  uploader.value = progress;
-                }, 
-                function(error) {
-                }, 
-                function() {
-                    //uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-                    //})
-                }
-              )
-            })
-
-            
+                       
             const validationArray = [];
 
             if(newEmail !== "" && oldPassword === ""){
@@ -398,7 +565,7 @@ export default () => {
                 `;
               }
             } 
-                          
+                        
         })//FECHA LISTENER DE SALVAR ALTERAÇÕES
 
           //PARA CANCELAR 
@@ -427,5 +594,4 @@ export default () => {
     }) //FECHA FUNCTION DE EDITAR DADOS          
   } //FECHA A FUNCTION SHOW DATA 
     return container;
-}; //FECHA O EXPORT DEFAULT
-  
+}; //FECHA O EXPORT DEFAULT  

@@ -24,8 +24,8 @@ export const loginGoogle = () => {
                     name: firebase.auth().currentUser.displayName,
                     minibio: "Escreva sua MiniBio",
                     login: "Google",
-                    profileimage: [],
-                    coverimage: []             
+                    profileimage: "https://firebasestorage.googleapis.com/v0/b/social-network-sap004.appspot.com/o/mimi.png?alt=media&token=dc33f03b-706e-43f9-ba56-3468598fd730",
+                    coverimage: "https://firebasestorage.googleapis.com/v0/b/social-network-sap004.appspot.com/o/cover-img.jpg?alt=media&token=8ea3250c-42c8-4880-b1c0-c4c89220f9f2"             
                     }) 
                     window.location.hash = "home"; 
                 }else{

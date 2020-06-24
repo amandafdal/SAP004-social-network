@@ -11,8 +11,10 @@ export default () => {
         querySnapshot.forEach(function(doc) {
           const nameFirestore = doc.data().name;
           const minibioFirestore =  doc.data().minibio;
+          const profileImageFirestore = doc.data().profileimage;
+          const coverImageFirestore = doc.data().coverimage;
 
-          showData(nameFirestore, minibioFirestore);
+          showData(nameFirestore, minibioFirestore, profileImageFirestore, coverImageFirestore);
             
         });
       })
@@ -24,7 +26,7 @@ export default () => {
 
 
   const container = document.createElement('div');
-  function showData(nameUser, miniBioUser){  
+  function showData(nameUser, miniBioUser, profileImageCurrent, coverImageCurrent){  
     const template = `
       <header>
         <img class="btn-menu" src="img/menu.png">
@@ -36,9 +38,9 @@ export default () => {
       </header>
       <section class="home-page flex-column">
         <div class="profile-box" id="profile-box">
-          <img class="user-cover-img" src="img/cover-img.jpg">
+          <img class="user-cover-img" src="${coverImageCurrent}">
           <div class="profile-content">
-            <img class="user-photo" src="img/mimi.png">
+            <img class="user-photo" src="${profileImageCurrent}">
             <div class="pb-info" id="pb-info">
             <p class = "user-name" >${nameUser}</p>
             <p>${miniBioUser}</p>
@@ -250,4 +252,3 @@ export default () => {
 
   return container;
 };
-
