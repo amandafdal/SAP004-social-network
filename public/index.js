@@ -15,14 +15,14 @@ const validateLogin = (hash) => {
             window.location.hash = "login";
          }
         }
-    });
+    })
 }
 
 const renderPage = () => {
     main.innerHTML = "";
     const page = validateHash(window.location.hash);
     main.appendChild(routes[page]());
-};
+}
 
 const init = () => {
     window.addEventListener("hashchange", () => {
@@ -30,11 +30,10 @@ const init = () => {
         const hash = window.location.hash;
         validateLogin(hash);
     });
-};
+}
 
 
 window.addEventListener("load", () => {
     renderPage();
     init();
 });
-

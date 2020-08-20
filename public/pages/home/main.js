@@ -1,4 +1,4 @@
-import { createPost, watchPosts, logout, deletePost, editPost, updateLike, editPrivacy } from './data.js';
+import { createPost, watchPosts, logout, deletePost, updateLike, editPrivacy } from './data.js';
 
 export default () => {
 
@@ -23,7 +23,6 @@ export default () => {
       });
     }
   })
-
 
   const container = document.createElement('div');
   function showData(nameUser, miniBioUser, profileImageCurrent, coverImageCurrent){  
@@ -59,13 +58,14 @@ export default () => {
       </section>
     `;
     container.innerHTML = template;
-    const clearPosts = () => postContainer.innerHTML = "";
 
+    const clearPosts = () => postContainer.innerHTML = "";
     const postBtn = container.querySelector("#post-btn");
     const postContainer = container.querySelector("#posts-container");
     const textPost = container.querySelector("#create-post-input");
 
-    const displayPost = (newPost) => {
+    const displayPost = (newPost, uidComentParameter) => {
+      //console.log(newPost.id) //AQUI RECEBE CADA POST
       const postTemplate = document.createElement("div");
       postTemplate.classList.add("post");
       postTemplate.classList.add("flex-column");
@@ -95,32 +95,35 @@ export default () => {
             id="like" data-id="${newPost.id}"/>
             <span class="name-post">${newPost.data().likes.length}</span>
           </div>
-          <img id = "edit-btn" data-id="${newPost.id}" class = "icons icon-edit" 
-            src = "./img/edit.svg" alt = "Editar Post" />
-          <img id="save-edit-btn" data-id="${newPost.id}" class="hide save-icon" 
-            src="./img/checkmark.svg" alt = "Salvar edição"/>
+          <img id = "coment-btn" data-id="${newPost.id}" class = "icons icon-edit" 
+            src = "./img/edit.svg" alt = "Comentar Post" />
+          <img id="enviar-comentario-btn" data-id="${newPost.id}" class="hide save-icon" 
+            src="./img/checkmark.svg" alt = "Enviar comentário"/>
         </div>
+        <div class="template-post post-middle">Comentários:</div>
+        <div id="lista-de-comentarios" data-id="${newPost.id}" class="template-post post-middle"></div>
+        <div id="comentar" data-id="${newPost.id}" class="template-post post-middle"></div>
       </div>
       `;
+
       postContainer.appendChild(postTemplate);
 
       const deleteBtn = postTemplate.querySelector(`#delete-btn[data-id="${newPost.id}"]`);
-      const editBtn = postTemplate.querySelector(`#edit-btn[data-id="${newPost.id}"]`);
-      const saveEditBtn = postTemplate.querySelector(`#save-edit-btn[data-id="${newPost.id}"]`);
-      const editInput = postTemplate.querySelector(`#text-post[data-id="${newPost.id}"]`);
       const privacyBtn = postTemplate.querySelector(`#privacy-btn[data-id="${newPost.id}"]`);
       const publicBtn = postTemplate.querySelector(`#public-btn[data-id="${newPost.id}"]`)
       const likeBtn = postTemplate.querySelector(`#like[data-id="${newPost.id}"]`);
+      const comentarBtn = postTemplate.querySelector(`#coment-btn[data-id="${newPost.id}"]`);
+      const enviarComentBtn = postTemplate.querySelector(`#enviar-comentario-btn[data-id="${newPost.id}"]`);
 
       const validateUser = () => {
         firebase.auth().onAuthStateChanged(function (user) {
           if (user) {
             if (newPost.data().user !== firebase.auth().currentUser.uid) {
               deleteBtn.style.display = "none";
-              editBtn.style.display = "none";
+              
             } else {
               deleteBtn.style.display = "inline-block";
-              editBtn.style.display = "inline-block";
+              
             }
           }
         });
@@ -147,23 +150,100 @@ export default () => {
       }
       privacyIcon();
 
-      editBtn.addEventListener("click", (event) => {
+      
+      //AQUI COMEÇA ESCREVER CODIGO DOS COMENTÁRIOS
+
+      //AQUI CRIA O COMENTÁRIO
+      comentarBtn.addEventListener("click", (event) => {
         event.preventDefault();
-        saveEditBtn.style.display = "inline-block";
-        editBtn.style.display = "none";
-        editInput.removeAttribute('disabled');
+        console.log("Comentar")
+
+        enviarComentBtn.style.display = "inline-block";        
+        document.querySelector(`#comentar[data-id="${newPost.id}"]`).innerHTML =`
+          <textarea style="resize: none" rows="1" class="edit-post-input" 
+            id="comentar-text-post" data-id="${newPost.id}">
+          </textarea>
+          `;                     
+      })
+                            //uid de cada comentário comentário
+      const displayComent = (newPost, uidPostAtualParameter) => {
+        const comentTemplate = document.createElement("div");
+        comentTemplate.classList.add("post");
+        comentTemplate.classList.add("flex-column");
+        comentTemplate.innerHTML = `<div class = "color-post template-post position-post">
+        <div class = "post-top">
+          <span class="name-post">${newPost.data().name}</span>          
+        </div>
+        <img
+          class = "icons"
+          src = "./img/delete.svg"
+          alt = "Deletar Comentário"
+          id = "delete-coment-btn"
+          data-id = "${newPost.id}"
+        />
+      </div>
+      <div class="template-post post-middle">
+        <textarea disabled style="resize: none" rows="1" class="edit-post-input" 
+          id="text-post" data-id="${newPost.id}"> ${newPost.data().text}
+        </textarea>
+      </div>
+      <div class = "color-post template-post position-post">
+        <div class = "position-post">
+          <img class = "icons" src = "./img/like.svg" alt = "Like" 
+          id="like-coment" data-id="${newPost.id}"/>
+          <span class="name-post">${newPost.data().likes.length}</span>
+        </div>
+        <img id = "edit-coment-btn" data-id="${newPost.id}" class = "icons icon-edit" 
+          src = "./img/edit.svg" alt = "Editar Comentário" />
+        <img id="save-edit-coment-btn" data-id="${newPost.id}" class="hide save-icon" 
+          src="./img/checkmark.svg" alt = "Salvar edição Comentário
+          "/>
+      </div>
+    </div>`;
+    
+        document.querySelector(`#lista-de-comentarios[data-id="${uidPostAtualParameter.id}"]`).appendChild(comentTemplate) 
+      }
+
+      //AQUI SALVA E POSTA COMENTÁRIO
+      enviarComentBtn.addEventListener("click", (event) => {
+        event.preventDefault();
+        console.log("AQUI SALVA E POSTA COMENTÁRIO")
+        let listaDeComentarios = document.querySelector(`#lista-de-comentarios[data-id="${newPost.id}"]`);
+        const comentPost = document.querySelector(`#comentar-text-post[data-id="${newPost.id}"]`);
+        const clearComents = () => listaDeComentarios.innerHTML = "";
+        const uidPostAtual = newPost;
+        //console.log(newPost.id)//PEGA ID DO POST QUE A PESSOA QUER COMENTAR
+        
+        firebase.firestore().collection("posts").doc(newPost.id).collection("comentarios").add({
+          user: firebase.auth().currentUser.uid,
+            name: firebase.auth().currentUser.displayName,
+            text: comentPost.value,
+            likes: [],
+            date: new Date()
+        }).then(function(docRef) {
+            console.log("Document written with ID: ", docRef.id);
+        })       
+
+        //clearComents();
+        comentPost.value = "";
+        /*
+        //const watchComentarios = (callback) => {
+        firebase.firestore().collection("posts").doc(newPost.id).collection("comentarios")
+        .orderBy("date", "asc")
+        .onSnapshot((querySnapshot) => {
+          querySnapshot.forEach((uidComent) => {
+            //console.log(uidComent.id) //AQUI RECEBE TODOS OS COMENTÁRIOS EXISTENTES DO POST ESPECÍFICO
+            //console.log(uidPostAtual)
+              //callback(uidComent)
+              displayComent(uidComent, uidPostAtual)
+          })
+        })
+        //}
+        */
       })
 
-      saveEditBtn.addEventListener("click", (event) => {
-        event.preventDefault();
-        const editId = saveEditBtn.dataset.id;
-        const editPostValue = editInput.value;
-        clearPosts();
-        editPost(editId, editPostValue);
-        saveEditBtn.style.display = "none";
-        editBtn.style.display = "inline-block";
-        editInput.setAttribute('disabled', true);
-      });
+
+      //Até aqui COMENTÁRIOS
 
       deleteBtn.addEventListener("click", (event) => {
         event.preventDefault();
@@ -212,6 +292,7 @@ export default () => {
         }
       })
     };
+
     postBtn.addEventListener("click", (event) => {
       event.preventDefault()
       const post = {

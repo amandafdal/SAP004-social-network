@@ -3,8 +3,19 @@ export const watchPosts = (callback) => {
     .orderBy("date", "desc")
     .onSnapshot((querySnapshot) => {
       querySnapshot.forEach((newPost) => {
+
+        
         if (newPost.data().privacy === false || newPost.data().user === firebase.auth().currentUser.uid) {
           callback(newPost)
+          firebase.firestore().collection("posts").doc(newPost.id).collection("comentarios")
+          .orderBy("date", "asc")
+          .onSnapshot((querySnapshot) => {
+            querySnapshot.forEach((uidComent) => {
+              //console.log(uidComent.id) //AQUI RECEBE TODOS OS COMENTÁRIOS EXISTENTES DO POST ESPECÍFICO
+                //displayComent(uidComent, uidPostAtual)
+                //callback(newPost, uidComent)
+            })
+          })
         }
       });
     });

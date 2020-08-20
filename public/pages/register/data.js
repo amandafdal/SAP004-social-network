@@ -11,12 +11,10 @@ export const register = (email, password, nameParameter, callback) => {
                         querySnapshot.forEach(function(doc) {
                             emailArray.push(doc.data().email);
                         })
-            
                         const booleanEmail = [];
                         for (let value of emailArray) {
                           booleanEmail.push(value == email);
                         }  
-            
                         const status = booleanEmail.indexOf(true);
 
                         if(status == -1){

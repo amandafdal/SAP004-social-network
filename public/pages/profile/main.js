@@ -341,9 +341,9 @@ export default () => {
             }else{
               validationArray.push(false);
             }
-
-                            
+           
             const status = validationArray.indexOf(true);
+            
             if(status == -1){
               document.querySelector("#warning").innerHTML = "Atenção: todos o campos estão em branco ou campos necessários não foram preenchidos! Para fazer atualizações insira dados nos respectivos campos acima!";
             }else{
@@ -381,9 +381,8 @@ export default () => {
               }
             } 
                         
-        })//FECHA LISTENER DE SALVAR ALTERAÇÕES
+        })
 
-          //PARA CANCELAR 
           document.querySelector("#cancel-changes").addEventListener("click", (event)=>{
             event.preventDefault();
               
@@ -405,8 +404,8 @@ export default () => {
                   console.log("Error getting documents: ", error);
                 });
           })
-    }// FEHCA ELSE
-    }) //FECHA FUNCTION DE EDITAR DADOS          
-  } //FECHA A FUNCTION SHOW DATA 
+    }
+    }) 
+  }
     return container;
-}; //FECHA O EXPORT DEFAULT  
+}
